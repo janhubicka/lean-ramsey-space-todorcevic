@@ -38,7 +38,7 @@ variable {S : ApproximationSystem.{u, v}} (C : FusionComplete S)
 theorem exists_limit {n0 : ℕ} {Y : ℕ → S.Point}
     (hY : S.IsFusionFrom n0 Y) :
     ∃ X, ∀ k, X ∈ S.levelNeighborhood (n0 + k) (Y k) :=
-  C.limit n0 Y hY
+  C.1 n0 Y hY
 
 end FusionComplete
 
