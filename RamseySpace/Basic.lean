@@ -55,6 +55,12 @@ theorem isInitial_of_point {n m : ℕ} (h : n ≤ m) (X : S.Point) :
     S.IsInitial (S.approx n X) (S.approx m X) :=
   ⟨h, X, rfl, rfl⟩
 
+theorem isInitial_eq_sameLevel {n : ℕ}
+    {a b : S.Approx n} (h : S.IsInitial a b) :
+    a = b := by
+  rcases h with ⟨_, X, hXa, hXb⟩
+  exact hXa.symm.trans hXb
+
 theorem isInitial_left_eq_of_right_point {n m : ℕ}
     {a : S.Approx n} {Y : S.Point}
     (h : S.IsInitial a (S.approx m Y)) :
