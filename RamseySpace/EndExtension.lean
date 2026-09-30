@@ -145,7 +145,7 @@ theorem rejectionStep_rejects
     (Classical.choose_spec
       (exists_rejection_stage R C target a Y d)).2
       (⟨m, b⟩ : S.FiniteApprox) hq
-  simpa [RejectsOneStepFinite] using h
+  simpa [RejectsOneStepFinite, rejectionStep] using h
 
 /-- Fusion sequence for Lemma 4.35. -/
 noncomputable def rejectionFusion
@@ -236,13 +236,15 @@ theorem exists_refinement_rejects_endExtensions
   intro m
   refine Nat.strong_induction_on m ?_
   intro m ih b hab hne
+  have hle_nm : n ≤ m := hab.1
   by_cases hmn : m = n
   · subst m
     have habEq : a = b := S.isInitial_eq_sameLevel hab
     subst b
     exact hrejX
-  · have hnm : n < m := by omega
-    have hmpos : 0 < m := by omega
+  · have hnm : n < m :=
+      lt_of_le_of_ne hle_nm (Ne.symm hmn)
+    have hmpos : 0 < m := Nat.zero_lt_of_lt hnm
     obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le' hmpos
     rcases hne with ⟨D, hDbX⟩
     have hDaX : D ∈ S.neighborhood a X :=
