@@ -24,7 +24,7 @@ structure Finitization (S : ApproximationSystem.{u, v}) where
     ∀ {n m k : ℕ} {a : S.Approx n} {b : S.Approx m} {c : S.Approx k},
       S.IsInitial a b →
       leFin ⟨m, b⟩ ⟨k, c⟩ →
-      ∃ j (d : S.Approx j), S.IsInitial d c ∧ leFin ⟨n, a⟩ ⟨j, d⟩
+      ∃ (j : ℕ) (d : S.Approx j), S.IsInitial d c ∧ leFin ⟨n, a⟩ ⟨j, d⟩
 
 namespace Finitization
 
