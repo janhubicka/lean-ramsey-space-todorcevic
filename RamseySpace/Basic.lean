@@ -13,7 +13,8 @@ namespace RamseySpace
 universe u v
 
 /-- The A.1 data of an abstract Ramsey space, together with a quasi-order on
-infinite objects. -/
+infinite objects. Every element of `Approx n` is required to occur as an
+actual nth approximation. -/
 structure ApproximationSystem where
   Point : Type u
   Approx : ℕ → Type v
@@ -21,6 +22,7 @@ structure ApproximationSystem where
   le_refl : ∀ X, le X X
   le_trans : ∀ {X Y Z}, le X Y → le Y Z → le X Z
   approx : (n : ℕ) → Point → Approx n
+  approx_surjective : ∀ n, Function.Surjective (approx n)
   empty : Approx 0
   approx_zero : ∀ X, approx 0 X = empty
   separated : ∀ {X Y}, (∀ n, approx n X = approx n Y) → X = Y
@@ -38,6 +40,20 @@ abbrev FiniteApprox := Σ n, S.Approx n
 /-- Package the nth approximation of X as a finite approximation. -/
 def finiteApprox (n : ℕ) (X : S.Point) : S.FiniteApprox :=
   ⟨n, S.approx n X⟩
+
+/-- The initial-segment relation on level-indexed finite approximations. -/
+def IsInitial {n m : ℕ} (a : S.Approx n) (b : S.Approx m) : Prop :=
+  n ≤ m ∧ ∃ X, S.approx n X = a ∧ S.approx m X = b
+
+theorem isInitial_refl {n : ℕ} (a : S.Approx n) :
+    S.IsInitial a a := by
+  refine ⟨le_rfl, ?_⟩
+  rcases S.approx_surjective n a with ⟨X, hX⟩
+  exact ⟨X, hX, hX⟩
+
+theorem isInitial_of_point {n m : ℕ} (h : n ≤ m) (X : S.Point) :
+    S.IsInitial (S.approx n X) (S.approx m X) :=
+  ⟨h, X, rfl, rfl⟩
 
 /-- The basic neighborhood [a,B]. -/
 def neighborhood {n : ℕ} (a : S.Approx n) (B : S.Point) : Set S.Point :=
@@ -83,6 +99,19 @@ theorem oneStepApproximations_mono {n : ℕ} {a : S.Approx n} {A B : S.Point}
   intro b hb
   rcases hb with ⟨X, hXA, hXb⟩
   exact ⟨X, S.neighborhood_mono hAB hXA, hXb⟩
+
+/-- A one-step extension determines a smaller basic neighborhood. -/
+theorem neighborhood_oneStep_subset {n : ℕ} {a : S.Approx n} {B : S.Point}
+    {b : S.Approx (n + 1)} (hb : b ∈ S.oneStepApproximations a B) :
+    S.neighborhood b B ⊆ S.neighborhood a B := by
+  rcases hb with ⟨X, hXB, hXb⟩
+  intro Y hY
+  refine ⟨hY.1, ?_⟩
+  have htop : S.approx (n + 1) Y = S.approx (n + 1) X :=
+    hY.2.trans hXb.symm
+  have hpref : S.approx n Y = S.approx n X :=
+    S.coherent htop n (Nat.lt_succ_self n)
+  exact hpref.trans hXB.2
 
 end ApproximationSystem
 
