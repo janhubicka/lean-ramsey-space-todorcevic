@@ -16,10 +16,15 @@ structure Finitization (S : ApproximationSystem.{u, v}) where
   leFin : S.FiniteApprox → S.FiniteApprox → Prop
   leFin_refl : ∀ a, leFin a a
   leFin_trans : ∀ {a b c}, leFin a b → leFin b c → leFin a c
+  lowerFinite : ∀ b, Set.Finite {a | leFin a b}
   realizesOrder :
     ∀ X Y, S.le X Y ↔
       ∀ n, ∃ m, leFin (S.finiteApprox n X) (S.finiteApprox m Y)
-  lowerFinite : ∀ b, Set.Finite {a | leFin a b}
+  prefix_leFin :
+    ∀ {n m k : ℕ} {a : S.Approx n} {b : S.Approx m} {c : S.Approx k},
+      S.IsInitial a b →
+      leFin ⟨m, b⟩ ⟨k, c⟩ →
+      ∃ j (d : S.Approx j), S.IsInitial d c ∧ leFin ⟨n, a⟩ ⟨j, d⟩
 
 namespace Finitization
 
@@ -29,6 +34,20 @@ variable {S : ApproximationSystem.{u, v}} (F : Finitization S)
 def HasDepth {n : ℕ} (a : S.Approx n) (B : S.Point) (d : ℕ) : Prop :=
   F.leFin ⟨n, a⟩ (S.finiteApprox d B) ∧
     ∀ e, e < d → ¬ F.leFin ⟨n, a⟩ (S.finiteApprox e B)
+
+/-- Finite approximations whose depth in B is exactly d. -/
+def depthApproximations (B : S.Point) (d : ℕ) : Set S.FiniteApprox :=
+  {a | F.leFin a (S.finiteApprox d B) ∧
+    ∀ e, e < d → ¬ F.leFin a (S.finiteApprox e B)}
+
+@[simp] theorem mem_depthApproximations {n d : ℕ} {a : S.Approx n} {B : S.Point} :
+    (⟨n, a⟩ : S.FiniteApprox) ∈ F.depthApproximations B d ↔
+      F.HasDepth a B d :=
+  Iff.rfl
+
+theorem depthApproximations_finite (B : S.Point) (d : ℕ) :
+    (F.depthApproximations B d).Finite :=
+  (F.lowerFinite (S.finiteApprox d B)).subset fun _ ha => ha.1
 
 theorem hasDepth_unique {n : ℕ} {a : S.Approx n} {B : S.Point} {d e : ℕ}
     (hd : F.HasDepth a B d) (he : F.HasDepth a B e) :
@@ -53,6 +72,14 @@ theorem exists_hasDepth_iff {n : ℕ} (a : S.Approx n) (B : S.Point) :
     refine ⟨d, Nat.find_spec h, ?_⟩
     intro e he
     exact Nat.find_min h he
+
+theorem exists_hasDepth_of_mem_neighborhood {n : ℕ} {a : S.Approx n}
+    {A B : S.Point} (hA : A ∈ S.neighborhood a B) :
+    ∃ d, F.HasDepth a B d := by
+  rw [F.exists_hasDepth_iff]
+  rcases (F.realizesOrder A B).1 hA.1 n with ⟨m, hm⟩
+  refine ⟨m, ?_⟩
+  simpa [ApproximationSystem.finiteApprox, hA.2] using hm
 
 theorem hasDepth_le_of_leFin {n : ℕ} {a : S.Approx n} {B : S.Point}
     {d e : ℕ} (hd : F.HasDepth a B d)
