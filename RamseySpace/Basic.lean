@@ -81,6 +81,14 @@ theorem self_mem_levelNeighborhood (n : ℕ) (B : S.Point) :
     B ∈ S.levelNeighborhood n B :=
   ⟨S.le_refl B, rfl⟩
 
+theorem approx_eq_of_mem_levelNeighborhood {d : ℕ} {X B : S.Point}
+    (hX : X ∈ S.levelNeighborhood d B) {e : ℕ} (he : e ≤ d) :
+    S.approx e X = S.approx e B := by
+  by_cases hed : e = d
+  · subst e
+    exact hX.2
+  · exact S.coherent hX.2 e (by omega)
+
 theorem neighborhood_mono {n : ℕ} {a : S.Approx n} {A B : S.Point}
     (hAB : S.le A B) :
     S.neighborhood a A ⊆ S.neighborhood a B := by
