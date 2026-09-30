@@ -28,31 +28,31 @@ def IsRamseyNull (X : Set S.Point) : Prop :=
     (S.neighborhood a A).Nonempty →
       ∃ B, B ∈ S.neighborhood a A ∧ Disjoint (S.neighborhood a B) X
 
-theorem isRamsey_empty : S.IsRamsey (∅ : Set S.Point) := by
+theorem isRamsey_empty : IsRamsey S (∅ : Set S.Point) := by
   intro n a A h
   rcases h with ⟨B, hB⟩
   exact ⟨B, hB, Or.inr (by simp)⟩
 
-theorem isRamsey_univ : S.IsRamsey (Set.univ : Set S.Point) := by
+theorem isRamsey_univ : IsRamsey S (Set.univ : Set S.Point) := by
   intro n a A h
   rcases h with ⟨B, hB⟩
   exact ⟨B, hB, Or.inl (by simp)⟩
 
-theorem isRamseyNull_empty : S.IsRamseyNull (∅ : Set S.Point) := by
+theorem isRamseyNull_empty : IsRamseyNull S (∅ : Set S.Point) := by
   intro n a A h
   rcases h with ⟨B, hB⟩
   exact ⟨B, hB, by simp⟩
 
 theorem IsRamseyNull.isRamsey {X : Set S.Point}
-    (h : S.IsRamseyNull X) :
-    S.IsRamsey X := by
+    (h : IsRamseyNull S X) :
+    IsRamsey S X := by
   intro n a A hne
   rcases h a A hne with ⟨B, hBA, hdis⟩
   exact ⟨B, hBA, Or.inr hdis⟩
 
 theorem IsRamsey.compl {X : Set S.Point}
-    (h : S.IsRamsey X) :
-    S.IsRamsey Xᶜ := by
+    (h : IsRamsey S X) :
+    IsRamsey S Xᶜ := by
   intro n a A hne
   rcases h a A hne with ⟨B, hBA, hhom⟩
   refine ⟨B, hBA, ?_⟩
@@ -61,8 +61,8 @@ theorem IsRamsey.compl {X : Set S.Point}
   · exact Or.inl (Set.subset_compl_iff_disjoint_right.mpr hdis)
 
 theorem IsRamseyNull.mono {X Y : Set S.Point}
-    (h : S.IsRamseyNull X) (hYX : Y ⊆ X) :
-    S.IsRamseyNull Y := by
+    (h : IsRamseyNull S X) (hYX : Y ⊆ X) :
+    IsRamseyNull S Y := by
   intro n a A hne
   rcases h a A hne with ⟨B, hBA, hdis⟩
   exact ⟨B, hBA, hdis.mono_right hYX⟩
