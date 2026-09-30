@@ -101,6 +101,18 @@ theorem hasDepth_iff_of_mem_levelNeighborhood {n d : ℕ}
         S.approx_eq_of_mem_levelNeighborhood hX (Nat.le_of_lt he)
       simpa [ApproximationSystem.finiteApprox, hpref] using hmin e he
 
+theorem hasDepth_le_of_initial {n m da db : ℕ}
+    {a : S.Approx n} {b : S.Approx m} {Y : S.Point}
+    (hab : S.IsInitial a b)
+    (hda : F.HasDepth a Y da) (hdb : F.HasDepth b Y db) :
+    da ≤ db := by
+  rcases F.prefix_leFin hab hdb.1 with ⟨j, c, hc, hac⟩
+  have hcEq : c = S.approx j Y :=
+    S.isInitial_left_eq_of_right_point hc
+  have haFin : F.leFin ⟨n, a⟩ (S.finiteApprox j Y) := by
+    simpa [ApproximationSystem.finiteApprox, hcEq] using hac
+  exact (F.hasDepth_le_of_leFin hda haFin).trans hc.1
+
 theorem hasDepth_le_of_leFin {n : ℕ} {a : S.Approx n} {B : S.Point}
     {d e : ℕ} (hd : F.HasDepth a B d)
     (he : F.leFin ⟨n, a⟩ (S.finiteApprox e B)) :
