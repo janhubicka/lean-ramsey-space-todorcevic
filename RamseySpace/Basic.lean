@@ -55,6 +55,18 @@ theorem isInitial_of_point {n m : ℕ} (h : n ≤ m) (X : S.Point) :
     S.IsInitial (S.approx n X) (S.approx m X) :=
   ⟨h, X, rfl, rfl⟩
 
+theorem isInitial_left_eq_of_right_point {n m : ℕ}
+    {a : S.Approx n} {Y : S.Point}
+    (h : S.IsInitial a (S.approx m Y)) :
+    a = S.approx n Y := by
+  rcases h with ⟨hnm, X, hXa, hXm⟩
+  have hpref : S.approx n X = S.approx n Y := by
+    by_cases hnm' : n = m
+    · subst m
+      exact hXm
+    · exact S.coherent hXm n (by omega)
+  exact hXa.symm.trans hpref
+
 /-- The basic neighborhood [a,B]. -/
 def neighborhood {n : ℕ} (a : S.Approx n) (B : S.Point) : Set S.Point :=
   {X | S.le X B ∧ S.approx n X = a}
@@ -88,6 +100,29 @@ theorem approx_eq_of_mem_levelNeighborhood {d : ℕ} {X B : S.Point}
   · subst e
     exact hX.2
   · exact S.coherent hX.2 e (by omega)
+
+theorem neighborhood_initial_subset {n m : ℕ}
+    {a : S.Approx n} {b : S.Approx m} {Y : S.Point}
+    (hab : S.IsInitial a b) :
+    S.neighborhood b Y ⊆ S.neighborhood a Y := by
+  rcases hab with ⟨hnm, W, hWa, hWb⟩
+  intro X hX
+  refine ⟨hX.1, ?_⟩
+  have htop : S.approx m W = S.approx m X :=
+    hWb.trans hX.2.symm
+  have hpref : S.approx n W = S.approx n X := by
+    by_cases hnm' : n = m
+    · subst m
+      exact htop
+    · exact S.coherent htop n (by omega)
+  exact hpref.symm.trans hWa
+
+theorem isInitial_oneStep {n : ℕ} {a : S.Approx n} {B : S.Point}
+    {b : S.Approx (n + 1)}
+    (hb : b ∈ S.oneStepApproximations a B) :
+    S.IsInitial a b := by
+  rcases hb with ⟨X, hX, hXb⟩
+  exact ⟨Nat.le_succ n, X, hX.2, hXb⟩
 
 theorem neighborhood_mono {n : ℕ} {a : S.Approx n} {A B : S.Point}
     (hAB : S.le A B) :
