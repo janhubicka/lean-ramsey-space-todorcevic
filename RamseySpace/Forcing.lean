@@ -36,7 +36,7 @@ theorem accepts_of_neighborhood_empty {target : Set S.Point} {Y : S.Point}
   unfold Accepts
   intro X hX
   rw [h] at hX
-  exact False.elim (Set.not_mem_empty X hX)
+  exact (by simpa using hX : False).elim
 
 theorem accepts_mono {target : Set S.Point} {X Y : S.Point}
     {n : ℕ} {a : S.Approx n} (hY : Accepts target Y a)
