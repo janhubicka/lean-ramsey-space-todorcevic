@@ -22,6 +22,6 @@ The repository formalizes Todorčević's abstract Ramsey-space theorem in layers
 ## Application boundary
 
 This repository stays independent of successor trees. The intended dependency
-points from lean-sucessors to this repository. The successor-tree project will
+points from lean-successors to this repository. The successor-tree project will
 instantiate A.1--A.4; its Hales--Jewett pigeonhole argument is expected to
 discharge A.4.
