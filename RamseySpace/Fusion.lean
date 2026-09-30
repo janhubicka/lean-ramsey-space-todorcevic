@@ -33,9 +33,9 @@ structure FusionComplete (S : ApproximationSystem.{u, v}) : Prop where
 
 namespace FusionComplete
 
-variable {S : ApproximationSystem.{u, v}} (C : FusionComplete S)
+variable {S : ApproximationSystem.{u, v}}
 
-theorem exists_limit {n0 : ℕ} {Y : ℕ → S.Point}
+theorem exists_limit (C : FusionComplete S) {n0 : ℕ} {Y : ℕ → S.Point}
     (hY : S.IsFusionFrom n0 Y) :
     ∃ X, ∀ k, X ∈ S.levelNeighborhood (n0 + k) (Y k) :=
   C.1 n0 Y hY
