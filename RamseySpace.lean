@@ -6,3 +6,4 @@ import RamseySpace.Fusion
 import RamseySpace.Forcing
 import RamseySpace.Decision
 import RamseySpace.Reject
+import RamseySpace.EndExtension
