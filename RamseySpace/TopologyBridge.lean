@@ -72,8 +72,8 @@ theorem isRamseyNull_of_isNowhereDense_ellentuck
     {target : Set S.Point}
     (hnd : @IsNowhereDense S.Point S.ellentuckTopology target) :
     IsRamseyNull R target :=
-  (ApproximationSystem.isAbstractMeagre_of_isNowhereDense_ellentuck hnd)
-    |>.isRamseyNull R C
+  IsAbstractMeagre.isRamseyNull R C
+    (ApproximationSystem.isAbstractMeagre_of_isNowhereDense_ellentuck hnd)
 
 /-- A meagre set in the Ellentuck topology is Ramsey null. -/
 theorem isRamseyNull_of_isMeagre_ellentuck
@@ -86,13 +86,11 @@ theorem isRamseyNull_of_isMeagre_ellentuck
   rcases isMeagre_iff_eq_countable_union_isNowhereDense.mp hM with
     ⟨T, hTnd, hTc, hEq⟩
   rcases Set.eq_empty_or_nonempty T with rfl | hTne
-  · have htarget : target = ∅ := by
-      simpa using hEq
-    subst target
-    exact isRamseyNull_empty R
+  · rw [hEq]
+    simpa using (isRamseyNull_empty R)
   · obtain ⟨f, hf⟩ :
         ∃ f : ℕ → Set S.Point, T = Set.range f :=
-      Countable.exists_eq_range hTc hTne
+      Set.Countable.exists_eq_range hTc hTne
     have hNull : ∀ i, IsRamseyNull R (f i) := by
       intro i
       apply isRamseyNull_of_isNowhereDense_ellentuck R C
@@ -121,7 +119,12 @@ theorem isRamsey_of_baireMeasurableSet_ellentuck
   have hM : IsMeagre M := by
     unfold IsMeagre
     rw [Filter.eventuallyEqSet_iff] at hEq
-    simpa [M] using hEq
+    have hcompl :
+        Mᶜ = {x : S.Point | x ∈ target ↔ x ∈ U} := by
+      ext x
+      simp [M]
+    rw [hcompl]
+    exact hEq
 
   have hMnull : IsRamseyNull R M :=
     isRamseyNull_of_isMeagre_ellentuck R C hM
