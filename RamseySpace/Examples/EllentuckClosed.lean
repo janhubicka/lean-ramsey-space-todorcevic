@@ -26,6 +26,7 @@ def pointOfCode (c : S.ApproximationCode)
   OrderEmbedding.ofStrictMono (codeValue c) (by
     intro k l hkl
     rcases h (l + 1) with ⟨Y, hY⟩
+    change Point at Y
     have hk := congrArg
       (fun q : Approx (k + 1) => q.1 ⟨k, Nat.lt_succ_self k⟩)
       (hY (k + 1) (by omega))
@@ -44,6 +45,7 @@ theorem approx_pointOfCode (c : S.ApproximationCode)
   apply DFunLike.ext _ _
   intro i
   rcases h n with ⟨Y, hY⟩
+  change Point at Y
   have hsmall := congrArg
     (fun q : Approx (i.1 + 1) =>
       q.1 ⟨i.1, Nat.lt_succ_self i.1⟩)
