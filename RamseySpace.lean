@@ -19,3 +19,4 @@ import RamseySpace.Examples.EllentuckBasic
 import RamseySpace.Examples.EllentuckFinitization
 import RamseySpace.Examples.EllentuckDepth
 import RamseySpace.Examples.EllentuckAmalgamation
+import RamseySpace.Examples.EllentuckPigeonhole
