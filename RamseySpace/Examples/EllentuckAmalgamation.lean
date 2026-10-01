@@ -1,4 +1,4 @@
-import RamseySpace.Examples.EllentuckFinitization
+import RamseySpace.Examples.EllentuckDepth
 
 /-!
 # The classical Ellentuck space: amalgamation
