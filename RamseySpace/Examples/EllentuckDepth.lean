@@ -99,9 +99,12 @@ theorem depth_succ_last {n : ℕ} (a : Approx n) (B : Point) {d : ℕ}
 
   rcases hxa with ⟨i, hi⟩
   change a.1 i = x at hi
+  have hilast : i.1 ≤ last.1 := by
+    dsimp [last]
+    omega
   have hx_le : x ≤ a.1 last := by
     rw [← hi]
-    exact a.1.monotone (by omega)
+    exact a.1.monotone hilast
   have hlast_ge : B e ≤ a.1 last := by
     rw [← hxlast]
     exact hx_le
