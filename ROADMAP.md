@@ -11,12 +11,12 @@ The repository formalizes Todorčević's abstract Ramsey-space theorem in layers
 | A.3 amalgamation | RamseySpace.Axioms | statement |
 | A.4 pigeonhole | RamseySpace.Axioms | statement |
 | Ramsey / Ramsey-null sets | RamseySpace.Ramsey | definitions + basic lemmas |
-| metrically closed approximation space | planned | next |
-| accept/reject decision lemma | planned | next |
-| fusion | planned | next |
-| open sets are Ramsey | planned | |
-| meagre sets are Ramsey-null | planned | |
-| Baire-property sets are Ramsey | planned | |
+| combinatorial forcing / Lemmas 4.31–4.35 | RamseySpace.Forcing, Decision, Reject, EndExtension | proved |
+| abstract Baire = Ramsey (Lemma 4.36) | RamseySpace.Baire | in progress |
+| abstract meagre = Ramsey null (Lemma 4.38) | RamseySpace.Baire | in progress |
+| σ-field / σ-ideal closure (Lemmas 4.37–4.38) | planned | next |
+| metrically closed ⇒ fusion complete | planned | |
+| Ellentuck topology bridge | planned | |
 | Abstract Ellentuck Theorem | planned | |
 
 ## Application boundary
