@@ -97,6 +97,16 @@ theorem exists_deciding (R : AbstractRamseySpace S) {target : Set S.Point}
     subst e
     exact h ⟨X, hXd, hacc⟩
 
+
+theorem Rejects.not_accepts (R : AbstractRamseySpace S)
+    {target : Set S.Point} {Y : S.Point} {n : ℕ} {a : S.Approx n}
+    (h : Rejects R target Y a) :
+    ¬ Accepts target Y a := by
+  intro hacc
+  rcases h.1 with ⟨A, hA⟩
+  rcases R.fin.exists_hasDepth_of_mem_neighborhood hA with ⟨d, hd⟩
+  exact (h.2 d hd Y (S.self_mem_levelNeighborhood d Y)) hacc
+
 theorem rejects_of_mem_levelNeighborhood (R : AbstractRamseySpace S)
     {target : Set S.Point} {X Y : S.Point} {n : ℕ} {a : S.Approx n} {d : ℕ}
     (hY : Rejects R target Y a) (hd : R.fin.HasDepth a Y d)
