@@ -150,21 +150,12 @@ theorem finiteRange_subset_of_isInitial {n m : ℕ}
     (hab : S.IsInitial a b) :
     finiteRange ⟨n, a⟩ ⊆ finiteRange ⟨m, b⟩ := by
   rcases hab with ⟨hnm, X, hXa, hXb⟩
-  intro x hx
-  change x ∈ Set.range a.1 at hx
-  rcases hx with ⟨i, hi⟩
-  let j : Fin m := ⟨i.1, lt_of_lt_of_le i.2 hnm⟩
-  change x ∈ Set.range b.1
-  refine ⟨j, ?_⟩
-  have ha := congrArg (fun q : Approx n => q.1 i) hXa
-  have hb := congrArg (fun q : Approx m => q.1 j) hXb
-  change X i.1 = a.1 i at ha
-  change X j.1 = b.1 j at hb
-  calc
-    b.1 j = X j.1 := hb.symm
-    _ = X i.1 := rfl
-    _ = a.1 i := ha
-    _ = x := hi
+  have hfa : S.finiteApprox n X = ⟨n, a⟩ := by
+    exact Sigma.ext rfl (heq_of_eq hXa)
+  have hfb : S.finiteApprox m X = ⟨m, b⟩ := by
+    exact Sigma.ext rfl (heq_of_eq hXb)
+  rw [← hfa, ← hfb]
+  exact prefixRange_mono X hnm
 
 /-- A.2(3) for finite-set inclusion. -/
 theorem prefix_leFin
