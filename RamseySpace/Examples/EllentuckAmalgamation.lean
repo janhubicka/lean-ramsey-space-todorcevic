@@ -41,9 +41,8 @@ def splice {n : ℕ} (a : Approx n) (A : Point) (d : ℕ)
           rcases hmem with ⟨j, hj⟩
           change (approx d A).1 j = a.1 ⟨k, hk⟩ at hj
           change A j.1 = a.1 ⟨k, hk⟩ at hj
-          simp only [dif_pos hk, dif_neg hk1, hkn, Nat.sub_self,
-            Nat.add_zero]
-          rw [← hj]
+          simp only [dif_pos hk, dif_neg hk1]
+          rw [hkn, Nat.sub_self, Nat.add_zero, ← hj]
           exact A.strictMono j.2
         · have hk' : ¬ k + 1 < n := by omega
           simp only [dif_neg hk, dif_neg hk']
@@ -86,9 +85,9 @@ theorem splice_le {n : ℕ} (a : Approx n) (A : Point) (d : ℕ)
       exact ⟨⟨k, hk⟩, rfl⟩
     rcases hmem with ⟨j, hj⟩
     refine ⟨j.1, ?_⟩
-    change (approx d A).1 j = splice a A d hsub k at hj ⊢
-    change A j.1 = splice a A d hsub k at hj ⊢
-    simpa using hj
+    change A j.1 = a.1 ⟨k, hk⟩ at hj
+    rw [splice_apply_lt a A d hsub hk]
+    exact hj
   · refine ⟨d + (k - n), ?_⟩
     exact (splice_apply_ge a A d hsub (not_lt.mp hk)).symm
 
