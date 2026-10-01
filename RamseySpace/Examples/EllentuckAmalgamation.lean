@@ -137,7 +137,9 @@ def protect {n : ℕ} (B A : Point) (e : ℕ) (hn : 0 < n)
       · by_cases hk : k < e + 1
         · have hke : k = e := by omega
           simp only [if_pos hk, if_neg hk1]
-          rw [hke, Nat.add_sub_cancel_left, hboundary]
+          rw [hke]
+          simp only [Nat.sub_self, Nat.add_zero]
+          rw [hboundary]
           exact A.strictMono (by omega)
         · simp only [if_neg hk, if_neg hk1]
           apply A.strictMono
@@ -146,13 +148,18 @@ def protect {n : ℕ} (B A : Point) (e : ℕ) (hn : 0 < n)
 @[simp] theorem protect_apply_lt {n : ℕ} (B A : Point) (e : ℕ)
     (hn : 0 < n) (hboundary) {k : ℕ} (hk : k < e + 1) :
     protect B A e hn hboundary k = B k := by
-  simp [protect, hk]
+  change (if k < e + 1 then B k
+    else A (n + (k - (e + 1)))) = B k
+  rw [if_pos hk]
 
 @[simp] theorem protect_apply_ge {n : ℕ} (B A : Point) (e : ℕ)
     (hn : 0 < n) (hboundary) {k : ℕ} (hk : e + 1 ≤ k) :
     protect B A e hn hboundary k =
       A (n + (k - (e + 1))) := by
-  simp [protect, not_lt.mpr hk]
+  change (if k < e + 1 then B k
+    else A (n + (k - (e + 1)))) =
+      A (n + (k - (e + 1)))
+  rw [if_neg (not_lt.mpr hk)]
 
 theorem approx_protect {n : ℕ} (B A : Point) (e : ℕ)
     (hn : 0 < n) (hboundary : B e = A (n - 1)) :
@@ -189,26 +196,11 @@ theorem protect_mem_levelNeighborhood {n : ℕ} (B A : Point) (e : ℕ)
 /-- Every copy of a inside the protected-prefix splice already lies inside A. -/
 theorem neighborhood_protect_subset {n : ℕ} (a : Approx n)
     (B A : Point) (e : ℕ) (hn : 0 < n)
-    (hlast : a.1 ⟨n - 1, by omega⟩ = B e)
+    (hboundary : B e = A (n - 1))
     (hAa : approx n A = a) :
-    S.neighborhood a
-        (protect B A e hn
-          (by
-            let last : Fin n := ⟨n - 1, by omega⟩
-            have h := congrArg (fun q : Approx n => q.1 last) hAa
-            change A last.1 = a.1 last at h
-            simpa [last] using hlast.symm.trans h.symm))
+    S.neighborhood a (protect B A e hn hboundary)
       ⊆ S.neighborhood a A := by
   let last : Fin n := ⟨n - 1, by omega⟩
-  have hAlast := congrArg (fun q : Approx n => q.1 last) hAa
-  change A last.1 = a.1 last at hAlast
-  have hboundary : B e = A (n - 1) := by
-    calc
-      B e = a.1 last := hlast.symm
-      _ = A last.1 := hAlast.symm
-      _ = A (n - 1) := rfl
-  change S.neighborhood a (protect B A e hn hboundary) ⊆
-    S.neighborhood a A
   intro X hX
   change Point at X
   refine ⟨?_, hX.2⟩
@@ -229,9 +221,11 @@ theorem neighborhood_protect_subset {n : ℕ} (a : Approx n)
   · have hnk : n ≤ k := not_lt.mp hkn
     have hlast_lt_k : n - 1 < k := by omega
     have hXlast0 := congrArg (fun q : Approx n => q.1 last) hX.2
+    have hAlast0 := congrArg (fun q : Approx n => q.1 last) hAa
     change X last.1 = a.1 last at hXlast0
+    change A last.1 = a.1 last at hAlast0
     have hgt : B e < x := by
-      rw [← hlast, ← hXlast0, ← hkx]
+      rw [hboundary, ← hAlast0, ← hXlast0, ← hkx]
       exact X.strictMono (by
         dsimp [last]
         exact hlast_lt_k)
@@ -267,7 +261,8 @@ theorem amalgamation_refine_standard
     subst d
     refine ⟨A, ?_, fun _ h => h⟩
     refine ⟨hA.1, ?_⟩
-    rw [S.approx_zero, S.approx_zero]
+    change approx 0 A = approx 0 B
+    rw [approx_zero, approx_zero]
   · have hnpos : 0 < n := Nat.pos_of_ne_zero hn
     rcases depth_succ_last a B hnpos hd with ⟨e, rfl, hlast⟩
     let last : Fin n := ⟨n - 1, by omega⟩
@@ -278,14 +273,14 @@ theorem amalgamation_refine_standard
         B e = a.1 last := by simpa [last] using hlast.symm
         _ = A last.1 := hAlast.symm
         _ = A (n - 1) := rfl
-    let A' := protect B A e hnpos hboundary
+    let A' : S.Point := protect B A e hnpos hboundary
     refine ⟨A', ?_, ?_⟩
-    · simpa [A'] using
-        protect_mem_levelNeighborhood B A e hnpos hboundary hA.1
-    · have hsub := neighborhood_protect_subset
-        a B A e hnpos
-        (by simpa [last] using hlast) hA.2
-      simpa [A', hboundary] using hsub
+    · change protect B A e hnpos hboundary ∈
+        S.levelNeighborhood (e + 1) B
+      exact protect_mem_levelNeighborhood B A e hnpos hboundary hA.1
+    · change S.neighborhood a (protect B A e hnpos hboundary) ⊆
+        S.neighborhood a A
+      exact neighborhood_protect_subset a B A e hnpos hboundary hA.2
 
 end Ellentuck
 end Examples
