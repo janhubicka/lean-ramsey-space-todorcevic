@@ -15,3 +15,7 @@ import RamseySpace.NullSigma
 import RamseySpace.Ellentuck
 import RamseySpace.TopologyBridge
 import RamseySpace.AbstractEllentuck
+import RamseySpace.Examples.EllentuckBasic
+import RamseySpace.Examples.EllentuckFinitization
+import RamseySpace.Examples.EllentuckDepth
+import RamseySpace.Examples.EllentuckAmalgamation
