@@ -12,3 +12,5 @@ import RamseySpace.Closed
 import RamseySpace.Sigma
 import RamseySpace.NullSigma
 import RamseySpace.Ellentuck
+import RamseySpace.TopologyBridge
+import RamseySpace.AbstractEllentuck
