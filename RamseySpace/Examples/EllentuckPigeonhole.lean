@@ -64,8 +64,8 @@ theorem approx_succ_eq_of_prefix_last {n : ℕ} {X Y : Point}
     change X j.1 = Y j.1 at h
     exact h
   · have hin : i.1 = n := by omega
-    subst i
-    simpa using hlast
+    change X i.1 = Y i.1
+    simpa [hin] using hlast
 
 /-- Keep the first `d` values of `B`, and afterwards keep precisely the
 tail offsets satisfying an infinite predicate `p`. -/
@@ -83,9 +83,7 @@ noncomputable def homogeneousTail (B : Point) (d : ℕ)
         simp only [dif_pos hk, dif_pos hk1]
         exact B.strictMono (by omega)
       · by_cases hk : k < d
-        · have hkd : k + 1 = d := by omega
-          simp only [dif_pos hk, dif_neg hk1]
-          rw [hkd, Nat.sub_self, Nat.add_zero]
+        · simp only [dif_pos hk, dif_neg hk1]
           apply B.strictMono
           omega
         · have hk' : ¬ k + 1 < d := by omega
@@ -173,6 +171,7 @@ theorem oneStep_eq_candidate {n d : ℕ} (a : Approx n) (B : Point)
     (hb : b ∈ S.oneStepApproximations a (homogeneousTail B d p hp)) :
     ∃ q, p q ∧ b = candidate a B hd q := by
   rcases hb with ⟨X, hX, hXb⟩
+  change Point at X
   have hA :
       homogeneousTail B d p hp ∈ S.levelNeighborhood d B :=
     homogeneousTail_mem_levelNeighborhood B d p hp
@@ -224,20 +223,18 @@ theorem pigeonhole {n : ℕ} (a : Approx n) (B : Point) {d : ℕ}
   · cases c with
     | false =>
         apply Or.inr
-        rw [Set.disjoint_left]
+        apply Set.disjoint_left.mpr
         intro b hb hbO
         rcases oneStep_eq_candidate a B hd p hp hb with ⟨q, hpq, rfl⟩
         have hcolor : color q = false := hpq
-        simp only [color, if_pos hbO] at hcolor
-        contradiction
+        simpa [color, hbO] using hcolor
     | true =>
         apply Or.inl
         intro b hb
         rcases oneStep_eq_candidate a B hd p hp hb with ⟨q, hpq, rfl⟩
         have hcolor : color q = true := hpq
         by_contra hnot
-        simp only [color, if_neg hnot] at hcolor
-        contradiction
+        simpa [color, hnot] using hcolor
 
 end Ellentuck
 end Examples
