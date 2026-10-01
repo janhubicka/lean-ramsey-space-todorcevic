@@ -1,0 +1,11 @@
+name = "ramsey-space-todorcevic"
+version = "0.1.0"
+defaultTargets = ["RamseySpace"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "5bd58ac291422a21f412ae354c91e7d172255a2c"
+
+[[lean_lib]]
+name = "RamseySpace"
