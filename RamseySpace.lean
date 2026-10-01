@@ -10,3 +10,4 @@ import RamseySpace.EndExtension
 import RamseySpace.Baire
 import RamseySpace.Closed
 import RamseySpace.Sigma
+import RamseySpace.NullSigma
