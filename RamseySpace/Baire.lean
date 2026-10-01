@@ -95,8 +95,7 @@ theorem IsAbstractBaire.isRamsey (R : AbstractRamseySpace S)
     rcases exists_global_decider R C targetᶜ d Z with
       ⟨W, hWZ, hdecComplW⟩
     have hWY : W ∈ S.levelNeighborhood d Y :=
-      S.levelNeighborhood_mono hZY
-        (S.levelNeighborhood_mono hZX hWZ)
+      S.levelNeighborhood_mono hZY hWZ
     have hdW : R.fin.HasDepth a W d :=
       (R.fin.hasDepth_iff_of_mem_levelNeighborhood hWZ).2 hdZ
     have hdecComplA : Decides R targetᶜ W a :=
@@ -166,8 +165,10 @@ theorem IsAbstractMeagre.isRamseyNull (R : AbstractRamseySpace S)
     (C : FusionComplete S) {target : Set S.Point}
     (hMeagre : IsAbstractMeagre target) :
     IsRamseyNull R target := by
+  have hBaire : IsAbstractBaire target :=
+    IsAbstractMeagre.isAbstractBaire hMeagre
   have hRamsey : IsRamsey R target :=
-    hMeagre.isAbstractBaire.isRamsey R C
+    IsAbstractBaire.isRamsey R C hBaire
   intro n a Y d hd
   rcases hRamsey a Y hd with ⟨X, hXY, hhom⟩
   rcases hhom with hsub | hdis
