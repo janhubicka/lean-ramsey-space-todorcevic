@@ -1,5 +1,6 @@
 import RamseySpace.TopologyBridge
 import RamseySpace.Closed
+import RamseySpace.Standard
 
 /-!
 # The Abstract Ellentuck Theorem
@@ -51,5 +52,29 @@ theorem abstractEllentuck_meagre
     (hM : @IsMeagre S.Point S.ellentuckTopology target) :
     IsRamseyNull R target :=
   (abstractEllentuck R hclosed).2 target hM
+
+/-- Literal textbook conclusion of the Abstract Ellentuck Theorem, using
+refinements B ∈ [a,A] in the definitions of Ramsey and Ramsey null. -/
+def IsTopologicalRamseySpaceOnBasicNeighborhoods
+    {S : ApproximationSystem.{u, v}} : Prop :=
+  (∀ target : Set S.Point,
+      @BaireMeasurableSet S.Point S.ellentuckTopology target →
+        IsRamseyOnBasicNeighborhoods target) ∧
+    (∀ target : Set S.Point,
+      @IsMeagre S.Point S.ellentuckTopology target →
+        IsRamseyNullOnBasicNeighborhoods target)
+
+/-- Source-facing form of Todorčević's Abstract Ellentuck Theorem. -/
+theorem abstractEllentuck_onBasicNeighborhoods
+    {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
+    (hclosed : S.IsMetricallyClosed) :
+    IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) := by
+  constructor
+  · intro target hB
+    exact (isRamsey_iff_onBasicNeighborhoods R target).1
+      (abstractEllentuck_baire R hclosed hB)
+  · intro target hM
+    exact (isRamseyNull_iff_onBasicNeighborhoods R target).1
+      (abstractEllentuck_meagre R hclosed hM)
 
 end RamseySpace
