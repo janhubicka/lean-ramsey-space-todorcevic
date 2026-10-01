@@ -227,14 +227,17 @@ theorem pigeonhole {n : ℕ} (a : Approx n) (B : Point) {d : ℕ}
         intro b hb hbO
         rcases oneStep_eq_candidate a B hd p hp hb with ⟨q, hpq, rfl⟩
         have hcolor : color q = false := hpq
-        simpa [color, hbO] using hcolor
+        have hnotO : candidate a B hd q ∉ O := by
+          simpa [color] using hcolor
+        exact hnotO hbO
     | true =>
         apply Or.inl
         intro b hb
         rcases oneStep_eq_candidate a B hd p hp hb with ⟨q, hpq, rfl⟩
         have hcolor : color q = true := hpq
-        by_contra hnot
-        simpa [color, hnot] using hcolor
+        have hO : candidate a B hd q ∈ O := by
+          simpa [color] using hcolor
+        exact hO
 
 end Ellentuck
 end Examples
