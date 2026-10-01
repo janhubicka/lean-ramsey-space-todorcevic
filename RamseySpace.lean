@@ -11,3 +11,4 @@ import RamseySpace.Baire
 import RamseySpace.Closed
 import RamseySpace.Sigma
 import RamseySpace.NullSigma
+import RamseySpace.Ellentuck
