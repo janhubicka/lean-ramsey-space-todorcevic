@@ -18,8 +18,8 @@ def extensionPoint {n : ℕ} (a : Approx n) (B : Point) (d : ℕ)
     (t : ℕ) : Point :=
   splice a B (d + t) (by
     intro x hx
-    apply prefixRange_mono B (by omega)
-    exact hsub hx)
+    exact prefixRange_mono B
+      (show d ≤ d + t by omega) (hsub hx))
 
 /-- The corresponding one-step finite approximation. -/
 def extensionAt {n : ℕ} (a : Approx n) (B : Point) (d : ℕ)
