@@ -16,3 +16,4 @@ import RamseySpace.Ellentuck
 import RamseySpace.TopologyBridge
 import RamseySpace.AbstractEllentuck
 import RamseySpace.Examples.EllentuckBasic
+import RamseySpace.Examples.EllentuckFinitization
