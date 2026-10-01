@@ -224,11 +224,13 @@ theorem neighborhood_protect_subset {n : ℕ} (a : Approx n)
     have hAlast0 := congrArg (fun q : Approx n => q.1 last) hAa
     change X last.1 = a.1 last at hXlast0
     change A last.1 = a.1 last at hAlast0
+    have hXlast : X (n - 1) = a.1 last := by
+      simpa [last] using hXlast0
+    have hAlast : A (n - 1) = a.1 last := by
+      simpa [last] using hAlast0
     have hgt : B e < x := by
-      rw [hboundary, ← hAlast0, ← hXlast0, ← hkx]
-      exact X.strictMono (by
-        dsimp [last]
-        exact hlast_lt_k)
+      rw [hboundary, hAlast, ← hXlast, ← hkx]
+      exact X.strictMono hlast_lt_k
     have hxP : x ∈ Set.range (protect B A e hn hboundary) :=
       hX.1 ⟨k, hkx⟩
     rcases hxP with ⟨t, ht⟩
