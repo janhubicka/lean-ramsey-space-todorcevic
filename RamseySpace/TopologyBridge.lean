@@ -98,7 +98,7 @@ theorem isRamseyNull_of_isMeagre_ellentuck
       apply hTnd
       rw [hf]
       exact Set.mem_range_self i
-    have hUnionNull :=
+    have hUnionNull : IsRamseyNull R (⋃ i, f i) :=
       isRamseyNull_iUnion R C f hNull
     rw [hEq, hf, Set.sUnion_range]
     exact hUnionNull
