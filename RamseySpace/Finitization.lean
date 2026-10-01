@@ -122,6 +122,53 @@ theorem hasDepth_le_of_initial {n m da db : ℕ}
   exact (F.hasDepth_le_of_leFin hda haFin).trans hc.1
 
 
+/-- Along a reduction A ≤ B, depths of approximations of A are unbounded in B.
+The lower bound L lets later applications keep a prescribed initial segment. -/
+theorem exists_hasDepth_ge_of_le {A B : S.Point}
+    (hAB : S.le A B) (L N : ℕ) :
+    ∃ l d, L ≤ l ∧ N ≤ d ∧ F.HasDepth (S.approx l A) B d := by
+  classical
+  by_contra h
+  have hbad :
+      ∀ l, L ≤ l →
+        ∀ d, F.HasDepth (S.approx l A) B d → d < N := by
+    intro l hl d hd
+    by_contra hdn
+    have hNd : N ≤ d := le_of_not_gt hdn
+    exact h ⟨l, d, hl, hNd, hd⟩
+
+  let q : ℕ → S.FiniteApprox :=
+    fun t => S.finiteApprox (L + t) A
+  let T : Set S.FiniteApprox :=
+    ⋃ d : Fin N, {p | F.leFin p (S.finiteApprox d.1 B)}
+
+  have hTfin : T.Finite := by
+    dsimp [T]
+    exact Set.finite_iUnion
+      (fun d : Fin N => F.lowerFinite (S.finiteApprox d.1 B))
+
+  have hqinj : Function.Injective q := by
+    intro i j hij
+    have hfst :=
+      congrArg (fun p : S.FiniteApprox => p.1) hij
+    dsimp [q, ApproximationSystem.finiteApprox] at hfst
+    omega
+
+  have hqsub : Set.range q ⊆ T := by
+    rintro _ ⟨t, rfl⟩
+    rcases (F.realizesOrder A B).1 hAB (L + t) with ⟨m, hm⟩
+    have hex :
+        ∃ d, F.HasDepth (S.approx (L + t) A) B d :=
+      (F.exists_hasDepth_iff (S.approx (L + t) A) B).2 ⟨m, hm⟩
+    rcases hex with ⟨d, hd⟩
+    have hdN : d < N :=
+      hbad (L + t) (by omega) d hd
+    refine Set.mem_iUnion.2 ⟨(⟨d, hdN⟩ : Fin N), ?_⟩
+    exact hd.1
+
+  exact (Set.infinite_range_of_injective hqinj) (hTfin.subset hqsub)
+
+
 end Finitization
 
 end RamseySpace
