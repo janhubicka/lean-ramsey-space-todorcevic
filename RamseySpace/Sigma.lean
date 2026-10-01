@@ -189,9 +189,18 @@ theorem unionFusion_le_start
     (hRamsey : ∀ i, IsRamsey R (targets i))
     (n0 : ℕ) (Y0 : S.Point) (k : ℕ) :
     S.le (unionFusion R targets hRamsey n0 Y0 k) Y0 := by
-  have hf := unionFusion_isFusion R targets hRamsey n0 Y0
-  simpa [unionFusion] using
-    S.fusion_le hf (Nat.zero_le k)
+  induction k with
+  | zero =>
+      simpa [unionFusion] using S.le_refl Y0
+  | succ k ih =>
+      have hstep :
+          S.le
+            (unionFusion R targets hRamsey n0 Y0 (k + 1))
+            (unionFusion R targets hRamsey n0 Y0 k) := by
+        simpa [unionFusion] using
+          (unionStep_mem R targets hRamsey k (n0 + k)
+            (unionFusion R targets hRamsey n0 Y0 k)).1
+      exact S.le_trans hstep ih
 
 theorem unionFusion_succ_homogeneous
     (R : AbstractRamseySpace S)
