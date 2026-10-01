@@ -101,7 +101,8 @@ theorem isRamseyNull_of_isMeagre_ellentuck
     have hUnionNull : IsRamseyNull R (⋃ i, f i) :=
       isRamseyNull_iUnion R C f hNull
     rw [hEq, hf, Set.sUnion_range]
-    exact hUnionNull
+    intro n a B d hd
+    exact hUnionNull a B hd
 
 /-- Baire-measurable subsets of the Ellentuck topology are Ramsey. -/
 theorem isRamsey_of_baireMeasurableSet_ellentuck
