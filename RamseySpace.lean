@@ -8,3 +8,4 @@ import RamseySpace.Decision
 import RamseySpace.Reject
 import RamseySpace.EndExtension
 import RamseySpace.Baire
+import RamseySpace.Closed
