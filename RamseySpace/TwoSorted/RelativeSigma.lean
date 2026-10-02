@@ -117,8 +117,9 @@ noncomputable def unionStepBelow
     (R : AbstractRamseySystem P) (bound : P.Red.Point)
     (targets : ℕ → Set P.Obj.Point)
     (hRamsey : ∀ i, IsRamseyBelow R bound (targets i))
-    (k d : ℕ) (Y : P.Red.Point) : P.Red.Point :=
-  if hY : P.Red.le Y bound then
+    (k d : ℕ) (Y : P.Red.Point) : P.Red.Point := by
+  classical
+  exact if hY : P.Red.le Y bound then
     Classical.choose
       (exists_refinement_homogeneous_stage_below
         R bound targets hRamsey hY d k)
@@ -203,7 +204,9 @@ theorem unionFusionBelow_le_start
       · have hstep :=
           unionStepBelow_mem R bound targets hRamsey k (n0 + k) hY
         exact P.Red.le_trans (by simpa [unionFusionBelow] using hstep.1) ih
-      · simp [unionFusionBelow, unionStepBelow, hY, ih]
+      · rw [unionFusionBelow]
+        simp only [unionStepBelow, dif_neg hY]
+        exact ih
 
 theorem unionFusionBelow_succ_homogeneous
     (R : AbstractRamseySystem P) (bound : P.Red.Point)
@@ -399,8 +402,9 @@ noncomputable def nullStepBelow
     (R : AbstractRamseySystem P) (bound : P.Red.Point)
     (targets : ℕ → Set P.Obj.Point)
     (hNull : ∀ i, IsRamseyNullBelow R bound (targets i))
-    (k d : ℕ) (Y : P.Red.Point) : P.Red.Point :=
-  if hY : P.Red.le Y bound then
+    (k d : ℕ) (Y : P.Red.Point) : P.Red.Point := by
+  classical
+  exact if hY : P.Red.le Y bound then
     Classical.choose
       (exists_refinement_avoids_stage_below
         R bound targets hNull hY d k)
