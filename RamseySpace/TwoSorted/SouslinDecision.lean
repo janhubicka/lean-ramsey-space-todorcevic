@@ -30,12 +30,13 @@ theorem isRamsey_iInter
     (targets : ℕ → Set P.Obj.Point)
     (hRamsey : ∀ i, IsRamsey R (targets i)) :
     IsRamsey R (⋂ i, targets i) := by
-  have hcomp : ∀ i, IsRamsey R ((targets i)ᶜ) :=
-    fun i => (hRamsey i).compl R
+  have hcomp : ∀ i, IsRamsey R ((targets i)ᶜ) := by
+    intro i
+    exact IsRamsey.compl R (hRamsey i)
   have hu : IsRamsey R (⋃ i, (targets i)ᶜ) :=
     isRamsey_iUnion R C (fun i => (targets i)ᶜ) hcomp
   have hc : IsRamsey R ((⋃ i, (targets i)ᶜ)ᶜ) :=
-    hu.compl R
+    IsRamsey.compl R hu
   have heq : (⋃ i, (targets i)ᶜ)ᶜ = ⋂ i, targets i := by
     ext x
     simp
@@ -49,12 +50,13 @@ theorem isRamseyBelow_iInter
     (targets : ℕ → Set P.Obj.Point)
     (hRamsey : ∀ i, IsRamseyBelow R bound (targets i)) :
     IsRamseyBelow R bound (⋂ i, targets i) := by
-  have hcomp : ∀ i, IsRamseyBelow R bound ((targets i)ᶜ) :=
-    fun i => (hRamsey i).compl R
+  have hcomp : ∀ i, IsRamseyBelow R bound ((targets i)ᶜ) := by
+    intro i
+    exact IsRamseyBelow.compl R (hRamsey i)
   have hu : IsRamseyBelow R bound (⋃ i, (targets i)ᶜ) :=
     isRamseyBelow_iUnion R C bound (fun i => (targets i)ᶜ) hcomp
   have hc : IsRamseyBelow R bound ((⋃ i, (targets i)ᶜ)ᶜ) :=
-    hu.compl R
+    IsRamseyBelow.compl R hu
   have heq : (⋃ i, (targets i)ᶜ)ᶜ = ⋂ i, targets i := by
     ext x
     simp
@@ -75,7 +77,8 @@ theorem normalize_isRamsey
     by_cases hn : n ≤ s.length
     · simpa [targets, hn] using hA (s.take n)
     · simpa [targets, hn] using isRamsey_univ R
-  have hi := isRamsey_iInter R C targets htargets
+  have hi : IsRamsey R (⋂ n, targets n) :=
+    isRamsey_iInter R C targets htargets
   have heq : (⋂ n, targets n) = Souslin.normalize A s := by
     ext x
     simp [targets, Souslin.normalize]
@@ -254,7 +257,8 @@ theorem exists_souslin_decider
         DecidesTargetFinite R targets X
           (Encodable.encode s) (⟨m, b⟩ : P.Obj.FiniteApprox) :=
       decidesTargetFinite_mono R targets hdecStage (hX (k + 1)).1
-    simpa [DecidesTargetFinite, targets, souslinDecisionTarget] using hdecX
+    simpa [DecidesTargetFinite, targets, souslinDecisionTarget,
+      DecidesFinite] using hdecX
 
 end CombinatorialForcing
 end TwoSorted
