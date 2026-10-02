@@ -309,11 +309,31 @@ theorem IsRamseyBelow.diff
     (hA : IsRamseyBelow R bound A)
     (hB : IsRamseyBelow R bound B) :
     IsRamseyBelow R bound (A \ B) := by
-  have hBc : IsRamseyBelow R bound Bᶜ :=
-    IsRamseyBelow.compl R hB
-  have hInter : IsRamseyBelow R bound (A ∩ Bᶜ) :=
-    IsRamseyBelow.inter R hA hBc
-  simpa [Set.diff_eq] using hInter
+  intro n a Y d hY hd
+  rcases hA a Y hY hd with ⟨X, hXY, hhomA⟩
+  rcases hhomA with hsubA | hdisA
+  · have hXbound : P.Red.le X bound :=
+      P.Red.le_trans hXY.1 hY
+    have hdX : R.fin.HasDepth a X d :=
+      (R.fin.hasDepth_iff_of_mem_levelNeighborhood hXY).2 hd
+    rcases hB a X hXbound hdX with ⟨Z, hZX, hhomB⟩
+    have hZY : Z ∈ P.levelNeighborhood d Y :=
+      P.levelNeighborhood_mono hXY hZX
+    refine ⟨Z, hZY, ?_⟩
+    rcases hhomB with hsubB | hdisB
+    · apply Or.inr
+      rw [Set.disjoint_left]
+      intro W hW hdiff
+      exact hdiff.2 (hsubB hW)
+    · apply Or.inl
+      intro W hW
+      refine ⟨hsubA (R.fin.objectNeighborhood_mono hZX.1 hW), ?_⟩
+      intro hWB
+      exact Set.disjoint_left.1 hdisB hW hWB
+  · refine ⟨X, hXY, Or.inr ?_⟩
+    rw [Set.disjoint_left]
+    intro W hW hdiff
+    exact Set.disjoint_left.1 hdisA hW hdiff.1
 
 end TwoSorted
 end RamseySpace
