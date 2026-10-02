@@ -105,6 +105,49 @@ theorem self_mem_levelNeighborhood (n : ℕ) (Y : P.Red.Point) :
     Y ∈ P.levelNeighborhood n Y :=
   P.Red.self_mem_levelNeighborhood n Y
 
+theorem levelNeighborhood_mono {n : ℕ} {X Y : P.Red.Point}
+    (hX : X ∈ P.levelNeighborhood n Y) :
+    P.levelNeighborhood n X ⊆ P.levelNeighborhood n Y :=
+  P.Red.levelNeighborhood_mono hX
+
+theorem isInitial_oneStep {n : ℕ} {a : P.Obj.Approx n}
+    {Y : P.Red.Point} {b : P.Obj.Approx (n + 1)}
+    (hb : b ∈ P.oneStepObjectApproximations a Y) :
+    P.Obj.IsInitial a b := by
+  rcases hb with ⟨A, hA, hAb⟩
+  exact ⟨Nat.le_succ n, A, hA.2, hAb⟩
+
+theorem objectNeighborhood_initial_subset {n m : ℕ}
+    {a : P.Obj.Approx n} {b : P.Obj.Approx m} {Y : P.Red.Point}
+    (hab : P.Obj.IsInitial a b) :
+    P.objectNeighborhood b Y ⊆ P.objectNeighborhood a Y := by
+  rcases hab with ⟨hnm, W, hWa, hWb⟩
+  intro A hA
+  refine ⟨hA.1, ?_⟩
+  have htop : P.Obj.approx m W = P.Obj.approx m A :=
+    hWb.trans hA.2.symm
+  have hpref : P.Obj.approx n W = P.Obj.approx n A := by
+    by_cases hnm' : n = m
+    · subst m
+      exact htop
+    · exact P.Obj.coherent htop n (by omega)
+  exact hpref.symm.trans hWa
+
+theorem objectNeighborhood_oneStep_subset {n : ℕ}
+    {a : P.Obj.Approx n} {Y : P.Red.Point}
+    {b : P.Obj.Approx (n + 1)}
+    (hb : b ∈ P.oneStepObjectApproximations a Y) :
+    P.objectNeighborhood b Y ⊆ P.objectNeighborhood a Y := by
+  rcases hb with ⟨A, hA, hAb⟩
+  intro B hB
+  refine ⟨hB.1, ?_⟩
+  have htop :
+      P.Obj.approx (n + 1) B = P.Obj.approx (n + 1) A :=
+    hB.2.trans hAb.symm
+  have hpref : P.Obj.approx n B = P.Obj.approx n A :=
+    P.Obj.coherent htop n (Nat.lt_succ_self n)
+  exact hpref.trans hA.2
+
 end System
 
 end TwoSorted
