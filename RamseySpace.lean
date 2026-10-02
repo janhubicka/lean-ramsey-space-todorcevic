@@ -23,3 +23,7 @@ import RamseySpace.Examples.EllentuckPigeonhole
 import RamseySpace.Examples.EllentuckAxioms
 import RamseySpace.Examples.EllentuckClosed
 import RamseySpace.Examples.EllentuckTheorem
+import RamseySpace.TwoSorted.Basic
+import RamseySpace.TwoSorted.Finitization
+import RamseySpace.TwoSorted.Axioms
+import RamseySpace.TwoSorted.Ramsey
