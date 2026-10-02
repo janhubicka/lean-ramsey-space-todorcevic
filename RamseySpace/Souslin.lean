@@ -21,24 +21,24 @@ universe u
 abbrev Scheme (X : Type u) := List ℕ → Set X
 
 /-- First n values of an infinite branch. -/
-def prefix (f : ℕ → ℕ) : ℕ → List ℕ
+def branchPrefix (f : ℕ → ℕ) : ℕ → List ℕ
   | 0 => []
-  | n + 1 => (prefix f n).concat (f n)
+  | n + 1 => (branchPrefix f n).concat (f n)
 
-@[simp] theorem prefix_zero (f : ℕ → ℕ) : prefix f 0 = [] := rfl
+@[simp] theorem branchPrefix_zero (f : ℕ → ℕ) : branchPrefix f 0 = [] := rfl
 
-@[simp] theorem prefix_succ (f : ℕ → ℕ) (n : ℕ) :
-    prefix f (n + 1) = (prefix f n).concat (f n) := rfl
+@[simp] theorem branchPrefix_succ (f : ℕ → ℕ) (n : ℕ) :
+    branchPrefix f (n + 1) = (branchPrefix f n).concat (f n) := rfl
 
-@[simp] theorem length_prefix (f : ℕ → ℕ) (n : ℕ) :
-    (prefix f n).length = n := by
+@[simp] theorem length_branchPrefix (f : ℕ → ℕ) (n : ℕ) :
+    (branchPrefix f n).length = n := by
   induction n with
   | zero => rfl
   | succ n ih => simp [prefix, ih]
 
 /-- Earlier branch prefixes are obtained by taking an initial segment. -/
-theorem take_prefix (f : ℕ → ℕ) {m n : ℕ} (hmn : m ≤ n) :
-    (prefix f n).take m = prefix f m := by
+theorem take_branchPrefix (f : ℕ → ℕ) {m n : ℕ} (hmn : m ≤ n) :
+    (branchPrefix f n).take m = branchPrefix f m := by
   induction n with
   | zero =>
       have hm : m = 0 := by omega
@@ -46,25 +46,25 @@ theorem take_prefix (f : ℕ → ℕ) {m n : ℕ} (hmn : m ≤ n) :
       rfl
   | succ n ih =>
       by_cases hmn' : m ≤ n
-      · rw [prefix_succ, List.take_concat_of_le_length]
+      · rw [branchPrefix_succ, List.take_concat_of_le_length]
         · exact ih hmn'
         · simpa using hmn'
       · have hm : m = n + 1 := by omega
         subst m
-        simp [prefix_succ]
+        simp [branchPrefix_succ]
 
 /-- A branch extends a finite sequence. -/
 def Extends (f : ℕ → ℕ) (s : List ℕ) : Prop :=
-  prefix f s.length = s
+  branchPrefix f s.length = s
 
 /-- The result of the Souslin operation. -/
 def operation {X : Type u} (A : Scheme X) : Set X :=
-  {x | ∃ f : ℕ → ℕ, ∀ n, x ∈ A (prefix f n)}
+  {x | ∃ f : ℕ → ℕ, ∀ n, x ∈ A (branchPrefix f n)}
 
 /-- Tail of a scheme above a finite sequence. -/
 def tail {X : Type u} (A : Scheme X) (s : List ℕ) : Set X :=
   {x | ∃ f : ℕ → ℕ, Extends f s ∧
-      ∀ n, s.length ≤ n → x ∈ A (prefix f n)}
+      ∀ n, s.length ≤ n → x ∈ A (branchPrefix f n)}
 
 theorem tail_nil {X : Type u} (A : Scheme X) :
     tail A [] = operation A := by
@@ -105,12 +105,12 @@ theorem operation_normalize {X : Type u} (A : Scheme X) :
     refine ⟨f, ?_⟩
     intro n
     have h := hf n n (by simp)
-    simpa [length_prefix] using h
+    simpa [length_branchPrefix] using h
   · rintro ⟨f, hf⟩
     refine ⟨f, ?_⟩
     intro n m hmn
     have hmem := hf m
-    have htake := take_prefix f hmn
+    have htake := take_branchPrefix f hmn
     simpa [htake] using hmem
 
 /-- The tail of a normalized scheme is contained in its node. -/
@@ -132,14 +132,14 @@ theorem tail_normalize_eq_iUnion {X : Type u} (A : Scheme X)
     refine Set.mem_iUnion.2 ⟨k, ?_⟩
     refine ⟨f, ?_, ?_⟩
     · unfold Extends at hfs ⊢
-      simp [prefix_succ, hfs, k]
+      simp [branchPrefix_succ, hfs, k]
     · intro n hn
       exact hmem n (by simp at hn; omega)
   · intro hx
     rcases Set.mem_iUnion.1 hx with ⟨k, f, hfs, hmem⟩
     refine ⟨f, ?_, ?_⟩
     · unfold Extends at hfs ⊢
-      have ht := congrArg (List.take s.length) hfs
+      have ht := congrArg (fun l : List ℕ => l.take s.length) hfs
       simpa using ht
     · intro n hn
       by_cases hEq : n = s.length
