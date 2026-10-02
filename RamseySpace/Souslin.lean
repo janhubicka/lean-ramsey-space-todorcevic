@@ -34,7 +34,8 @@ def branchPrefix (f : ℕ → ℕ) : ℕ → List ℕ
     (branchPrefix f n).length = n := by
   induction n with
   | zero => rfl
-  | succ n ih => simp [prefix, ih]
+  | succ n ih =>
+      simp [branchPrefix_succ, ih]
 
 /-- Earlier branch prefixes are obtained by taking an initial segment. -/
 theorem take_branchPrefix (f : ℕ → ℕ) {m n : ℕ} (hmn : m ≤ n) :
@@ -46,9 +47,9 @@ theorem take_branchPrefix (f : ℕ → ℕ) {m n : ℕ} (hmn : m ≤ n) :
       rfl
   | succ n ih =>
       by_cases hmn' : m ≤ n
-      · rw [branchPrefix_succ, List.take_concat_of_le_length]
+      · rw [branchPrefix_succ, List.take_append_of_le_length]
         · exact ih hmn'
-        · simpa using hmn'
+        · simpa [length_branchPrefix] using hmn'
       · have hm : m = n + 1 := by omega
         subst m
         simp [branchPrefix_succ]
@@ -105,20 +106,28 @@ theorem operation_normalize {X : Type u} (A : Scheme X) :
     refine ⟨f, ?_⟩
     intro n
     have h := hf n n (by simp)
-    simpa [length_branchPrefix] using h
+    have htake :
+        (branchPrefix f n).take n = branchPrefix f n := by
+      rw [← length_branchPrefix f n]
+      exact List.take_length
+    rw [htake] at h
+    exact h
   · rintro ⟨f, hf⟩
     refine ⟨f, ?_⟩
     intro n m hmn
     have hmem := hf m
     have htake := take_branchPrefix f hmn
-    simpa [htake] using hmem
+    rw [htake]
+    exact hmem
 
 /-- The tail of a normalized scheme is contained in its node. -/
 theorem tail_normalize_subset {X : Type u} (A : Scheme X) (s : List ℕ) :
     tail (normalize A) s ⊆ normalize A s := by
   rintro x ⟨f, hfs, hmem⟩
   have hs := hmem s.length le_rfl
-  simpa [Extends, hfs] using hs
+  unfold Extends at hfs
+  rw [hfs] at hs
+  exact hs
 
 /-- Exact tail recursion for a normalized scheme. -/
 theorem tail_normalize_eq_iUnion {X : Type u} (A : Scheme X)
@@ -137,18 +146,27 @@ theorem tail_normalize_eq_iUnion {X : Type u} (A : Scheme X)
       exact hmem n (by simp at hn; omega)
   · intro hx
     rcases Set.mem_iUnion.1 hx with ⟨k, f, hfs, hmem⟩
-    refine ⟨f, ?_, ?_⟩
-    · unfold Extends at hfs ⊢
+    have hfs0 : Extends f s := by
+      unfold Extends at hfs ⊢
       have ht := congrArg (fun l : List ℕ => l.take s.length) hfs
-      simpa using ht
-    · intro n hn
-      by_cases hEq : n = s.length
-      · subst n
-        have hnode :
-            x ∈ normalize A (s ++ [k]) :=
-          tail_normalize_subset A (s ++ [k]) ⟨f, hfs, hmem⟩
-        exact normalize_append_subset A s k hnode
-      · exact hmem n (by simp; omega)
+      have htake :
+          (s ++ [k]).take s.length = s := by
+        simpa using List.take_append_of_le_length (l₂ := [k]) (le_rfl : s.length ≤ s.length)
+      rw [htake] at ht
+      simpa [length_branchPrefix] using ht
+    refine ⟨f, hfs0, ?_⟩
+    intro n hn
+    by_cases hEq : n = s.length
+    · subst n
+      have hnode :
+          x ∈ normalize A (s ++ [k]) :=
+        tail_normalize_subset A (s ++ [k]) ⟨f, hfs, hmem⟩
+      have hsnode : x ∈ normalize A s :=
+        normalize_append_subset A s k hnode
+      unfold Extends at hfs0
+      rw [hfs0]
+      exact hsnode
+    · exact hmem n (by simp; omega)
 
 end Souslin
 end RamseySpace
