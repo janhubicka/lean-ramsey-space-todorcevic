@@ -309,9 +309,11 @@ theorem IsRamseyBelow.diff
     (hA : IsRamseyBelow R bound A)
     (hB : IsRamseyBelow R bound B) :
     IsRamseyBelow R bound (A \ B) := by
-  have hBc : IsRamseyBelow R bound Bᶜ := hB.compl R
-  have h := hA.inter R hBc
-  simpa [Set.diff_eq] using h
+  have hBc : IsRamseyBelow R bound Bᶜ :=
+    IsRamseyBelow.compl R hB
+  have hInter : IsRamseyBelow R bound (A ∩ Bᶜ) :=
+    IsRamseyBelow.inter R hA hBc
+  simpa [Set.diff_eq] using hInter
 
 end TwoSorted
 end RamseySpace
