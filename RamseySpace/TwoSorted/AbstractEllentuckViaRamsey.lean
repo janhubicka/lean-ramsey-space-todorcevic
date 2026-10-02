@@ -1,5 +1,5 @@
 import RamseySpace.TwoSorted.Diagonal
-import RamseySpace.AbstractEllentuck
+import RamseySpace.TopologicalRamsey
 import RamseySpace.TopologyBridge
 import RamseySpace.NullSigma
 
