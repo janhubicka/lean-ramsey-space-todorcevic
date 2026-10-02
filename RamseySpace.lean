@@ -38,6 +38,7 @@ import RamseySpace.TwoSorted.NullSigma
 import RamseySpace.TwoSorted.Relative
 import RamseySpace.TwoSorted.RelativeSigma
 import RamseySpace.TwoSorted.SouslinDecision
+import RamseySpace.TwoSorted.SouslinEnvelope
 import RamseySpace.TwoSorted.AbstractRamsey
 import RamseySpace.TwoSorted.Diagonal
 import RamseySpace.TwoSorted.AbstractEllentuckViaRamsey
