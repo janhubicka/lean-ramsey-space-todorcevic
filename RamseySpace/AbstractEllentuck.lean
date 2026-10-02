@@ -1,6 +1,4 @@
-import RamseySpace.TopologyBridge
-import RamseySpace.Closed
-import RamseySpace.Standard
+import RamseySpace.TopologicalRamsey
 
 /-!
 # The Abstract Ellentuck Theorem
@@ -12,17 +10,6 @@ topological Ramsey space.
 namespace RamseySpace
 
 universe u v
-
-/-- The two defining conclusions of a topological Ramsey space for the
-Ellentuck topology. -/
-def IsTopologicalRamseySpace
-    {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S) : Prop :=
-  (∀ target : Set S.Point,
-      @BaireMeasurableSet S.Point S.ellentuckTopology target →
-        IsRamsey R target) ∧
-    (∀ target : Set S.Point,
-      @IsMeagre S.Point S.ellentuckTopology target →
-        IsRamseyNull R target)
 
 /-- Todorčević's Abstract Ellentuck Theorem. -/
 theorem abstractEllentuck
@@ -52,17 +39,6 @@ theorem abstractEllentuck_meagre
     (hM : @IsMeagre S.Point S.ellentuckTopology target) :
     IsRamseyNull R target :=
   (abstractEllentuck R hclosed).2 target hM
-
-/-- Literal textbook conclusion of the Abstract Ellentuck Theorem, using
-refinements B ∈ [a,A] in the definitions of Ramsey and Ramsey null. -/
-def IsTopologicalRamseySpaceOnBasicNeighborhoods
-    {S : ApproximationSystem.{u, v}} : Prop :=
-  (∀ target : Set S.Point,
-      @BaireMeasurableSet S.Point S.ellentuckTopology target →
-        IsRamseyOnBasicNeighborhoods target) ∧
-    (∀ target : Set S.Point,
-      @IsMeagre S.Point S.ellentuckTopology target →
-        IsRamseyNullOnBasicNeighborhoods target)
 
 /-- Source-facing form of Todorčević's Abstract Ellentuck Theorem. -/
 theorem abstractEllentuck_onBasicNeighborhoods
