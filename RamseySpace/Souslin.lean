@@ -47,7 +47,8 @@ theorem take_branchPrefix (f : ℕ → ℕ) {m n : ℕ} (hmn : m ≤ n) :
       rfl
   | succ n ih =>
       by_cases hmn' : m ≤ n
-      · rw [branchPrefix_succ, List.take_append_of_le_length]
+      · rw [branchPrefix_succ, List.concat_eq_append]
+        rw [List.take_append_of_le_length]
         · exact ih hmn'
         · simpa [length_branchPrefix] using hmn'
       · have hm : m = n + 1 := by omega
@@ -106,17 +107,20 @@ theorem operation_normalize {X : Type u} (A : Scheme X) :
     refine ⟨f, ?_⟩
     intro n
     have h := hf n n (by simp)
+    have hlen : (branchPrefix f n).length ≤ n := by
+      rw [length_branchPrefix]
     have htake :
-        (branchPrefix f n).take n = branchPrefix f n := by
-      rw [← length_branchPrefix f n]
-      exact List.take_length
+        (branchPrefix f n).take n = branchPrefix f n :=
+      List.take_of_length_le hlen
     rw [htake] at h
     exact h
   · rintro ⟨f, hf⟩
     refine ⟨f, ?_⟩
     intro n m hmn
     have hmem := hf m
-    have htake := take_branchPrefix f hmn
+    have hmn' : m ≤ n := by
+      simpa [length_branchPrefix] using hmn
+    have htake := take_branchPrefix f hmn'
     rw [htake]
     exact hmem
 
