@@ -1,5 +1,5 @@
 import RamseySpace.TwoSorted.AbstractRamsey
-import RamseySpace.AbstractEllentuck
+import RamseySpace.Baire
 
 /-!
 # Diagonal specialization
