@@ -139,17 +139,8 @@ theorem hasDepth_le_of_initial {n m da db : ℕ}
     (hda : F.HasDepth a Y da) (hdb : F.HasDepth b Y db) :
     da ≤ db := by
   rcases F.prefix0 hab hdb.1 with ⟨j, y, hy, hay⟩
-  rcases hy with ⟨hjk, X, hXy, hXtop⟩
-  have hyeq : y = P.Red.approx j Y := by
-    have htop :
-        P.Red.approx db X = P.Red.approx db Y :=
-      hXtop.trans rfl
-    have hpref : P.Red.approx j X = P.Red.approx j Y := by
-      by_cases hj : j = db
-      · subst db
-        exact htop
-      · exact P.Red.coherent htop j (by omega)
-    exact hXy.symm.trans hpref
+  have hyeq : y = P.Red.approx j Y :=
+    P.Red.isInitial_left_eq_of_right_point hy
   have haFin :
       F.leFin0 ⟨n, a⟩ (P.Red.finiteApprox j Y) := by
     simpa [ApproximationSystem.finiteApprox, hyeq] using hay
