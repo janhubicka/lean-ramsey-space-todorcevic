@@ -30,3 +30,7 @@ import RamseySpace.TwoSorted.Ramsey
 import RamseySpace.TwoSorted.Closed
 import RamseySpace.TwoSorted.Forcing
 import RamseySpace.TwoSorted.Decision
+import RamseySpace.TwoSorted.Reject
+import RamseySpace.TwoSorted.EndExtension
+import RamseySpace.TwoSorted.Baire
+import RamseySpace.TwoSorted.AbstractRamsey
