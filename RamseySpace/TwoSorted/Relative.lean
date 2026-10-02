@@ -273,5 +273,45 @@ theorem IsRamseyNullBelow.mono
   rcases h a Y hY hd with ⟨X, hXY, hdis⟩
   exact ⟨X, hXY, hdis.mono_right hsub⟩
 
+
+theorem IsRamseyBelow.inter
+    (R : AbstractRamseySystem P) {bound : P.Red.Point}
+    {A B : Set P.Obj.Point}
+    (hA : IsRamseyBelow R bound A)
+    (hB : IsRamseyBelow R bound B) :
+    IsRamseyBelow R bound (A ∩ B) := by
+  intro n a Y d hY hd
+  rcases hA a Y hY hd with ⟨X, hXY, hhomA⟩
+  rcases hhomA with hsubA | hdisA
+  · have hXbound : P.Red.le X bound := P.Red.le_trans hXY.1 hY
+    have hdX : R.fin.HasDepth a X d :=
+      (R.fin.hasDepth_iff_of_mem_levelNeighborhood hXY).2 hd
+    rcases hB a X hXbound hdX with ⟨Z, hZX, hhomB⟩
+    have hZY : Z ∈ P.levelNeighborhood d Y :=
+      P.levelNeighborhood_mono hXY hZX
+    refine ⟨Z, hZY, ?_⟩
+    rcases hhomB with hsubB | hdisB
+    · apply Or.inl
+      intro W hW
+      exact ⟨hsubA (R.fin.objectNeighborhood_mono hZX.1 hW), hsubB hW⟩
+    · apply Or.inr
+      rw [Set.disjoint_left] at hdisB ⊢
+      intro W hW hAB
+      exact hdisB hW hAB.2
+  · refine ⟨X, hXY, Or.inr ?_⟩
+    rw [Set.disjoint_left] at hdisA ⊢
+    intro W hW hAB
+    exact hdisA hW hAB.1
+
+theorem IsRamseyBelow.diff
+    (R : AbstractRamseySystem P) {bound : P.Red.Point}
+    {A B : Set P.Obj.Point}
+    (hA : IsRamseyBelow R bound A)
+    (hB : IsRamseyBelow R bound B) :
+    IsRamseyBelow R bound (A \ B) := by
+  have hBc : IsRamseyBelow R bound Bᶜ := hB.compl R
+  have h := hA.inter R hBc
+  simpa [Set.diff_eq] using h
+
 end TwoSorted
 end RamseySpace
