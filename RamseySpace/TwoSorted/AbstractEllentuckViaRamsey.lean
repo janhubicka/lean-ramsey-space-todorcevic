@@ -67,7 +67,8 @@ theorem isRamseyNull_of_isMeagre_via_abstractRamsey
     ⟨T, hTnd, hTc, hEq⟩
   rcases Set.eq_empty_or_nonempty T with rfl | hTne
   · rw [hEq]
-    exact isRamseyNull_empty R
+    intro n a B d hd
+    exact ⟨B, S.self_mem_levelNeighborhood d B, by simp⟩
   · obtain ⟨f, hf⟩ :
         ∃ f : ℕ → Set S.Point, T = Set.range f :=
       Set.Countable.exists_eq_range hTc hTne
@@ -83,7 +84,8 @@ theorem isRamseyNull_of_isMeagre_via_abstractRamsey
       RamseySpace.CombinatorialForcing.isRamseyNull_iUnion
         R C f hNull
     rw [hEq, hf, Set.sUnion_range]
-    exact hUnionNull
+    intro n a B d hd
+    exact hUnionNull a B hd
 
 /-- Baire-property sets in the Ellentuck topology are Ramsey, derived through
 the Abstract Ramsey Theorem rather than the standalone Abstract Ellentuck
