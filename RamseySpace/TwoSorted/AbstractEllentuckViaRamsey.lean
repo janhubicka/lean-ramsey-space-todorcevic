@@ -58,7 +58,7 @@ theorem isRamseyNull_of_isMeagre_via_abstractRamsey
     (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed)
     {target : Set S.Point}
-    (hM : @IsMeagre S.Point S.ellentuckTopology target) :
+    (hM : @_root_.IsMeagre S.Point S.ellentuckTopology target) :
     RamseySpace.IsRamseyNull R target := by
   letI : TopologicalSpace S.Point := S.ellentuckTopology
   let C : FusionComplete S :=
@@ -102,8 +102,8 @@ theorem isRamsey_of_baireMeasurableSet_via_abstractRamsey
   let M : Set S.Point :=
     {x | ¬ (x ∈ target ↔ x ∈ U)}
 
-  have hM : IsMeagre M := by
-    unfold IsMeagre
+  have hM : _root_.IsMeagre M := by
+    unfold _root_.IsMeagre
     rw [Filter.eventuallyEqSet_iff] at hEq
     have hcompl :
         Mᶜ = {x : S.Point | x ∈ target ↔ x ∈ U} := by
