@@ -19,7 +19,8 @@ variable {P : System.{uR, vR, uS, vS}}
 /-- An arbitrary union of object basic neighborhoods with common reduction X. -/
 def basicUnion (X : P.Red.Point)
     (O : ∀ n, P.Obj.Approx n → Prop) : Set P.Obj.Point :=
-  {A | ∃ n (b : P.Obj.Approx n), O n b ∧ A ∈ P.objectNeighborhood b X}
+  {A | ∃ n, ∃ b : P.Obj.Approx n,
+      O n b ∧ A ∈ P.objectNeighborhood b X}
 
 /-- Arbitrary unions of basic neighborhoods are Baire below their common
 upper reduction. -/
@@ -65,8 +66,11 @@ theorem basicUnion_isRamseyBelow
     (C : RamseySpace.FusionComplete P.Red)
     (X : P.Red.Point)
     (O : ∀ n, P.Obj.Approx n → Prop) :
-    IsRamseyBelow R X (basicUnion X O) :=
-  (basicUnion_isBaireBelow R X O).isRamseyBelow R C
+    IsRamseyBelow R X (basicUnion X O) := by
+  intro n a Y d hY hd
+  exact
+    (IsBaireBelow.isRamseyBelow R C
+      (basicUnion_isBaireBelow R X O)) a Y hY hd
 
 /-- One basic object neighborhood is Baire below its upper reduction. -/
 theorem objectNeighborhood_isBaireBelow
@@ -108,8 +112,11 @@ theorem objectNeighborhood_isRamseyBelow
     (R : AbstractRamseySystem P)
     (C : RamseySpace.FusionComplete P.Red)
     {m : ℕ} (b : P.Obj.Approx m) (X : P.Red.Point) :
-    IsRamseyBelow R X (P.objectNeighborhood b X) :=
-  (objectNeighborhood_isBaireBelow R b X).isRamseyBelow R C
+    IsRamseyBelow R X (P.objectNeighborhood b X) := by
+  intro n a Y d hY hd
+  exact
+    (IsBaireBelow.isRamseyBelow R C
+      (objectNeighborhood_isBaireBelow R b X)) a Y hY hd
 
 /-- Union of the neighborhoods whose approximation is accepted for target. -/
 def acceptedUnion
@@ -165,17 +172,25 @@ theorem souslinEnvelope_isRamseyBelow
     objectNeighborhood_isRamseyBelow R C a X
   have hnodeGlobal : IsRamsey R (Souslin.normalize A s) :=
     normalize_isRamsey R C A hA s
-  have hnode : IsRamseyBelow R X (Souslin.normalize A s) :=
-    hnodeGlobal.isRamseyBelow R X
+  have hnode : IsRamseyBelow R X (Souslin.normalize A s) := by
+    intro m b Y d hY hd
+    exact
+      (IsRamsey.isRamseyBelow R hnodeGlobal X) b Y hY hd
   have hinter :
       IsRamseyBelow R X
-        (P.objectNeighborhood a X ∩ Souslin.normalize A s) :=
-    hbase.inter R hnode
+        (P.objectNeighborhood a X ∩ Souslin.normalize A s) := by
+    intro m b Y d hY hd
+    exact (IsRamseyBelow.inter R hbase hnode) b Y hY hd
   have haccepted :
       IsRamseyBelow R X
-        (acceptedUnion R (Souslin.tail (Souslin.normalize A) s)ᶜ X) :=
-    acceptedUnion_isRamseyBelow R C _ X
-  exact hinter.diff R haccepted
+        (acceptedUnion R (Souslin.tail (Souslin.normalize A) s)ᶜ X) := by
+    intro m b Y d hY hd
+    exact
+      (acceptedUnion_isRamseyBelow R C
+        (Souslin.tail (Souslin.normalize A) s)ᶜ X) b Y hY hd
+  unfold souslinEnvelope
+  intro m b Y d hY hd
+  exact (IsRamseyBelow.diff R hinter haccepted) b Y hY hd
 
 end CombinatorialForcing
 end TwoSorted
