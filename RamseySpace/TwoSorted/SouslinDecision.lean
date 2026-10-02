@@ -35,13 +35,12 @@ theorem isRamsey_iInter
     exact IsRamsey.compl R (hRamsey i)
   have hu : IsRamsey R (⋃ i, (targets i)ᶜ) :=
     isRamsey_iUnion R C (fun i => (targets i)ᶜ) hcomp
-  have hc : IsRamsey R ((⋃ i, (targets i)ᶜ)ᶜ) :=
-    IsRamsey.compl R hu
   have heq : (⋃ i, (targets i)ᶜ)ᶜ = ⋂ i, targets i := by
     ext x
     simp
   rw [← heq]
-  exact hc
+  intro n a Y d hd
+  exact (IsRamsey.compl R hu) a Y hd
 
 theorem isRamseyBelow_iInter
     (R : AbstractRamseySystem P)
@@ -55,13 +54,12 @@ theorem isRamseyBelow_iInter
     exact IsRamseyBelow.compl R (hRamsey i)
   have hu : IsRamseyBelow R bound (⋃ i, (targets i)ᶜ) :=
     isRamseyBelow_iUnion R C bound (fun i => (targets i)ᶜ) hcomp
-  have hc : IsRamseyBelow R bound ((⋃ i, (targets i)ᶜ)ᶜ) :=
-    IsRamseyBelow.compl R hu
   have heq : (⋃ i, (targets i)ᶜ)ᶜ = ⋂ i, targets i := by
     ext x
     simp
   rw [← heq]
-  exact hc
+  intro n a Y d hY hd
+  exact (IsRamseyBelow.compl R hu) a Y hY hd
 
 theorem normalize_isRamsey
     (R : AbstractRamseySystem P)
@@ -77,13 +75,12 @@ theorem normalize_isRamsey
     by_cases hn : n ≤ s.length
     · simpa [targets, hn] using hA (s.take n)
     · simpa [targets, hn] using isRamsey_univ R
-  have hi : IsRamsey R (⋂ n, targets n) :=
-    isRamsey_iInter R C targets htargets
   have heq : (⋂ n, targets n) = Souslin.normalize A s := by
     ext x
     simp [targets, Souslin.normalize]
   rw [← heq]
-  exact hi
+  intro n a Y d hd
+  exact (isRamsey_iInter R C targets htargets) a Y hd
 
 def DecidesTargetFinite
     (R : AbstractRamseySystem P)
