@@ -85,7 +85,7 @@ theorem exists_hasDepth_of_mem_objectNeighborhood {n : ℕ}
     (hA : A ∈ P.objectNeighborhood a Y) :
     ∃ d, F.HasDepth a Y d := by
   rw [F.exists_hasDepth_iff]
-  rcases (F.realizesOrder0 A Y).1 hA.1 n with ⟨m, hm⟩
+  rcases (Finitization.realizesOrder0 F A Y).1 hA.1 n with ⟨m, hm⟩
   refine ⟨m, ?_⟩
   simpa [ApproximationSequence.finiteApprox, hA.2] using hm
 
@@ -93,17 +93,17 @@ theorem exists_hasDepth_of_mem_objectNeighborhood {n : ℕ}
 theorem le0_trans {A : P.Obj.Point} {X Y : P.Red.Point}
     (hAX : P.le0 A X) (hXY : P.Red.le X Y) :
     P.le0 A Y := by
-  apply (F.realizesOrder0 A Y).2
+  apply (Finitization.realizesOrder0 F A Y).2
   intro n
-  rcases (F.realizesOrder0 A X).1 hAX n with ⟨m, hm⟩
-  rcases (F.redFin.realizesOrder X Y).1 hXY m with ⟨k, hk⟩
-  exact ⟨k, F.trans0 hm hk⟩
+  rcases (Finitization.realizesOrder0 F A X).1 hAX n with ⟨m, hm⟩
+  rcases (Finitization.redFin F.realizesOrder X Y).1 hXY m with ⟨k, hk⟩
+  exact ⟨k, Finitization.trans0 F hm hk⟩
 
 theorem objectNeighborhood_mono {n : ℕ} {a : P.Obj.Approx n}
     {X Y : P.Red.Point} (hXY : P.Red.le X Y) :
     P.objectNeighborhood a X ⊆ P.objectNeighborhood a Y := by
   intro A hA
-  exact ⟨F.le0_trans hA.1 hXY, hA.2⟩
+  exact ⟨le0_trans F hA.1 hXY, hA.2⟩
 
 theorem oneStepObjectApproximations_mono {n : ℕ}
     {a : P.Obj.Approx n} {X Y : P.Red.Point}
@@ -111,7 +111,7 @@ theorem oneStepObjectApproximations_mono {n : ℕ}
     P.oneStepObjectApproximations a X ⊆
       P.oneStepObjectApproximations a Y := by
   rintro b ⟨A, hA, hAb⟩
-  exact ⟨A, F.objectNeighborhood_mono hXY hA, hAb⟩
+  exact ⟨A, objectNeighborhood_mono F hXY hA, hAb⟩
 
 theorem hasDepth_iff_of_mem_levelNeighborhood {n d : ℕ}
     {a : P.Obj.Approx n} {X Y : P.Red.Point}
@@ -138,7 +138,7 @@ theorem hasDepth_le_of_initial {n m da db : ℕ}
     (hab : P.Obj.IsInitial a b)
     (hda : F.HasDepth a Y da) (hdb : F.HasDepth b Y db) :
     da ≤ db := by
-  rcases F.prefix0 hab hdb.1 with ⟨j, y, hy, hay⟩
+  rcases Finitization.prefix0 F hab hdb.1 with ⟨j, y, hy, hay⟩
   have hyeq : y = P.Red.approx j Y :=
     P.Red.isInitial_left_eq_of_right_point hy
   have haFin :
