@@ -90,22 +90,23 @@ theorem exists_hasDepth_of_mem_objectNeighborhood {n : ℕ}
   simpa [ApproximationSequence.finiteApprox, hA.2] using hm
 
 /-- The cross order is monotone in the reduction coordinate. -/
-theorem le0_trans {A : P.Obj.Point} {X Y : P.Red.Point}
+theorem le0_trans (F : Finitization P) {A : P.Obj.Point} {X Y : P.Red.Point}
     (hAX : P.le0 A X) (hXY : P.Red.le X Y) :
     P.le0 A Y := by
   apply (Finitization.realizesOrder0 F A Y).2
   intro n
   rcases (Finitization.realizesOrder0 F A X).1 hAX n with ⟨m, hm⟩
-  rcases (Finitization.redFin F.realizesOrder X Y).1 hXY m with ⟨k, hk⟩
+  rcases ((Finitization.redFin F).realizesOrder X Y).1 hXY m with ⟨k, hk⟩
   exact ⟨k, Finitization.trans0 F hm hk⟩
 
-theorem objectNeighborhood_mono {n : ℕ} {a : P.Obj.Approx n}
+theorem objectNeighborhood_mono (F : Finitization P)
+    {n : ℕ} {a : P.Obj.Approx n}
     {X Y : P.Red.Point} (hXY : P.Red.le X Y) :
     P.objectNeighborhood a X ⊆ P.objectNeighborhood a Y := by
   intro A hA
   exact ⟨le0_trans F hA.1 hXY, hA.2⟩
 
-theorem oneStepObjectApproximations_mono {n : ℕ}
+theorem oneStepObjectApproximations_mono (F : Finitization P) {n : ℕ}
     {a : P.Obj.Approx n} {X Y : P.Red.Point}
     (hXY : P.Red.le X Y) :
     P.oneStepObjectApproximations a X ⊆
@@ -144,8 +145,10 @@ theorem hasDepth_le_of_initial {n m da db : ℕ}
   have haFin :
       F.leFin0 ⟨n, a⟩ (P.Red.finiteApprox j Y) := by
     simpa [ApproximationSystem.finiteApprox, hyeq] using hay
+  have hjdb : j ≤ db := hy.1
   by_contra h
-  exact (hda.2 j (by omega)) haFin
+  have hdbda : db < da := lt_of_not_ge h
+  exact (hda.2 j (lt_of_le_of_lt hjdb hdbda)) haFin
 
 end Finitization
 
