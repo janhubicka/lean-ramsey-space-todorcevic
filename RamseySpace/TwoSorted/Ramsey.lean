@@ -45,7 +45,47 @@ def IsMeagre (target : Set P.Obj.Point) : Prop :=
           (P.objectNeighborhood b X).Nonempty ∧
           Disjoint (P.objectNeighborhood b X) target
 
-/-- The conclusion of the Abstract Ramsey Theorem. -/
+theorem isRamsey_empty (R : AbstractRamseySystem P) :
+    IsRamsey R (∅ : Set P.Obj.Point) := by
+  intro n a Y d hd
+  exact ⟨Y, P.self_mem_levelNeighborhood d Y, Or.inr (by simp)⟩
+
+theorem isRamsey_univ (R : AbstractRamseySystem P) :
+    IsRamsey R (Set.univ : Set P.Obj.Point) := by
+  intro n a Y d hd
+  exact ⟨Y, P.self_mem_levelNeighborhood d Y, Or.inl (by simp)⟩
+
+theorem isRamseyNull_empty (R : AbstractRamseySystem P) :
+    IsRamseyNull R (∅ : Set P.Obj.Point) := by
+  intro n a Y d hd
+  exact ⟨Y, P.self_mem_levelNeighborhood d Y, by simp⟩
+
+theorem IsRamseyNull.isRamsey (R : AbstractRamseySystem P)
+    {target : Set P.Obj.Point} (h : IsRamseyNull R target) :
+    IsRamsey R target := by
+  intro n a Y d hd
+  rcases h a Y hd with ⟨X, hXY, hdis⟩
+  exact ⟨X, hXY, Or.inr hdis⟩
+
+theorem IsRamsey.compl (R : AbstractRamseySystem P)
+    {target : Set P.Obj.Point} (h : IsRamsey R target) :
+    IsRamsey R targetᶜ := by
+  intro n a Y d hd
+  rcases h a Y hd with ⟨X, hXY, hhom⟩
+  refine ⟨X, hXY, ?_⟩
+  rcases hhom with hsub | hdis
+  · exact Or.inr (Set.disjoint_compl_right_iff_subset.mpr hsub)
+  · exact Or.inl (Set.subset_compl_iff_disjoint_right.mpr hdis)
+
+theorem IsRamseyNull.mono (R : AbstractRamseySystem P)
+    {target subset : Set P.Obj.Point}
+    (h : IsRamseyNull R target) (hsub : subset ⊆ target) :
+    IsRamseyNull R subset := by
+  intro n a Y d hd
+  rcases h a Y hd with ⟨X, hXY, hdis⟩
+  exact ⟨X, hXY, hdis.mono_right hsub⟩
+
+/-- The core Baire/Ramsey conclusion of the Abstract Ramsey Theorem. -/
 def IsRamseySpace (R : AbstractRamseySystem P) : Prop :=
   (∀ target, IsBaire target → IsRamsey R target) ∧
     (∀ target, IsMeagre target → IsRamseyNull R target)
