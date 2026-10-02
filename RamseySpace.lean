@@ -33,6 +33,8 @@ import RamseySpace.TwoSorted.Decision
 import RamseySpace.TwoSorted.Reject
 import RamseySpace.TwoSorted.EndExtension
 import RamseySpace.TwoSorted.Baire
+import RamseySpace.TwoSorted.Sigma
+import RamseySpace.TwoSorted.NullSigma
 import RamseySpace.TwoSorted.AbstractRamsey
 import RamseySpace.TwoSorted.Diagonal
 import RamseySpace.TwoSorted.AbstractEllentuckViaRamsey
