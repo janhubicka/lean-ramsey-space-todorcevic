@@ -27,3 +27,6 @@ import RamseySpace.TwoSorted.Basic
 import RamseySpace.TwoSorted.Finitization
 import RamseySpace.TwoSorted.Axioms
 import RamseySpace.TwoSorted.Ramsey
+import RamseySpace.TwoSorted.Closed
+import RamseySpace.TwoSorted.Forcing
+import RamseySpace.TwoSorted.Decision
