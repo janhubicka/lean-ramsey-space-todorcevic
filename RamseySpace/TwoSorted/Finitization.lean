@@ -150,6 +150,52 @@ theorem hasDepth_le_of_initial {n m da db : ℕ}
   have hdbda : db < da := lt_of_not_ge h
   exact (hda.2 j (lt_of_le_of_lt hjdb hdbda)) haFin
 
+
+/-- Along a cross reduction A ≤⁰ Y, depths of longer object approximations
+are unbounded in Y.  This is the two-sorted form of the depth-growth fact
+used in Todorčević's countable-union and Souslin arguments. -/
+theorem exists_hasDepth_ge_of_le0 {A : P.Obj.Point} {Y : P.Red.Point}
+    (hAY : P.le0 A Y) (L N : ℕ) :
+    ∃ l d, L ≤ l ∧ N ≤ d ∧ F.HasDepth (P.Obj.approx l A) Y d := by
+  classical
+  by_contra h
+  have hbad :
+      ∀ l, L ≤ l →
+        ∀ d, F.HasDepth (P.Obj.approx l A) Y d → d < N := by
+    intro l hl d hd
+    by_contra hdn
+    have hNd : N ≤ d := le_of_not_gt hdn
+    exact h ⟨l, d, hl, hNd, hd⟩
+
+  let q : ℕ → P.Obj.FiniteApprox :=
+    fun t => P.Obj.finiteApprox (L + t) A
+  let T : Set P.Obj.FiniteApprox :=
+    ⋃ d : Fin N, {p | F.leFin0 p (P.Red.finiteApprox d.1 Y)}
+
+  have hTfin : T.Finite := by
+    dsimp [T]
+    exact Set.finite_iUnion
+      (fun d : Fin N => F.lowerFinite0 (P.Red.finiteApprox d.1 Y))
+
+  have hqinj : Function.Injective q := by
+    intro i j hij
+    have hfst := congrArg (fun p : P.Obj.FiniteApprox => p.1) hij
+    dsimp [q, ApproximationSequence.finiteApprox] at hfst
+    omega
+
+  have hqsub : Set.range q ⊆ T := by
+    rintro _ ⟨t, rfl⟩
+    rcases (F.realizesOrder0 A Y).1 hAY (L + t) with ⟨m, hm⟩
+    have hex :
+        ∃ d, F.HasDepth (P.Obj.approx (L + t) A) Y d :=
+      (F.exists_hasDepth_iff (P.Obj.approx (L + t) A) Y).2 ⟨m, hm⟩
+    rcases hex with ⟨d, hd⟩
+    have hdN : d < N := hbad (L + t) (by omega) d hd
+    refine Set.mem_iUnion.2 ⟨(⟨d, hdN⟩ : Fin N), ?_⟩
+    exact hd.1
+
+  exact (Set.infinite_range_of_injective hqinj) (hTfin.subset hqsub)
+
 end Finitization
 
 end TwoSorted
