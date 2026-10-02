@@ -36,6 +36,7 @@ import RamseySpace.TwoSorted.Baire
 import RamseySpace.TwoSorted.Sigma
 import RamseySpace.TwoSorted.NullSigma
 import RamseySpace.TwoSorted.Relative
+import RamseySpace.TwoSorted.RelativeSigma
 import RamseySpace.TwoSorted.AbstractRamsey
 import RamseySpace.TwoSorted.Diagonal
 import RamseySpace.TwoSorted.AbstractEllentuckViaRamsey
