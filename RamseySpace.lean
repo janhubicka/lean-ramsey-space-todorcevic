@@ -34,3 +34,4 @@ import RamseySpace.TwoSorted.Reject
 import RamseySpace.TwoSorted.EndExtension
 import RamseySpace.TwoSorted.Baire
 import RamseySpace.TwoSorted.AbstractRamsey
+import RamseySpace.TwoSorted.Diagonal
