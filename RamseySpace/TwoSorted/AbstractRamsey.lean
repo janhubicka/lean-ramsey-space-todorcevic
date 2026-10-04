@@ -52,7 +52,8 @@ theorem abstractRamsey_iUnion
     IsRamsey R (⋃ i, targets i) := by
   let C : RamseySpace.FusionComplete P.Red :=
     fusionComplete_of_isMetricallyClosed R hclosed
-  exact CombinatorialForcing.isRamsey_iUnion R C targets hRamsey
+  intro n a Y d hd
+  exact CombinatorialForcing.isRamsey_iUnion R C targets hRamsey a Y hd
 
 /-- Countable-union closure of the S-Ramsey-null ideal. -/
 theorem abstractRamseyNull_iUnion
@@ -63,7 +64,8 @@ theorem abstractRamseyNull_iUnion
     IsRamseyNull R (⋃ i, targets i) := by
   let C : RamseySpace.FusionComplete P.Red :=
     fusionComplete_of_isMetricallyClosed R hclosed
-  exact CombinatorialForcing.isRamseyNull_iUnion R C targets hNull
+  intro n a Y d hd
+  exact CombinatorialForcing.isRamseyNull_iUnion R C targets hNull a Y hd
 
 /-- Souslin closure of the S-Ramsey field.  This is the conclusion of the
 full Abstract Ramsey Theorem beyond the Baire/Ramsey equivalence packaged by
@@ -76,7 +78,8 @@ theorem abstractRamsey_souslin
     IsRamsey R (RamseySpace.Souslin.operation A) := by
   let C : RamseySpace.FusionComplete P.Red :=
     fusionComplete_of_isMetricallyClosed R hclosed
-  exact CombinatorialForcing.isRamsey_souslin R C A hA
+  intro n a Y d hd
+  exact CombinatorialForcing.isRamsey_souslin R C A hA a Y hd
 
 /-- Source-facing package of the full formalized Abstract Ramsey Theorem:
 Baire = Ramsey, meagre = Ramsey-null, countable closure, and Souslin closure. -/
