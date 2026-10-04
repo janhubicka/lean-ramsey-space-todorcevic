@@ -57,6 +57,23 @@ theorem isInitial_eq_sameLevel {n : ℕ}
   rcases h with ⟨_, X, hXa, hXb⟩
   exact hXa.symm.trans hXb
 
+/-- Initial-segment compatibility is transitive. -/
+theorem isInitial_trans {n m k : ℕ}
+    {a : R.Approx n} {b : R.Approx m} {c : R.Approx k}
+    (hab : R.IsInitial a b) (hbc : R.IsInitial b c) :
+    R.IsInitial a c := by
+  rcases hab with ⟨hnm, X, hXa, hXb⟩
+  rcases hbc with ⟨hmk, Y, hYb, hYc⟩
+  refine ⟨hnm.trans hmk, Y, ?_, hYc⟩
+  have htop : R.approx m X = R.approx m Y :=
+    hXb.trans hYb.symm
+  by_cases hnmEq : n = m
+  · subst m
+    exact htop.symm.trans hXa
+  · have hpref : R.approx n X = R.approx n Y :=
+      R.coherent htop n (lt_of_le_of_ne hnm (Ne.symm hnmEq))
+    exact hpref.symm.trans hXa
+
 end ApproximationSequence
 
 /-- The two infinite sorts and the cross reduction relation A ≤⁰ X. -/
