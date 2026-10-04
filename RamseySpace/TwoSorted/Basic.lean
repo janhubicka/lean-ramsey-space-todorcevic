@@ -71,7 +71,7 @@ theorem isInitial_trans {n m k : ℕ}
   · subst m
     exact htop.symm.trans hXa
   · have hpref : R.approx n X = R.approx n Y :=
-      R.coherent htop n (lt_of_le_of_ne hnm (Ne.symm hnmEq))
+      R.coherent htop n (lt_of_le_of_ne hnm hnmEq)
     exact hpref.symm.trans hXa
 
 end ApproximationSequence
