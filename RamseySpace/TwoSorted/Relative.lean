@@ -303,6 +303,35 @@ theorem IsRamseyBelow.inter
     intro W hW hAB
     exact hdisA hW hAB.1
 
+theorem IsRamseyBelow.union
+    (R : AbstractRamseySystem P) {bound : P.Red.Point}
+    {A B : Set P.Obj.Point}
+    (hA : IsRamseyBelow R bound A)
+    (hB : IsRamseyBelow R bound B) :
+    IsRamseyBelow R bound (A ∪ B) := by
+  intro n a Y d hY hd
+  rcases hA a Y hY hd with ⟨X, hXY, hhomA⟩
+  have hXbound : P.Red.le X bound :=
+    P.Red.le_trans hXY.1 hY
+  have hdX : R.fin.HasDepth a X d :=
+    (R.fin.hasDepth_iff_of_mem_levelNeighborhood hXY).2 hd
+  rcases hB a X hXbound hdX with ⟨Z, hZX, hhomB⟩
+  have hZY : Z ∈ P.levelNeighborhood d Y :=
+    P.levelNeighborhood_mono hXY hZX
+  refine ⟨Z, hZY, ?_⟩
+  rcases hhomA with hsubA | hdisA
+  · exact Or.inl (fun W hW =>
+      Or.inl (hsubA (R.fin.objectNeighborhood_mono hZX.1 hW)))
+  · rcases hhomB with hsubB | hdisB
+    · exact Or.inl (fun W hW => Or.inr (hsubB hW))
+    · apply Or.inr
+      rw [Set.disjoint_left] at hdisA hdisB ⊢
+      intro W hW hAB
+      rcases hAB with hWA | hWB
+      · exact hdisA (R.fin.objectNeighborhood_mono hZX.1 hW) hWA
+      · exact hdisB hW hWB
+
+
 theorem IsRamseyBelow.diff
     (R : AbstractRamseySystem P) {bound : P.Red.Point}
     {A B : Set P.Obj.Point}
