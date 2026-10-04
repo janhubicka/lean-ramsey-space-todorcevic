@@ -153,7 +153,8 @@ theorem souslinResidualUnion_isRamseyNullBelow
     (fun i =>
       souslinResidual_isRamseyNullBelow
         R C A hA a X (souslinSeq i) n0
-        (fun b hd hsched => hdec (souslinSeq i) b hd hsched))
+        (fun {m} b {d} hdepth hsched =>
+          hdec (souslinSeq i) b hdepth hsched))
 
 /-- Deterministically choose a child envelope containing B whenever one
 exists.  The default value is irrelevant when there is no such child. -/
@@ -162,11 +163,13 @@ noncomputable def souslinEnvelopeNext
     (A : Souslin.Scheme P.Obj.Point)
     {n : ℕ} (a : P.Obj.Approx n)
     (X : P.Red.Point) (B : P.Obj.Point)
-    (s : List ℕ) : ℕ :=
-  if h : ∃ k : ℕ, B ∈ souslinEnvelope R A a X (s ++ [k]) then
-    Classical.choose h
-  else
-    0
+    (s : List ℕ) : ℕ := by
+  classical
+  exact
+    if h : ∃ k : ℕ, B ∈ souslinEnvelope R A a X (s ++ [k]) then
+      Classical.choose h
+    else
+      0
 
 theorem souslinEnvelopeNext_mem
     (R : AbstractRamseySystem P)
@@ -220,7 +223,7 @@ theorem souslinEnvelopePath_eq_branchPrefix
   | succ k ih =>
       rw [souslinEnvelopePath, Souslin.branchPrefix_succ]
       rw [ih]
-      rfl
+      simp [souslinEnvelopeBranch, List.concat_eq_append]
 
 /-- If B starts in the root envelope and belongs to no residual, the chosen
 path remains inside an envelope at every stage. -/
