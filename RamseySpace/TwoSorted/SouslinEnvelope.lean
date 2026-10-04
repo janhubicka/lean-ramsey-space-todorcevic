@@ -192,6 +192,96 @@ theorem souslinEnvelope_isRamseyBelow
   intro m b Y d hY hd
   exact (IsRamseyBelow.diff R hinter haccepted) b Y hY hd
 
+
+/-- Todorčević Claim 4.39.1 in the normalized list coding.
+
+Assume the common fusion object X decides the complement of the normalized
+tail above s for every approximation whose X-depth is beyond the scheduled
+code of s.  Then every S(≤X)-Baire subset of the part of the local envelope
+outside that tail is S(≤X)-meagre. -/
+theorem baireSubset_souslinEnvelope_diff_tail_isMeagreBelow
+    (R : AbstractRamseySystem P)
+    (A : Souslin.Scheme P.Obj.Point)
+    {n : ℕ} (a : P.Obj.Approx n)
+    (X : P.Red.Point) (s : List ℕ) (n0 : ℕ)
+    (hdec :
+      ∀ {m : ℕ} (b : P.Obj.Approx m) {d : ℕ},
+        R.fin.HasDepth b X d →
+        n0 + Encodable.encode s ≤ d →
+        Decides R
+          (Souslin.tail (Souslin.normalize A) s)ᶜ X b)
+    {M : Set P.Obj.Point}
+    (hM : IsBaireBelow (P := P) X M)
+    (hsub :
+      M ⊆
+        souslinEnvelope R A a X s \
+          Souslin.tail (Souslin.normalize A) s) :
+    IsMeagreBelow (P := P) X M := by
+  classical
+  intro m b Y hYX hne
+  by_cases hmeet :
+      ∃ B, B ∈ P.objectNeighborhood b Y ∧ B ∈ M
+  · rcases hmeet with ⟨B, hBbY, hBM⟩
+    have hBX : P.le0 B X :=
+      R.fin.le0_trans hBbY.1 hYX
+    rcases R.fin.exists_hasDepth_ge_of_le0
+        hBX m (n0 + Encodable.encode s) with
+      ⟨l, d, hml, hscheduled, hdepth⟩
+    let c0 : P.Obj.Approx l := P.Obj.approx l B
+    have hbc0 : P.Obj.IsInitial b c0 :=
+      ⟨hml, B, hBbY.2, rfl⟩
+    have hBc0Y : B ∈ P.objectNeighborhood c0 Y :=
+      ⟨hBbY.1, rfl⟩
+    rcases hM c0 Y hYX ⟨B, hBc0Y⟩ with
+      ⟨k, c, Z, hc0c, hZY, hneCZ, hhom⟩
+    have hbc : P.Obj.IsInitial b c :=
+      P.Obj.isInitial_trans hbc0 hc0c
+    rcases hhom with hcell | hdis
+    · exfalso
+      have hacceptZ :
+          Accepts
+            (Souslin.tail (Souslin.normalize A) s)ᶜ Z c := by
+        intro W hWcZ
+        have hWM : W ∈ M := hcell hWcZ
+        exact (hsub hWM).2
+      have hZX : P.Red.le Z X :=
+        P.Red.le_trans hZY hYX
+      have hneCZ0 : (P.objectNeighborhood c Z).Nonempty :=
+        hneCZ
+      rcases hneCZ with ⟨W, hWcZ⟩
+      have hWcX : W ∈ P.objectNeighborhood c X :=
+        ⟨R.fin.le0_trans hWcZ.1 hZX, hWcZ.2⟩
+      rcases R.fin.exists_hasDepth_of_mem_objectNeighborhood hWcX with
+        ⟨e, hdepthC⟩
+      have hde : d ≤ e :=
+        R.fin.hasDepth_le_of_initial hc0c hdepth hdepthC
+      have hscheduledC :
+          n0 + Encodable.encode s ≤ e :=
+        hscheduled.trans hde
+      have hdecision :=
+        hdec c hdepthC hscheduledC
+      rcases hdecision with haccX | hrejX
+      · have hWM : W ∈ M := hcell hWcZ
+        have hEnv :
+            W ∈ souslinEnvelope R A a X s :=
+          (hsub hWM).1
+        have hAccepted :
+            W ∈ acceptedUnion R
+              (Souslin.tail (Souslin.normalize A) s)ᶜ X := by
+          exact ⟨k, c, haccX, hWcX⟩
+        exact hEnv.2 hAccepted
+      · have hrejZ :
+            Rejects R
+              (Souslin.tail (Souslin.normalize A) s)ᶜ Z c :=
+          rejects_mono R hrejX hZX hneCZ0
+        exact (Rejects.not_accepts R hrejZ) hacceptZ
+    · exact ⟨k, c, Z, hbc, hZY, hneCZ, hdis⟩
+  · refine ⟨m, b, Y, P.Obj.isInitial_refl b, P.Red.le_refl Y,
+      hne, ?_⟩
+    rw [Set.disjoint_left]
+    intro B hBbY hBM
+    exact hmeet ⟨B, hBbY, hBM⟩
+
 end CombinatorialForcing
 end TwoSorted
 end RamseySpace
