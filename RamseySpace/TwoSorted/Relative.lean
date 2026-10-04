@@ -303,6 +303,23 @@ theorem IsRamseyBelow.inter
     intro W hW hAB
     exact hdisA hW hAB.1
 
+theorem IsRamseyBelow.union
+    (R : AbstractRamseySystem P) {bound : P.Red.Point}
+    {A B : Set P.Obj.Point}
+    (hA : IsRamseyBelow R bound A)
+    (hB : IsRamseyBelow R bound B) :
+    IsRamseyBelow R bound (A ∪ B) := by
+  have hInter :
+      IsRamseyBelow R bound (Aᶜ ∩ Bᶜ) :=
+    IsRamseyBelow.inter R
+      (IsRamseyBelow.compl R hA)
+      (IsRamseyBelow.compl R hB)
+  have hCompl :
+      IsRamseyBelow R bound ((Aᶜ ∩ Bᶜ)ᶜ) :=
+    IsRamseyBelow.compl R hInter
+  simpa only [Set.compl_inter, compl_compl] using hCompl
+
+
 theorem IsRamseyBelow.diff
     (R : AbstractRamseySystem P) {bound : P.Red.Point}
     {A B : Set P.Obj.Point}
