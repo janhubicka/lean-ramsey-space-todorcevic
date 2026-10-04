@@ -259,6 +259,120 @@ theorem souslinEnvelopePath_mem_of_no_residual
         souslinEnvelopeNext_mem R A a X B s hex
       simpa [s, souslinEnvelopePath] using hnext
 
+
+/-- If a point of the root envelope avoids every residual, following child
+envelopes forever produces a branch witnessing membership in the normalized
+Souslin operation. -/
+theorem rootEnvelope_diff_operation_subset_residualUnion
+    (R : AbstractRamseySystem P)
+    (A : Souslin.Scheme P.Obj.Point)
+    {n : ℕ} (a : P.Obj.Approx n)
+    (X : P.Red.Point) :
+    souslinEnvelope R A a X [] \ Souslin.operation A ⊆
+      souslinResidualUnion R A a X := by
+  classical
+  intro B hB
+  by_contra hnotUnion
+  have hno :
+      ∀ s : List ℕ, B ∉ souslinResidual R A a X s := by
+    intro s hres
+    apply hnotUnion
+    change
+      B ∈ ⋃ i : ℕ, souslinResidual R A a X (souslinSeq i)
+    refine Set.mem_iUnion.2 ⟨Encodable.encode s, ?_⟩
+    simpa using hres
+  have hpath :=
+    souslinEnvelopePath_mem_of_no_residual
+      R A a X B hB.1 hno
+  let branch : ℕ → ℕ :=
+    souslinEnvelopeBranch R A a X B
+  have hnorm :
+      B ∈ Souslin.operation (Souslin.normalize A) := by
+    refine ⟨branch, ?_⟩
+    intro k
+    have henv := hpath k
+    change
+      B ∈
+        (P.objectNeighborhood a X ∩
+          Souslin.normalize A
+            (souslinEnvelopePath R A a X B k)) \
+          acceptedUnion R
+            (Souslin.tail (Souslin.normalize A)
+              (souslinEnvelopePath R A a X B k))ᶜ X at henv
+    have hnode :
+        B ∈ Souslin.normalize A
+          (souslinEnvelopePath R A a X B k) :=
+      henv.1.2
+    have hprefix :=
+      souslinEnvelopePath_eq_branchPrefix R A a X B k
+    change
+      B ∈ Souslin.normalize A (Souslin.branchPrefix branch k)
+    rw [← hprefix]
+    exact hnode
+  have hop : B ∈ Souslin.operation A := by
+    rw [← Souslin.operation_normalize A]
+    exact hnorm
+  exact hB.2 hop
+
+/-- Todorčević Lemma 4.39: the S-Ramsey sets are closed under the Souslin
+operation. -/
+theorem isRamsey_souslin
+    (R : AbstractRamseySystem P)
+    (C : RamseySpace.FusionComplete P.Red)
+    (A : Souslin.Scheme P.Obj.Point)
+    (hA : ∀ s, IsRamsey R (A s)) :
+    IsRamsey R (Souslin.operation A) := by
+  intro n a Y d hd
+  rcases exists_souslin_decider R C A d Y with
+    ⟨X, hXY, hdec⟩
+  have hdX : R.fin.HasDepth a X d :=
+    (R.fin.hasDepth_iff_of_mem_levelNeighborhood hXY).2 hd
+  have hEnv :
+      IsRamseyBelow R X (souslinEnvelope R A a X []) :=
+    souslinEnvelope_isRamseyBelow R C A hA a X []
+  rcases hEnv a X (P.Red.le_refl X) hdX with
+    ⟨Z, hZX, hhomEnv⟩
+  have hZY : Z ∈ P.levelNeighborhood d Y :=
+    P.levelNeighborhood_mono hXY hZX
+
+  rcases hhomEnv with hsubEnv | hdisEnv
+  · have hNull :
+        IsRamseyNullBelow R X
+          (souslinResidualUnion R A a X) :=
+      souslinResidualUnion_isRamseyNullBelow
+        R C A hA a X d hdec
+    have hdZ : R.fin.HasDepth a Z d :=
+      (R.fin.hasDepth_iff_of_mem_levelNeighborhood hZX).2 hdX
+    rcases hNull a Z hZX.1 hdZ with
+      ⟨W, hWZ, hdisResidual⟩
+    have hWY : W ∈ P.levelNeighborhood d Y :=
+      P.levelNeighborhood_mono hZY hWZ
+    refine ⟨W, hWY, Or.inl ?_⟩
+    intro B hBaW
+    have hBaZ : B ∈ P.objectNeighborhood a Z :=
+      R.fin.objectNeighborhood_mono hWZ.1 hBaW
+    have hBEnv : B ∈ souslinEnvelope R A a X [] :=
+      hsubEnv hBaZ
+    by_contra hnotOp
+    have hBResidual :
+        B ∈ souslinResidualUnion R A a X :=
+      rootEnvelope_diff_operation_subset_residualUnion
+        R A a X ⟨hBEnv, hnotOp⟩
+    exact Set.disjoint_left.1 hdisResidual hBaW hBResidual
+  · refine ⟨Z, hZY, Or.inr ?_⟩
+    rw [Set.disjoint_left] at hdisEnv ⊢
+    intro B hBaZ hBop
+    have hBaX : B ∈ P.objectNeighborhood a X :=
+      R.fin.objectNeighborhood_mono hZX.1 hBaZ
+    have hBtail :
+        B ∈ Souslin.tail (Souslin.normalize A) [] := by
+      rw [Souslin.tail_nil, Souslin.operation_normalize A]
+      exact hBop
+    have hBEnv :
+        B ∈ souslinEnvelope R A a X [] :=
+      tail_subset_souslinEnvelope R A a X [] ⟨hBaX, hBtail⟩
+    exact hdisEnv hBaZ hBEnv
+
 end CombinatorialForcing
 end TwoSorted
 end RamseySpace
