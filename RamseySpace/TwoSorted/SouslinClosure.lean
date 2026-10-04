@@ -221,9 +221,8 @@ theorem souslinEnvelopePath_eq_branchPrefix
   | zero =>
       rfl
   | succ k ih =>
-      rw [souslinEnvelopePath, Souslin.branchPrefix_succ]
-      rw [ih]
-      simp [souslinEnvelopeBranch, List.concat_eq_append]
+      simp [souslinEnvelopePath, Souslin.branchPrefix_succ,
+        souslinEnvelopeBranch, List.concat_eq_append, ih]
 
 /-- If B starts in the root envelope and belongs to no residual, the chosen
 path remains inside an envelope at every stage. -/
