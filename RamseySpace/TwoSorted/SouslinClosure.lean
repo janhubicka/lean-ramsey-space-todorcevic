@@ -81,6 +81,10 @@ theorem souslinResidual_isRamseyBelow
     isRamseyBelow_iUnion R C X
       (fun k => souslinEnvelope R A a X (s ++ [k]))
       (fun k => souslinEnvelope_isRamseyBelow R C A hA a X (s ++ [k]))
+  change
+    IsRamseyBelow R X
+      (souslinEnvelope R A a X s \
+        ⋃ k : ℕ, souslinEnvelope R A a X (s ++ [k]))
   exact IsRamseyBelow.diff R hparent hchildren
 
 /-- Under the common decision schedule, every residual is Ramsey null below X.
@@ -110,6 +114,10 @@ theorem souslinResidual_isRamseyNullBelow
     baireSubset_souslinEnvelope_diff_tail_isMeagreBelow
       R A a X s n0 hdec hBaire
       (souslinResidual_subset_envelope_diff_tail R A a X s)
+  change
+    IsRamseyNullBelow R X
+      (souslinEnvelope R A a X s \
+        ⋃ k : ℕ, souslinEnvelope R A a X (s ++ [k]))
   exact IsMeagreBelow.isRamseyNullBelow R C hMeagre
 
 end CombinatorialForcing
