@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # GitHub-hosted runners are ephemeral. Cache the pinned Lean toolchain so
       # elan does not download and unpack it on every CI run.
@@ -46,4 +48,44 @@ jobs:
         run: lake exe cache get
 
       - name: Build
-        run: lake build
+        run: |
+          set -o pipefail
+          mkdir -p proof-audit
+          lake build 2>&1 | tee proof-audit/build.log
+
+      - name: Audit first-application interfaces and theorem axioms
+        run: |
+          set -o pipefail
+          lake env lean scripts/CheckFirstApplication.lean 2>&1 | tee proof-audit/first-application.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path('proof-audit/first-application.log').read_text()
+          reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
+          if len(reports) != 5:
+              raise SystemExit(f'Expected five axiom reports, received {len(reports)}')
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          for report in reports:
+              actual = {x.strip() for x in report.split(',') if x.strip()}
+              if actual - allowed:
+                  raise SystemExit(f'Unexpected theorem axioms: {actual - allowed}')
+          if 'sorryAx' in text or re.search(r'\berror:', text):
+              raise SystemExit('The theorem audit contains an error or admitted proof')
+          print('PASS: fusion needs no A3/A4; all five endpoint reports use standard Lean axioms only')
+          PY
+
+      - name: Record the exact audited sources
+        if: always()
+        run: |
+          mkdir -p proof-audit
+          git rev-parse HEAD > proof-audit/COMMIT
+          cp lean-toolchain lakefile.toml proof-audit/
+          git diff 52538d2c3aae3b66bc986bb69a9a7a52e7ea0116 HEAD -- RamseySpace/Closed.lean scripts/CheckFirstApplication.lean .github/workflows/lean.yml > proof-audit/abstract-first-application.patch
+          git archive --format=tar.gz -o proof-audit/source.tar.gz HEAD
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: abstract-first-application-audit
+          path: proof-audit/
+          retention-days: 30
