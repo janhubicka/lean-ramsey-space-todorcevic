@@ -4,13 +4,13 @@ import RamseySpace.Fusion
 # Metric closedness and fusion
 
 Todorčević identifies a Ramsey space with its approximation codes in a
-countable product of discrete approximation spaces.  The first-difference
+countable product of discrete approximation spaces. The first-difference
 closedness condition is expressed here without committing to a particular
 metric construction: a code belongs to the closed image whenever each of its
 finite prefixes is realized.
 
-The main theorem proves that this closedness, together with A.2, supplies the
-fusion limits used by the combinatorial-forcing proof.
+Closedness and A.2 supply fusion limits. In particular, applications may use
+fusion to prove A.4 without first constructing an A.1--A.4 instance.
 -/
 
 namespace RamseySpace
@@ -61,10 +61,10 @@ theorem fusion_approx_eq {n0 : ℕ} {Y : ℕ → S.Point}
 
 end ApproximationSystem
 
-/-- Metric closedness of the approximation image implies the fusion-completeness
-interface used in Lemmas 4.33--4.35. -/
-theorem fusionComplete_of_isMetricallyClosed
-    {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
+/-- A.2 and metric closedness give the fusion limits used in the forcing
+proof. No amalgamation or pigeonhole hypothesis is required. -/
+theorem Finitization.fusionComplete_of_isMetricallyClosed
+    {S : ApproximationSystem.{u, v}} (F : Finitization S)
     (hclosed : S.IsMetricallyClosed) :
     FusionComplete S := by
   refine ⟨?_⟩
@@ -84,14 +84,14 @@ theorem fusionComplete_of_isMetricallyClosed
   refine ⟨X, ?_⟩
   intro k
   constructor
-  · apply (R.fin.realizesOrder X (Y k)).2
+  · apply (F.realizesOrder X (Y k)).2
     intro n
     let j : ℕ := max k (n + 1)
     have hkj : k ≤ j := Nat.le_max_left _ _
     have hnj : n + 1 ≤ j := Nat.le_max_right _ _
     have hYjYk : S.le (Y j) (Y k) :=
       S.fusion_le hY hkj
-    rcases (R.fin.realizesOrder (Y j) (Y k)).1 hYjYk n with
+    rcases (F.realizesOrder (Y j) (Y k)).1 hYjYk n with
       ⟨m, hm⟩
     refine ⟨m, ?_⟩
     have hstab :
@@ -109,5 +109,13 @@ theorem fusionComplete_of_isMetricallyClosed
           S.approx (n0 + k) (Y k) :=
       S.fusion_approx_eq hY (by omega) (by omega)
     exact hX.trans hstab
+
+/-- Backwards-compatible form for applications that already have A.1--A.4.
+For a proof of A.4 itself, use the finitization-only theorem above. -/
+theorem fusionComplete_of_isMetricallyClosed
+    {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
+    (hclosed : S.IsMetricallyClosed) :
+    FusionComplete S :=
+  R.fin.fusionComplete_of_isMetricallyClosed hclosed
 
 end RamseySpace
