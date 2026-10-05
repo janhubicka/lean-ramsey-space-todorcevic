@@ -1,0 +1,41 @@
+name: Cross-check fat-tree A4
+on:
+  push:
+    branches: [crosscheck-fat-tree-a4]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: janhubicka/lean-successors
+          ref: fat-tree-formalization
+          path: successors
+      - uses: actions/cache@v5
+        with:
+          path: ~/.elan/toolchains
+          key: successor-crosscheck-toolchain-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('successors/lean-toolchain') }}
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Resolve dependencies
+        working-directory: successors
+        run: lake update
+      - name: Download Mathlib cache
+        working-directory: successors
+        run: lake exe cache get
+      - name: Build completed A4 endpoint
+        working-directory: successors
+        run: |
+          set -o pipefail
+          lake build SuccessorTree.FatTree.A4ReviewComplete
+      - name: Audit review proof axioms
+        working-directory: successors
+        run: |
+          set -o pipefail
+          lake env lean scripts/CheckFatTreeReviewA4.lean | tee /tmp/a4-axioms.log
+          if grep -q sorryAx /tmp/a4-axioms.log; then exit 1; fi
