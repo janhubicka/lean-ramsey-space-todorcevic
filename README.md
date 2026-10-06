@@ -35,8 +35,9 @@ The source-facing one-sorted API follows Chapter 5 of Todorčević literally:
   approximations are indexed in the type, so the "equal approximations have
   equal length" part of A.1(3) is enforced by typing.
 - A.2 is `Finitization`.
-- A.3(1), the published A.3(2) with hypotheses `A ≤ B` and
-  `[a,A] ≠ ∅`, and A.4 are the fields of `AbstractRamseySpace`.
+- A.3(1) and A.4 are stored directly.  The internal A.3(2) field omits only
+  the redundant printed conclusion `[a,A'] ≠ ∅`; A.3(1) derives it.
+  `amalgamation_refine_published` restores the exact printed statement.
 - `AbstractRamseySpace.ofPublishedAxioms` is the literal constructor.
   The older `ofStandardAxioms` is retained for compatibility; it accepts a
   convenient basic-member special case of A.3(2), not the printed Chapter 5
