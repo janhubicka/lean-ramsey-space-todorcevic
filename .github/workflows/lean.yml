@@ -74,6 +74,48 @@ jobs:
           print('PASS: fusion needs no A3/A4; all five endpoint reports use standard Lean axioms only')
           PY
 
+      - name: Audit the published Abstract Ellentuck interface
+        run: |
+          set -o pipefail
+          lake env lean scripts/CheckPublishedEllentuck.lean 2>&1 | tee proof-audit/published-ellentuck.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path('proof-audit/published-ellentuck.log').read_text()
+          reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
+          if len(reports) != 5:
+              raise SystemExit(f'Expected five published-Ellentuck axiom reports, received {len(reports)}')
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          for report in reports:
+              actual = {x.strip() for x in report.split(',') if x.strip()}
+              if actual - allowed:
+                  raise SystemExit(f'Unexpected theorem axioms: {actual - allowed}')
+          if 'sorryAx' in text or re.search(r'\berror:', text):
+              raise SystemExit('Published Ellentuck audit contains an error or admitted proof')
+          print('PASS: published A.3(2), Theorem 5.4, and diagonal derivation are source-faithful')
+          PY
+
+      - name: Audit the full Abstract Ramsey dependencies
+        run: |
+          set -o pipefail
+          lake env lean scripts/CheckAbstractRamsey.lean 2>&1 | tee proof-audit/abstract-ramsey-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path('proof-audit/abstract-ramsey-axioms.log').read_text()
+          reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
+          if len(reports) != 8:
+              raise SystemExit(f'Expected eight abstract-Ramsey axiom reports, received {len(reports)}')
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          for report in reports:
+              actual = {x.strip() for x in report.split(',') if x.strip()}
+              if actual - allowed:
+                  raise SystemExit(f'Unexpected theorem axioms: {actual - allowed}')
+          if 'sorryAx' in text or re.search(r'\berror:', text):
+              raise SystemExit('Abstract Ramsey proof audit contains an error or admitted proof')
+          print('PASS: Abstract Ramsey and diagonal Ellentuck proofs use only standard Lean axioms')
+          PY
+
       - name: Record the exact audited sources
         if: always()
         run: |

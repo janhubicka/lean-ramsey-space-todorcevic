@@ -11,7 +11,8 @@ namespace RamseySpace
 
 universe u v
 
-/-- Todorčević's Abstract Ellentuck Theorem. -/
+/-- Depth-form implementation of Todorčević's Abstract Ellentuck Theorem.
+The literal published statement is `abstractEllentuck_textbook` below. -/
 theorem abstractEllentuck
     {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed) :
@@ -40,17 +41,23 @@ theorem abstractEllentuck_meagre
     IsRamseyNull R target :=
   (abstractEllentuck R hclosed).2 target hM
 
-/-- Source-facing form of Todorčević's Abstract Ellentuck Theorem. -/
+/-- Todorčević, Theorem 5.4 (Abstract Ellentuck Theorem), in the
+literal Chapter 5 formulation: if the approximation image is closed and
+A.1--A.4 hold, every property-of-Baire set is Ramsey and every meagre set is
+Ramsey null, where Ramsey and Ramsey null quantify over nonempty basic
+neighborhoods `[a,A]`. -/
+theorem abstractEllentuck_textbook
+    {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
+    (hclosed : S.IsClosedApproximationImage) :
+    IsTopologicalRamseySpaceTextbook (S := S) :=
+  (isTopologicalRamseySpace_iff_textbook R).1
+    (abstractEllentuck R hclosed)
+
+/-- Compatibility name for the literal basic-neighborhood formulation. -/
 theorem abstractEllentuck_onBasicNeighborhoods
     {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed) :
-    IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) := by
-  constructor
-  · intro target hB
-    exact (isRamsey_iff_onBasicNeighborhoods R target).1
-      (abstractEllentuck_baire R hclosed hB)
-  · intro target hM
-    exact (isRamseyNull_iff_onBasicNeighborhoods R target).1
-      (abstractEllentuck_meagre R hclosed hM)
+    IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
+  abstractEllentuck_textbook R hclosed
 
 end RamseySpace

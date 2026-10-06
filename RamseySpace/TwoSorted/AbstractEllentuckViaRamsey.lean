@@ -176,22 +176,23 @@ theorem abstractEllentuck_via_abstractRamsey
       isRamseyNull_of_isMeagre_via_abstractRamsey
         R hclosed hM
 
-/-- Source-facing basic-neighborhood formulation, again derived through the
-Abstract Ramsey Theorem. -/
+/-- The literal Chapter 5 Abstract Ellentuck statement, derived
+through the Chapter 4 Abstract Ramsey Theorem. -/
+theorem abstractEllentuck_textbook_via_abstractRamsey
+    {S : ApproximationSystem.{u, v}}
+    (R : AbstractRamseySpace S)
+    (hclosed : S.IsClosedApproximationImage) :
+    RamseySpace.IsTopologicalRamseySpaceTextbook (S := S) :=
+  (RamseySpace.isTopologicalRamseySpace_iff_textbook R).1
+    (abstractEllentuck_via_abstractRamsey R hclosed)
+
+/-- Compatibility name for the source-facing basic-neighborhood formulation. -/
 theorem abstractEllentuck_onBasicNeighborhoods_via_abstractRamsey
     {S : ApproximationSystem.{u, v}}
     (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed) :
-    RamseySpace.IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) := by
-  constructor
-  · intro target hB
-    exact
-      (isRamsey_iff_onBasicNeighborhoods R target).1
-        ((abstractEllentuck_via_abstractRamsey R hclosed).1 target hB)
-  · intro target hM
-    exact
-      (isRamseyNull_iff_onBasicNeighborhoods R target).1
-        ((abstractEllentuck_via_abstractRamsey R hclosed).2 target hM)
+    RamseySpace.IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
+  abstractEllentuck_textbook_via_abstractRamsey R hclosed
 
 end TwoSorted
 end RamseySpace

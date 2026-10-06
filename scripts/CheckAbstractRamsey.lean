@@ -1,0 +1,10 @@
+import RamseySpace
+
+#print axioms RamseySpace.TwoSorted.fusionComplete_of_isMetricallyClosed
+#print axioms RamseySpace.TwoSorted.CombinatorialForcing.exists_refinement_rejects_endExtensions
+#print axioms RamseySpace.TwoSorted.IsBaire.isRamsey
+#print axioms RamseySpace.TwoSorted.IsMeagre.isRamseyNull
+#print axioms RamseySpace.TwoSorted.abstractRamsey
+#print axioms RamseySpace.TwoSorted.abstractRamsey_iff
+#print axioms RamseySpace.TwoSorted.abstractBaire_iff_isRamsey_via_abstractRamsey
+#print axioms RamseySpace.TwoSorted.abstractEllentuck_via_abstractRamsey
