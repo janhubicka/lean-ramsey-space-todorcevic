@@ -48,7 +48,7 @@ Ramsey null, where Ramsey and Ramsey null quantify over nonempty basic
 neighborhoods `[a,A]`. -/
 theorem abstractEllentuck_textbook
     {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
-    (hclosed : S.IsMetricallyClosed) :
+    (hclosed : S.IsClosedApproximationImage) :
     IsTopologicalRamseySpaceTextbook (S := S) :=
   (isTopologicalRamseySpace_iff_textbook R).1
     (abstractEllentuck R hclosed)
