@@ -1,5 +1,5 @@
 import RamseySpace.Examples.EllentuckAxioms
-import RamseySpace.Closed
+import RamseySpace.ClosedTopology
 
 /-!
 # Closedness of the classical Ellentuck space
@@ -64,6 +64,12 @@ theorem isMetricallyClosed : S.IsMetricallyClosed := by
   refine ⟨pointOfCode c h, ?_⟩
   intro n
   exact approx_pointOfCode c h n
+
+/-- The classical Ellentuck approximation image is literally closed in the
+Tychonoff product of its discrete approximation levels. -/
+theorem isTychonoffClosed : S.IsTychonoffClosed :=
+  (S.isTychonoffClosed_iff_isClosedApproximationImage).2
+    isMetricallyClosed
 
 end Ellentuck
 end Examples
