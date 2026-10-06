@@ -27,6 +27,7 @@ example
         ∀ {A : S.Point}, S.le A B →
           (S.neighborhood a A).Nonempty →
           ∃ A', A' ∈ S.levelNeighborhood d B ∧
+            (S.neighborhood a A').Nonempty ∧
             S.neighborhood a A' ⊆ S.neighborhood a A)
     (a4 :
       ∀ {n : ℕ} (a : S.Approx n) (B : S.Point) {d : ℕ},
@@ -38,16 +39,17 @@ example
     AbstractRamseySpace S :=
   AbstractRamseySpace.ofPublishedAxioms fin a31 a32 a4
 
-/-- The stored A.3(2) has the printed Chapter 5 hypotheses, not merely the
-basic-member special case. -/
+/-- The source-facing A.3(2) has both the printed Chapter 5 hypotheses and
+the printed nonemptiness conclusion. -/
 example (R : AbstractRamseySpace S)
     {n : ℕ} (a : S.Approx n) (B : S.Point) {d : ℕ}
     (hd : R.fin.HasDepth a B d)
     {A : S.Point} (hAB : S.le A B)
     (hne : (S.neighborhood a A).Nonempty) :
     ∃ A', A' ∈ S.levelNeighborhood d B ∧
+      (S.neighborhood a A').Nonempty ∧
       S.neighborhood a A' ⊆ S.neighborhood a A :=
-  R.amalgamation_refine a B hd hAB hne
+  R.amalgamation_refine_published a B hd hAB hne
 
 /-- The literal Theorem 5.4 endpoint uses the published basic-neighborhood
 definitions of Ramsey and Ramsey null. -/
@@ -72,6 +74,7 @@ example (R : AbstractRamseySpace S)
 
 end RamseySpace.PublishedEllentuckAudit
 
+#print axioms RamseySpace.AbstractRamseySpace.amalgamation_refine_published
 #print axioms RamseySpace.AbstractRamseySpace.ofPublishedAxioms
 #print axioms RamseySpace.isTopologicalRamseySpace_iff_textbook
 #print axioms RamseySpace.abstractEllentuck_textbook

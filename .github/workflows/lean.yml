@@ -83,8 +83,8 @@ jobs:
           import re
           text = Path('proof-audit/published-ellentuck.log').read_text()
           reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
-          if len(reports) != 5:
-              raise SystemExit(f'Expected five published-Ellentuck axiom reports, received {len(reports)}')
+          if len(reports) != 6:
+              raise SystemExit(f'Expected six published-Ellentuck axiom reports, received {len(reports)}')
           allowed = {'propext', 'Classical.choice', 'Quot.sound'}
           for report in reports:
               actual = {x.strip() for x in report.split(',') if x.strip()}
