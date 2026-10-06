@@ -19,7 +19,7 @@ The printed one-sorted axioms are represented as follows.
 | A.2(2) finitization of `≤` | `Finitization.realizesOrder` | literal |
 | A.2(3) initial-segment compatibility | `Finitization.prefix_leFin` | literal after typed `IsInitial` |
 | A.3(1) nonempty amalgamation at depth | `AbstractRamseySpace.amalgamation_nonempty` | literal |
-| A.3(2) `A ≤ B` and `[a,A]≠∅` imply a depth-preserving refinement | `AbstractRamseySpace.amalgamation_refine` | literal |
+| A.3(2) `A ≤ B`, `[a,A]≠∅`, and `∅≠[a,A']⊆[a,A]` | `AbstractRamseySpace.amalgamation_refine_published` | literal; internal field drops only the A.3(1)-redundant nonemptiness conjunct |
 | A.4 one-step pigeonhole | `AbstractRamseySpace.pigeonhole` | complement is written equivalently as disjointness |
 
 A previous API comment incorrectly called the special case
@@ -31,8 +31,9 @@ kept only so existing applications such as the fat-tree development do not
 break.
 
 The classical Ellentuck validation now explicitly proves the full printed
-A.3(2) as `Examples.Ellentuck.amalgamation_refine` and packages the space
-through `ofPublishedAxioms`.
+A.3(2), including `[a,A'] ≠ ∅`, as
+`Examples.Ellentuck.amalgamation_refine` and packages the space through
+`ofPublishedAxioms`.
 
 ## Referee B — theorem statement
 
