@@ -142,7 +142,7 @@ theorem isTychonoffClosed_iff_isClosedApproximationImage :
         intro i hiI
         have hiN : i < N := Finset.mem_range.mp (hIN hiI)
         have hEq : S.publishedCode X i = d i := by
-          apply Sigma.ext rfl
+          refine Sigma.ext rfl ?_
           exact heq_of_eq (hX i (Nat.le_of_lt hiN))
         rw [hEq]
         exact (hIU i hiI).2
@@ -170,11 +170,8 @@ theorem isTychonoffClosed_iff_isClosedApproximationImage :
       have htag :
           ∀ n, (⟨n, c n⟩ : S.FiniteApprox) = d n := by
         intro n
-        rcases hdn : d n with ⟨k, a⟩
-        have hk : k = n := by
-          simpa [hdn] using hlevel n
-        subst k
-        simp [c, hdn]
+        refine Sigma.ext (hlevel n).symm ?_
+        exact cast_heq (congrArg S.Approx (hlevel n)) (d n).2
       have hfail : ∃ N, ¬ S.PrefixRealizable c N := by
         by_contra h
         push Not at h
@@ -185,7 +182,7 @@ theorem isTychonoffClosed_iff_isClosedApproximationImage :
         calc
           S.publishedCode X n =
               (⟨n, c n⟩ : S.FiniteApprox) := by
-            apply Sigma.ext rfl
+            refine Sigma.ext rfl ?_
             exact heq_of_eq (hX n)
           _ = d n := htag n
       rcases hfail with ⟨N, hN⟩
