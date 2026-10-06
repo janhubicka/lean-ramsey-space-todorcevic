@@ -1,5 +1,4 @@
 import RamseySpace.TwoSorted.Basic
-import RamseySpace.Finitization
 
 /-!
 # A.4 finitization for two-sorted Ramsey systems
