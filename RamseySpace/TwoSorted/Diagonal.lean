@@ -37,7 +37,11 @@ def diagonalSystem (S : ApproximationSystem.{u, v}) :
 def diagonalFinitization {S : ApproximationSystem.{u, v}}
     (F : RamseySpace.Finitization S) :
     TwoSorted.Finitization (diagonalSystem S) where
-  redFin := F
+  redFin := {
+    leFin := F.leFin
+    lowerFinite := F.lowerFinite
+    realizesOrder := F.realizesOrder
+  }
   leFin0 := F.leFin
   lowerFinite0 := F.lowerFinite
   realizesOrder0 := F.realizesOrder
