@@ -10,6 +10,7 @@ import RamseySpace.Reject
 import RamseySpace.EndExtension
 import RamseySpace.Baire
 import RamseySpace.Closed
+import RamseySpace.ClosedTopology
 import RamseySpace.Sigma
 import RamseySpace.NullSigma
 import RamseySpace.Ellentuck
