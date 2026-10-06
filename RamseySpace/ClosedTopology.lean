@@ -24,6 +24,8 @@ section Tychonoff
 /-- Each approximation level is given its discrete topology, and full codes
 carry the resulting Tychonoff product topology. -/
 local instance levelTopology (n : ℕ) : TopologicalSpace (S.Approx n) := ⊥
+local instance levelDiscreteTopology (n : ℕ) :
+    DiscreteTopology (S.Approx n) := ⟨rfl⟩
 local instance codeTopology : TopologicalSpace S.ApproximationCode :=
   Pi.topologicalSpace
 
@@ -89,7 +91,8 @@ theorem isTychonoffClosed_iff_isClosedApproximationImage :
       have hnI : n ∈ Finset.range (N + 1) := by
         exact Finset.mem_range.mpr (Nat.lt_succ_iff.mpr hn)
       have hm := hd n hnI
-      simpa using hm
+      change S.approx n X = c n at hm
+      exact hm
 
 end Tychonoff
 
