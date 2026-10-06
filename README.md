@@ -43,9 +43,12 @@ The source-facing one-sorted API follows Chapter 5 of Todorčević literally:
   convenient basic-member special case of A.3(2), not the printed Chapter 5
   formulation.
 - `abstractEllentuck_textbook` states Theorem 5.4 using the book's
-  basic-neighborhood definitions of Ramsey and Ramsey null. The older
-  `abstractEllentuck` endpoint uses an equivalent depth-based formulation
-  convenient for the forcing proof.
+  literal closedness hypothesis: the approximation-code image is closed in
+  the Tychonoff product of discrete approximation levels, together with the
+  book's basic-neighborhood definitions of Ramsey and Ramsey null.
+  `isTychonoffClosed_iff_isClosedApproximationImage` proves this equivalent
+  to the finite-prefix criterion used internally by fusion. The older
+  `abstractEllentuck` endpoint keeps that implementation-friendly form.
 
 See `docs/published-ellentuck-audit.md` for the line-by-line source audit.
 
