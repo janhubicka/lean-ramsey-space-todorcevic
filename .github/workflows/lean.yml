@@ -13,21 +13,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      # GitHub-hosted runners are ephemeral. Cache the pinned Lean toolchain so
-      # elan does not download and unpack it on every CI run.
       - name: Cache Lean toolchain
         uses: actions/cache@v5
         with:
           path: ~/.elan/toolchains
           key: lean-toolchain-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}
 
-      # Keep dependency checkouts and compiled project artifacts between runs.
-      # Each commit gets a new cache, restored from the most recent compatible
-      # predecessor when there is no exact hit.
       - name: Cache Lake workspace
         uses: actions/cache@v5
         with:
@@ -49,72 +44,52 @@ jobs:
 
       - name: Build
         run: |
-          set -o pipefail
           mkdir -p proof-audit
-          lake build 2>&1 | tee proof-audit/build.log
+          if ! lake build > proof-audit/build.log 2>&1; then
+            cat proof-audit/build.log
+            exit 1
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path("proof-audit/build.log").read_text(encoding="utf-8")
+          warnings = sum("warning:" in line for line in text.splitlines())
+          hints = sum("Hint:" in line for line in text.splitlines())
+          print(f"PASS: full build ({warnings} warning lines, {hints} hints; full log in artifact)")
+          PY
 
       - name: Audit first-application interfaces and theorem axioms
         run: |
-          set -o pipefail
-          lake env lean scripts/CheckFirstApplication.lean 2>&1 | tee proof-audit/first-application.log
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          text = Path('proof-audit/first-application.log').read_text()
-          reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
-          if len(reports) != 5:
-              raise SystemExit(f'Expected five axiom reports, received {len(reports)}')
-          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
-          for report in reports:
-              actual = {x.strip() for x in report.split(',') if x.strip()}
-              if actual - allowed:
-                  raise SystemExit(f'Unexpected theorem axioms: {actual - allowed}')
-          if 'sorryAx' in text or re.search(r'\berror:', text):
-              raise SystemExit('The theorem audit contains an error or admitted proof')
-          print('PASS: fusion needs no A3/A4; all five endpoint reports use standard Lean axioms only')
-          PY
+          if ! lake env lean scripts/CheckFirstApplication.lean > proof-audit/first-application.log 2>&1; then
+            cat proof-audit/first-application.log
+            exit 1
+          fi
+          python3 scripts/check-axiom-log.py proof-audit/first-application.log 5 || {
+            cat proof-audit/first-application.log
+            exit 1
+          }
 
       - name: Audit the published Abstract Ellentuck interface
         run: |
-          set -o pipefail
-          lake env lean scripts/CheckPublishedEllentuck.lean 2>&1 | tee proof-audit/published-ellentuck.log
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          text = Path('proof-audit/published-ellentuck.log').read_text()
-          reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
-          if len(reports) != 7:
-              raise SystemExit(f'Expected seven published-Ellentuck axiom reports, received {len(reports)}')
-          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
-          for report in reports:
-              actual = {x.strip() for x in report.split(',') if x.strip()}
-              if actual - allowed:
-                  raise SystemExit(f'Unexpected theorem axioms: {actual - allowed}')
-          if 'sorryAx' in text or re.search(r'\berror:', text):
-              raise SystemExit('Published Ellentuck audit contains an error or admitted proof')
-          print('PASS: published A.3(2), Theorem 5.4, and diagonal derivation are source-faithful')
-          PY
+          if ! lake env lean scripts/CheckPublishedEllentuck.lean > proof-audit/published-ellentuck.log 2>&1; then
+            cat proof-audit/published-ellentuck.log
+            exit 1
+          fi
+          python3 scripts/check-axiom-log.py proof-audit/published-ellentuck.log 7 || {
+            cat proof-audit/published-ellentuck.log
+            exit 1
+          }
+          echo "PASS: published A.3(2), Tychonoff closedness, Theorem 5.4, and diagonal derivation typecheck"
 
       - name: Audit the full Abstract Ramsey dependencies
         run: |
-          set -o pipefail
-          lake env lean scripts/CheckAbstractRamsey.lean 2>&1 | tee proof-audit/abstract-ramsey-axioms.log
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          text = Path('proof-audit/abstract-ramsey-axioms.log').read_text()
-          reports = re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text, re.S)
-          if len(reports) != 8:
-              raise SystemExit(f'Expected eight abstract-Ramsey axiom reports, received {len(reports)}')
-          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
-          for report in reports:
-              actual = {x.strip() for x in report.split(',') if x.strip()}
-              if actual - allowed:
-                  raise SystemExit(f'Unexpected theorem axioms: {actual - allowed}')
-          if 'sorryAx' in text or re.search(r'\berror:', text):
-              raise SystemExit('Abstract Ramsey proof audit contains an error or admitted proof')
-          print('PASS: Abstract Ramsey and diagonal Ellentuck proofs use only standard Lean axioms')
-          PY
+          if ! lake env lean scripts/CheckAbstractRamsey.lean > proof-audit/abstract-ramsey-axioms.log 2>&1; then
+            cat proof-audit/abstract-ramsey-axioms.log
+            exit 1
+          fi
+          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 8 || {
+            cat proof-audit/abstract-ramsey-axioms.log
+            exit 1
+          }
 
       - name: Record the exact audited sources
         if: always()
@@ -122,12 +97,14 @@ jobs:
           mkdir -p proof-audit
           git rev-parse HEAD > proof-audit/COMMIT
           cp lean-toolchain lakefile.toml proof-audit/
-          git diff 52538d2c3aae3b66bc986bb69a9a7a52e7ea0116 HEAD -- RamseySpace/Closed.lean scripts/CheckFirstApplication.lean .github/workflows/lean.yml > proof-audit/abstract-first-application.patch
+          git diff 52538d2c3aae3b66bc986bb69a9a7a52e7ea0116 HEAD -- \
+            RamseySpace RamseySpace.lean scripts README.md docs .github/workflows/lean.yml \
+            > proof-audit/abstract-ramsey-audit.patch
           git archive --format=tar.gz -o proof-audit/source.tar.gz HEAD
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: abstract-first-application-audit
+          name: abstract-ramsey-audit
           path: proof-audit/
           retention-days: 30
