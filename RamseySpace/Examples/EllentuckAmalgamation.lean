@@ -250,7 +250,8 @@ theorem neighborhood_protect_subset {n : ℕ} (a : Approx n)
           (protect_apply_ge B A e hn hboundary hte').symm
         _ = x := ht
 
-/-- Todorčević A.3(2) for the classical Ellentuck space. -/
+/-- Convenient basic-member special case used to prove Todorčević A.3(2):
+here the intermediate object `A` itself belongs to `[a,B]`. -/
 theorem amalgamation_refine_standard
     {n : ℕ} (a : Approx n) (B : Point) {d : ℕ}
     (hd : finitization.HasDepth a B d)
@@ -283,6 +284,24 @@ theorem amalgamation_refine_standard
     · change S.neighborhood a (protect B A e hnpos hboundary) ⊆
         S.neighborhood a A
       exact neighborhood_protect_subset a B A e hnpos hboundary hA.2
+
+
+/-- Todorčević's published A.3(2) for the classical Ellentuck space:
+if `A ≤ B` and `[a,A]` is nonempty, there is
+`A' ∈ [depth_B(a),B]` with `[a,A'] ⊆ [a,A]`. -/
+theorem amalgamation_refine
+    {n : ℕ} (a : Approx n) (B : Point) {d : ℕ}
+    (hd : finitization.HasDepth a B d)
+    {A : Point} (hAB : le A B)
+    (hne : (S.neighborhood a A).Nonempty) :
+    ∃ A', A' ∈ S.levelNeighborhood d B ∧
+      S.neighborhood a A' ⊆ S.neighborhood a A := by
+  rcases hne with ⟨X, hXaA⟩
+  have hXaB : X ∈ S.neighborhood a B :=
+    S.neighborhood_mono hAB hXaA
+  rcases amalgamation_refine_standard a B hd hXaB with
+    ⟨A', hA'B, hsub⟩
+  exact ⟨A', hA'B, hsub.trans (S.neighborhood_mono hXaA.1)⟩
 
 end Ellentuck
 end Examples
