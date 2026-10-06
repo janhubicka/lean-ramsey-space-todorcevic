@@ -1,5 +1,4 @@
 import RamseySpace.TwoSorted.Basic
-import RamseySpace.Finitization
 
 /-!
 # A.4 finitization for two-sorted Ramsey systems
@@ -10,12 +9,26 @@ namespace TwoSorted
 
 universe uR vR uS vS
 
+/-- The reduction-side part of Todorčević's two-sorted A.4.
+
+Unlike the one-sorted Chapter 5 finitization axiom, Chapter 4 does not assume
+that `≤fin` is itself a quasi-order, nor does it impose a separate
+initial-segment compatibility axiom on reduction approximations.  It requires
+only finite lower cones and recovery of the infinite reduction order. -/
+structure ReductionFinitization
+    (S : ApproximationSystem.{uS, vS}) where
+  leFin : S.FiniteApprox → S.FiniteApprox → Prop
+  lowerFinite : ∀ x, Set.Finite {y | leFin y x}
+  realizesOrder :
+    ∀ X Y, S.le X Y ↔
+      ∀ n, ∃ m, leFin (S.finiteApprox n X) (S.finiteApprox m Y)
+
 /-- Todorčević A.4 for `(R,S,≤,≤⁰,r,s)`.
 
-The ordinary `Finitization` on `S` supplies `≤fin`; `leFin0` is the
-cross finite relation `≤⁰fin`. -/
+`redFin` is exactly the reduction-side `≤fin` data required by A.4;
+`leFin0` is the cross finite relation `≤⁰fin`. -/
 structure Finitization (P : System.{uR, vR, uS, vS}) where
-  redFin : RamseySpace.Finitization P.Red
+  redFin : ReductionFinitization P.Red
   leFin0 : P.Obj.FiniteApprox → P.Red.FiniteApprox → Prop
   lowerFinite0 : ∀ x, Set.Finite {a | leFin0 a x}
   realizesOrder0 :

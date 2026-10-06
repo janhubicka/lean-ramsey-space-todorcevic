@@ -5,8 +5,9 @@ Todorčević's *Introduction to Ramsey Spaces*:
 
 - the **Abstract Ramsey Theorem** for two-sorted systems
   `(R, S, ≤, ≤⁰, r, s)` satisfying A.1--A.6;
-- the **Abstract Ellentuck Theorem** for a metrically closed one-sorted
-  approximation space satisfying A.1--A.4.
+- the **Abstract Ellentuck Theorem** for a closed one-sorted
+  approximation space satisfying A.1--A.4, with closedness stated in the
+  book's Tychonoff-product form.
 
 The repository also proves in Lean that the Abstract Ellentuck theorem is the
 diagonal specialization of the Abstract Ramsey theorem, and independently
@@ -50,7 +51,10 @@ The source-facing one-sorted API follows Chapter 5 of Todorčević literally:
   to the finite-prefix criterion used internally by fusion. The older
   `abstractEllentuck` endpoint keeps that implementation-friendly form.
 
-See `docs/published-ellentuck-audit.md` for the line-by-line source audit.
+See `docs/published-ellentuck-audit.md` for the line-by-line Chapter 5 audit.
+The corresponding Chapter 4 audit is
+`docs/published-abstract-ramsey-audit.md`; in particular, the two-sorted
+finitization interface assumes exactly the published A.4 clauses.
 
 ## Reference
 

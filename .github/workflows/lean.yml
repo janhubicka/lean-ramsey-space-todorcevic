@@ -42,6 +42,14 @@ jobs:
       - name: Download Mathlib cache
         run: lake exe cache get
 
+      - name: Reject admitted or ad-hoc axioms in library sources
+        run: |
+          if grep -RInE --include='*.lean' '(^|[^[:alnum:]_])(sorry|admit)([^[:alnum:]_]|$)|^[[:space:]]*axiom[[:space:]]' RamseySpace RamseySpace.lean; then
+            echo "FAIL: library source contains sorry/admit/axiom"
+            exit 1
+          fi
+          echo "PASS: library sources contain no sorry/admit/axiom declarations"
+
       - name: Build
         run: |
           mkdir -p proof-audit
@@ -86,7 +94,7 @@ jobs:
             cat proof-audit/abstract-ramsey-axioms.log
             exit 1
           fi
-          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 8 || {
+          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 10 || {
             cat proof-audit/abstract-ramsey-axioms.log
             exit 1
           }
