@@ -9,10 +9,9 @@ sequence of its finite approximations and asking that the image be closed in
 the Tychonoff power `AR^ℕ`, where `AR` (the set of all finite
 approximations) is discrete.
 
-Our typed representation also has a convenient dependent product
-`∀ n, Approx n`.  This file first verifies the finite-prefix criterion in
-that typed product, then proves the actual source-facing statement in the
-literal power of `FiniteApprox = Σ n, Approx n`.
+The source-facing ambient space is the literal power
+`FiniteApprox^ℕ`, where `FiniteApprox = Σ n, Approx n` represents the
+book's union of finite approximations.
 -/
 
 namespace RamseySpace
@@ -21,83 +20,6 @@ namespace ApproximationSystem
 universe u v
 
 variable (S : ApproximationSystem.{u, v})
-
-section LevelwiseTychonoff
-
-/-- Each approximation level is discrete, and typed full codes carry the
-resulting dependent Tychonoff product topology. -/
-local instance levelTopology (n : ℕ) : TopologicalSpace (S.Approx n) := ⊥
-local instance levelDiscreteTopology (n : ℕ) :
-    DiscreteTopology (S.Approx n) := ⟨rfl⟩
-local instance codeTopology : TopologicalSpace S.ApproximationCode :=
-  Pi.topologicalSpace
-
-/-- Auxiliary typed-product closedness.  The literal published ambient space
-is `FiniteApprox^ℕ`; see `IsTychonoffClosed` below. -/
-def IsLevelwiseTychonoffClosed : Prop :=
-  IsClosed (Set.range S.code)
-
-/-- Closedness in the typed product of the discrete level spaces is
-equivalent to the finite-prefix realization criterion used by fusion. -/
-theorem isLevelwiseTychonoffClosed_iff_isClosedApproximationImage :
-    S.IsLevelwiseTychonoffClosed ↔ S.IsClosedApproximationImage := by
-  constructor
-  · intro hclosed c hpref
-    have hcclosure : c ∈ closure (Set.range S.code) := by
-      rw [mem_closure_iff]
-      intro o ho hco
-      rcases (isOpen_pi_iff.mp ho) c hco with
-        ⟨I, U, hIU, hsub⟩
-      rcases I.exists_nat_subset_range with ⟨N, hIN⟩
-      rcases hpref N with ⟨X, hX⟩
-      have hcodePi : S.code X ∈ (↑I : Set ℕ).pi U := by
-        intro i hiI
-        have hiN : i < N := Finset.mem_range.mp (hIN hiI)
-        have hEq : S.code X i = c i := by
-          exact hX i (Nat.le_of_lt hiN)
-        have hci : c i ∈ U i := (hIU i hiI).2
-        simpa [hEq] using hci
-      exact ⟨S.code X, hsub hcodePi, ⟨X, rfl⟩⟩
-    have hcrange : c ∈ Set.range S.code := by
-      rwa [hclosed.closure_eq] at hcclosure
-    rcases hcrange with ⟨X, hX⟩
-    refine ⟨X, ?_⟩
-    intro n
-    exact congrFun hX n
-  · intro hprefClosed
-    change IsClosed (Set.range S.code)
-    rw [← isOpen_compl_iff]
-    rw [isOpen_pi_iff]
-    intro c hc
-    have hnotrange : c ∉ Set.range S.code := hc
-    have hfail : ∃ N, ¬ S.PrefixRealizable c N := by
-      by_contra h
-      push Not at h
-      rcases hprefClosed c h with ⟨X, hX⟩
-      apply hnotrange
-      refine ⟨X, ?_⟩
-      funext n
-      exact hX n
-    rcases hfail with ⟨N, hN⟩
-    refine ⟨Finset.range (N + 1), (fun i => {c i}), ?_, ?_⟩
-    · intro i hi
-      constructor
-      · exact isOpen_discrete _
-      · simp
-    · intro d hd
-      show d ∈ (Set.range S.code)ᶜ
-      intro hdrange
-      rcases hdrange with ⟨X, rfl⟩
-      apply hN
-      refine ⟨X, ?_⟩
-      intro n hn
-      have hnI : n ∈ Finset.range (N + 1) := by
-        exact Finset.mem_range.mpr (Nat.lt_succ_iff.mpr hn)
-      have hm := hd n hnI
-      change S.approx n X = c n at hm
-      exact hm
-
-end LevelwiseTychonoff
 
 section PublishedTychonoff
 
