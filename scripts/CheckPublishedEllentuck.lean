@@ -51,12 +51,19 @@ example (R : AbstractRamseySpace S)
       S.neighborhood a A' ⊆ S.neighborhood a A :=
   R.amalgamation_refine_published a B hd hAB hne
 
-/-- The literal Theorem 5.4 endpoint uses the published basic-neighborhood
-definitions of Ramsey and Ramsey null. -/
+/-- The literal Theorem 5.4 endpoint uses the published Tychonoff closedness
+hypothesis and the published basic-neighborhood definitions of Ramsey and
+Ramsey null. -/
 example (R : AbstractRamseySpace S)
-    (hclosed : S.IsClosedApproximationImage) :
+    (hclosed : S.IsTychonoffClosed) :
     IsTopologicalRamseySpaceTextbook (S := S) :=
   abstractEllentuck_textbook R hclosed
+
+/-- The product-topological closedness hypothesis is formally equivalent to
+the finite-prefix criterion used by the forcing implementation. -/
+example :
+    S.IsTychonoffClosed ↔ S.IsClosedApproximationImage :=
+  S.isTychonoffClosed_iff_isClosedApproximationImage
 
 /-- The depth-form implementation is proved equivalent to the textbook
 statement, so internal forcing lemmas do not change the public theorem. -/
@@ -68,12 +75,13 @@ example (R : AbstractRamseySpace S) :
 /-- The independent diagonal derivation lands in the same source-facing
 statement. -/
 example (R : AbstractRamseySpace S)
-    (hclosed : S.IsClosedApproximationImage) :
+    (hclosed : S.IsTychonoffClosed) :
     IsTopologicalRamseySpaceTextbook (S := S) :=
   TwoSorted.abstractEllentuck_textbook_via_abstractRamsey R hclosed
 
 end RamseySpace.PublishedEllentuckAudit
 
+#print axioms RamseySpace.ApproximationSystem.isTychonoffClosed_iff_isClosedApproximationImage
 #print axioms RamseySpace.AbstractRamseySpace.amalgamation_refine_published
 #print axioms RamseySpace.AbstractRamseySpace.ofPublishedAxioms
 #print axioms RamseySpace.isTopologicalRamseySpace_iff_textbook
