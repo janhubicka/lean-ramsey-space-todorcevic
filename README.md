@@ -50,7 +50,10 @@ The source-facing one-sorted API follows Chapter 5 of Todorčević literally:
   to the finite-prefix criterion used internally by fusion. The older
   `abstractEllentuck` endpoint keeps that implementation-friendly form.
 
-See `docs/published-ellentuck-audit.md` for the line-by-line source audit.
+See `docs/published-ellentuck-audit.md` for the line-by-line Chapter 5 audit.
+The corresponding Chapter 4 audit is
+`docs/published-abstract-ramsey-audit.md`; in particular, the two-sorted
+finitization interface assumes exactly the published A.4 clauses.
 
 ## Reference
 
