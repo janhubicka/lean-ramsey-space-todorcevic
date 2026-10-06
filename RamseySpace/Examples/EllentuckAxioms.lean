@@ -4,7 +4,7 @@ import RamseySpace.Examples.EllentuckPigeonhole
 # The classical Ellentuck space as an abstract Ramsey space
 
 This packages the previously verified A.1--A.4 proofs using the
-source-faithful constructor.
+literal published-axiom constructor.
 -/
 
 namespace RamseySpace
@@ -13,10 +13,10 @@ namespace Ellentuck
 
 /-- The classical Ellentuck space satisfies Todorčević's axioms A.1--A.4. -/
 def ramseySpace : AbstractRamseySpace S :=
-  AbstractRamseySpace.ofStandardAxioms
+  AbstractRamseySpace.ofPublishedAxioms
     finitization
     amalgamation_nonempty
-    amalgamation_refine_standard
+    amalgamation_refine
     pigeonhole
 
 end Ellentuck
