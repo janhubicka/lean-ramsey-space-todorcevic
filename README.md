@@ -20,9 +20,33 @@ appropriate abstract axioms for their concrete Ramsey spaces.
 
 - `RamseySpace.TwoSorted.abstractRamsey`
 - `RamseySpace.TwoSorted.abstractRamsey_iff`
-- `RamseySpace.abstractEllentuck`
+- `RamseySpace.abstractEllentuck_textbook` — literal Theorem 5.4 statement
+- `RamseySpace.abstractEllentuck` — equivalent depth-form implementation
+- `RamseySpace.TwoSorted.abstractEllentuck_textbook_via_abstractRamsey`
 - `RamseySpace.TwoSorted.abstractEllentuck_via_abstractRamsey`
 - `RamseySpace.Examples.Ellentuck.classicalEllentuck`
+
+
+## Published Chapter 5 interface
+
+The source-facing one-sorted API follows Chapter 5 of Todorčević literally:
+
+- A.1 is represented by `ApproximationSystem`; levels of finite
+  approximations are indexed in the type, so the "equal approximations have
+  equal length" part of A.1(3) is enforced by typing.
+- A.2 is `Finitization`.
+- A.3(1), the published A.3(2) with hypotheses `A ≤ B` and
+  `[a,A] ≠ ∅`, and A.4 are the fields of `AbstractRamseySpace`.
+- `AbstractRamseySpace.ofPublishedAxioms` is the literal constructor.
+  The older `ofStandardAxioms` is retained for compatibility; it accepts a
+  convenient basic-member special case of A.3(2), not the printed Chapter 5
+  formulation.
+- `abstractEllentuck_textbook` states Theorem 5.4 using the book's
+  basic-neighborhood definitions of Ramsey and Ramsey null. The older
+  `abstractEllentuck` endpoint uses an equivalent depth-based formulation
+  convenient for the forcing proof.
+
+See `docs/published-ellentuck-audit.md` for the line-by-line source audit.
 
 ## Reference
 
