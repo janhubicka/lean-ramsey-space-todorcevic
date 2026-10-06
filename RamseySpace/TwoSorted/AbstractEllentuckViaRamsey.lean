@@ -181,7 +181,7 @@ through the Chapter 4 Abstract Ramsey Theorem. -/
 theorem abstractEllentuck_textbook_via_abstractRamsey
     {S : ApproximationSystem.{u, v}}
     (R : AbstractRamseySpace S)
-    (hclosed : S.IsMetricallyClosed) :
+    (hclosed : S.IsClosedApproximationImage) :
     RamseySpace.IsTopologicalRamseySpaceTextbook (S := S) :=
   (RamseySpace.isTopologicalRamseySpace_iff_textbook R).1
     (abstractEllentuck_via_abstractRamsey R hclosed)
