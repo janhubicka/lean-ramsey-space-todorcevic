@@ -5,8 +5,9 @@ Todorčević's *Introduction to Ramsey Spaces*:
 
 - the **Abstract Ramsey Theorem** for two-sorted systems
   `(R, S, ≤, ≤⁰, r, s)` satisfying A.1--A.6;
-- the **Abstract Ellentuck Theorem** for a metrically closed one-sorted
-  approximation space satisfying A.1--A.4.
+- the **Abstract Ellentuck Theorem** for a closed one-sorted
+  approximation space satisfying A.1--A.4, with closedness stated in the
+  book's Tychonoff-product form.
 
 The repository also proves in Lean that the Abstract Ellentuck theorem is the
 diagonal specialization of the Abstract Ramsey theorem, and independently
