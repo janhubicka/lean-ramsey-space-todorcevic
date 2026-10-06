@@ -34,11 +34,20 @@ def code (X : S.Point) : S.ApproximationCode :=
 def PrefixRealizable (c : S.ApproximationCode) (N : ℕ) : Prop :=
   ∃ X, ∀ n, n ≤ N → S.approx n X = c n
 
-/-- First-difference/product closedness of the image of the approximation map. -/
-def IsMetricallyClosed : Prop :=
+/-- Closedness of the approximation image in the product of the discrete
+level spaces, expressed by the equivalent finite-prefix criterion used in
+Todorčević's definition of a closed triple.  A code is in the closure of the
+image exactly when every finite initial block of coordinates is realized. -/
+def IsClosedApproximationImage : Prop :=
   ∀ c : S.ApproximationCode,
     (∀ N, S.PrefixRealizable c N) →
       ∃ X, ∀ n, S.approx n X = c n
+
+/-- Compatibility name used by the original development.  This is exactly the
+closed-approximation-image hypothesis of the published Abstract Ellentuck
+Theorem, presented through its finite-prefix characterization. -/
+abbrev IsMetricallyClosed : Prop :=
+  S.IsClosedApproximationImage
 
 theorem fusion_le {n0 : ℕ} {Y : ℕ → S.Point}
     (hY : S.IsFusionFrom n0 Y) {i j : ℕ} (hij : i ≤ j) :
