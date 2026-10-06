@@ -60,6 +60,7 @@ theorem isTychonoffClosed_iff_isClosedApproximationImage :
     intro n
     exact congrFun hX n
   · intro hprefClosed
+    change IsClosed (Set.range S.code)
     rw [← isOpen_compl_iff]
     rw [isOpen_pi_iff]
     intro c hc
