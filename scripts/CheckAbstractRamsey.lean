@@ -51,6 +51,8 @@ example
 end RamseySpace.TwoSorted.PublishedAbstractRamseyAudit
 
 
+#print axioms RamseySpace.TwoSorted.AbstractRamseySystem.ofPublishedAxioms
+#print axioms RamseySpace.TwoSorted.AbstractRamseySystem.pigeonhole_published
 #print axioms RamseySpace.TwoSorted.fusionComplete_of_isMetricallyClosed
 #print axioms RamseySpace.TwoSorted.CombinatorialForcing.exists_refinement_rejects_endExtensions
 #print axioms RamseySpace.TwoSorted.IsBaire.isRamsey
