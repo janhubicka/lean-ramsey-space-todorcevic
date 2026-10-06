@@ -1,4 +1,5 @@
 import RamseySpace.TopologicalRamsey
+import RamseySpace.ClosedTopology
 
 /-!
 # The Abstract Ellentuck Theorem
@@ -48,16 +49,18 @@ Ramsey null, where Ramsey and Ramsey null quantify over nonempty basic
 neighborhoods `[a,A]`. -/
 theorem abstractEllentuck_textbook
     {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
-    (hclosed : S.IsClosedApproximationImage) :
+    (hclosed : S.IsTychonoffClosed) :
     IsTopologicalRamseySpaceTextbook (S := S) :=
   (isTopologicalRamseySpace_iff_textbook R).1
-    (abstractEllentuck R hclosed)
+    (abstractEllentuck R
+      ((S.isTychonoffClosed_iff_isClosedApproximationImage).1 hclosed))
 
 /-- Compatibility name for the literal basic-neighborhood formulation. -/
 theorem abstractEllentuck_onBasicNeighborhoods
     {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed) :
     IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
-  abstractEllentuck_textbook R hclosed
+  (isTopologicalRamseySpace_iff_textbook R).1
+    (abstractEllentuck R hclosed)
 
 end RamseySpace

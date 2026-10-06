@@ -2,6 +2,7 @@ import RamseySpace.TwoSorted.Diagonal
 import RamseySpace.TopologicalRamsey
 import RamseySpace.TopologyBridge
 import RamseySpace.NullSigma
+import RamseySpace.ClosedTopology
 
 /-!
 # Abstract Ellentuck from the Abstract Ramsey Theorem
@@ -181,10 +182,11 @@ through the Chapter 4 Abstract Ramsey Theorem. -/
 theorem abstractEllentuck_textbook_via_abstractRamsey
     {S : ApproximationSystem.{u, v}}
     (R : AbstractRamseySpace S)
-    (hclosed : S.IsClosedApproximationImage) :
+    (hclosed : S.IsTychonoffClosed) :
     RamseySpace.IsTopologicalRamseySpaceTextbook (S := S) :=
   (RamseySpace.isTopologicalRamseySpace_iff_textbook R).1
-    (abstractEllentuck_via_abstractRamsey R hclosed)
+    (abstractEllentuck_via_abstractRamsey R
+      ((S.isTychonoffClosed_iff_isClosedApproximationImage).1 hclosed))
 
 /-- Compatibility name for the source-facing basic-neighborhood formulation. -/
 theorem abstractEllentuck_onBasicNeighborhoods_via_abstractRamsey
@@ -192,7 +194,8 @@ theorem abstractEllentuck_onBasicNeighborhoods_via_abstractRamsey
     (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed) :
     RamseySpace.IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
-  abstractEllentuck_textbook_via_abstractRamsey R hclosed
+  (RamseySpace.isTopologicalRamseySpace_iff_textbook R).1
+    (abstractEllentuck_via_abstractRamsey R hclosed)
 
 end TwoSorted
 end RamseySpace

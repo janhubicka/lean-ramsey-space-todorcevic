@@ -15,7 +15,7 @@ namespace Ellentuck
 /-- The classical Ellentuck space is a topological Ramsey space. -/
 theorem classicalEllentuck :
     IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
-  abstractEllentuck_textbook ramseySpace isMetricallyClosed
+  abstractEllentuck_textbook ramseySpace isTychonoffClosed
 
 /-- Baire-measurable sets in the classical Ellentuck topology are Ramsey,
 in the literal basic-neighborhood formulation. -/

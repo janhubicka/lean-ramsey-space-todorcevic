@@ -56,11 +56,14 @@ composes better.  The theorem
 formulation is equivalent to the printed basic-neighborhood one under
 A.1--A.4.
 
-The closedness hypothesis is exposed as
-`ApproximationSystem.IsClosedApproximationImage`.  It is the finite-prefix
-characterization of closedness of the approximation image in the product of
-the discrete level spaces.  The older name `IsMetricallyClosed` is a
-compatibility alias.
+The source-facing closedness hypothesis is
+`ApproximationSystem.IsTychonoffClosed`: literal `IsClosed` of the
+approximation-code image in the Tychonoff product of the discrete level
+spaces, exactly as in the book.  The theorem
+`isTychonoffClosed_iff_isClosedApproximationImage` formally proves it
+equivalent to the finite-prefix realization criterion consumed by the fusion
+proof.  `IsMetricallyClosed` remains a compatibility alias for that
+implementation-side criterion.
 
 ## Referee C — proof dependencies and circularity
 
@@ -69,6 +72,7 @@ derivation through the two-sorted Abstract Ramsey Theorem.
 
 The checked endpoints include:
 
+- `ApproximationSystem.isTychonoffClosed_iff_isClosedApproximationImage`;
 - `AbstractRamseySpace.ofPublishedAxioms`;
 - `isTopologicalRamseySpace_iff_textbook`;
 - `abstractEllentuck_textbook`;
