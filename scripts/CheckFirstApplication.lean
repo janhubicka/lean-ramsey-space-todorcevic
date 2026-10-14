@@ -38,6 +38,16 @@ example {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
     IsRamseyNull R X :=
   abstractEllentuck_meagre R hclosed hX
 
+
+/-- Even the lower-finite part of A.2 is not needed for fusion.
+Only order recovery and closedness are used by this generic theorem. -/
+example {S : ApproximationSystem.{u, v}}
+    (leFin : S.FiniteApprox → S.FiniteApprox → Prop)
+    (realizesOrder : ∀ X Y, S.le X Y ↔
+      ∀ n, ∃ m, leFin (S.finiteApprox n X) (S.finiteApprox m Y))
+    (hclosed : S.IsMetricallyClosed) : FusionComplete S :=
+  fusionComplete_of_closed_of_realizesOrder leFin realizesOrder hclosed
+
 end RamseySpace.FirstApplicationAudit
 
 #print axioms RamseySpace.FirstApplicationAudit.fusion_before_pigeonhole
@@ -45,3 +55,5 @@ end RamseySpace.FirstApplicationAudit
 #print axioms RamseySpace.abstractEllentuck_baire
 #print axioms RamseySpace.abstractEllentuck_meagre
 #print axioms RamseySpace.isTopologicalRamseySpace_iff_textbook
+
+#print axioms RamseySpace.fusionComplete_of_closed_of_realizesOrder
