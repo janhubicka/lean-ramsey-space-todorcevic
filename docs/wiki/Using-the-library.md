@@ -13,7 +13,7 @@ git = "https://github.com/janhubicka/lean-ramsey-space-todorcevic"
 rev = "<tested-Git-SHA>"
 ```
 
-Keep Lean and Mathlib versions compatible with the pinned version (inspect `lean-toolchain` and `lakefile.toml` of the library). Then run `lake update`, `lake exe cache get` and `lake build`. Both original consumers, `lean-milliken` and `lean-successors`, serve as integration tests, not as premises of this library.
+Keep Lean and Mathlib versions compatible with the pinned version (inspect `lean-toolchain` and `lakefile.toml` of the library). Then run `lake update`, `lake exe cache get` and `lake build`. Three consumers—`lean-milliken`, `lean-successors` and `lean-dualtree`—serve as integration tests, not as premises of this library.
 
 ## Minimal imports and example expressions
 
