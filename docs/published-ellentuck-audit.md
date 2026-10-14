@@ -26,9 +26,9 @@ A previous API comment incorrectly called the special case
 `A ∈ [a,B]` the "textbook A.3(2)".  That special case is sufficient to
 derive the printed A.3(2), but it is not the statement on the page.  The
 preferred constructor is now `AbstractRamseySpace.ofPublishedAxioms`.
-The old `ofStandardAxioms` and `amalgamation_refine_standard` names are
-kept only so existing applications such as the fat-tree development do not
-break.
+The redundant historical `ofStandardAxioms` constructor and
+`amalgamation_refine_standard` alias were removed in the library audit;
+`amalgamation_refine_onBasicMember` remains a useful derived theorem.
 
 The classical Ellentuck validation now explicitly proves the full printed
 A.3(2), including `[a,A'] ≠ ∅`, as

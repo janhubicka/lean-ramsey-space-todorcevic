@@ -99,6 +99,17 @@ jobs:
             exit 1
           }
 
+      - name: Audit generic finite-colour library endpoints
+        run: |
+          if ! lake env lean scripts/CheckFiniteColouring.lean > proof-audit/finite-colours.log 2>&1; then
+            cat proof-audit/finite-colours.log
+            exit 1
+          fi
+          python3 scripts/check-axiom-log.py proof-audit/finite-colours.log 3 || {
+            cat proof-audit/finite-colours.log
+            exit 1
+          }
+
       - name: Record the exact audited sources
         if: always()
         run: |

@@ -40,9 +40,9 @@ The source-facing one-sorted API follows Chapter 5 of Todorčević literally:
   the redundant printed conclusion `[a,A'] ≠ ∅`; A.3(1) derives it.
   `amalgamation_refine_published` restores the exact printed statement.
 - `AbstractRamseySpace.ofPublishedAxioms` is the literal constructor.
-  The older `ofStandardAxioms` is retained for compatibility; it accepts a
-  convenient basic-member special case of A.3(2), not the printed Chapter 5
-  formulation.
+  The derived lemma `amalgamation_refine_onBasicMember` covers the useful
+  special case where the intermediate reduction itself lies in `[a,B]`;
+  this is not mistaken for the printed A.3(2).
 - `abstractEllentuck_textbook` states Theorem 5.4 using the book's
   literal closedness hypothesis: the approximation-code image is closed in
   the Tychonoff product of discrete approximation levels, together with the
@@ -62,3 +62,17 @@ Stevo Todorčević, *Introduction to Ramsey Spaces*, Annals of Mathematics
 Studies 174, Princeton University Press, 2010.  The two-sorted abstract Ramsey
 theory is developed in Chapter 4 and the topological / Ellentuck theory in
 Chapter 5.
+
+## Generic finite-colour corollaries
+
+Import `RamseySpace.FiniteColouring` (or `RamseySpace`) for theorem statements
+valid in **any** topological Ramsey space. This is the canonical home of
+`RamseySpace.finiteBaireColouring`,
+`RamseySpace.finiteApproximationColouring`, and
+`RamseySpace.ApproximationSystem.isOpen_approxColourFibre`.
+The former application-local implementation in `lean-milliken` is retired.
+
+For mathematical proofs, a published-statement index, auxiliary lemmas and
+adversarial-audit records, see [the researcher wiki source](docs/wiki/README.md)
+(and the [GitHub Wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki)
+when initialized).

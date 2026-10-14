@@ -60,7 +60,7 @@ theorem isRamsey_iff_onBasicNeighborhoods
       R.amalgamation_nonempty a A hd
         (S.self_mem_levelNeighborhood d A)
     rcases hBasic a A hne with ⟨B, hBaA, hhom⟩
-    rcases R.amalgamation_refine_standard a A hd hBaA with
+    rcases R.amalgamation_refine_onBasicMember a A hd hBaA with
       ⟨C, hCdA, hsub⟩
     refine ⟨C, hCdA, ?_⟩
     rcases hhom with ht | hdis
@@ -93,7 +93,7 @@ theorem isRamseyNull_iff_onBasicNeighborhoods
       R.amalgamation_nonempty a A hd
         (S.self_mem_levelNeighborhood d A)
     rcases hBasic a A hne with ⟨B, hBaA, hdis⟩
-    rcases R.amalgamation_refine_standard a A hd hBaA with
+    rcases R.amalgamation_refine_onBasicMember a A hd hBaA with
       ⟨C, hCdA, hsub⟩
     refine ⟨C, hCdA, ?_⟩
     rw [Set.disjoint_left] at hdis ⊢
