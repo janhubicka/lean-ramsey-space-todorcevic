@@ -112,7 +112,7 @@ theorem rejects_of_mem_levelNeighborhood (R : AbstractRamseySystem P)
     Rejects R target X a :=
   rejects_mono R hY hX.1 (R.amalgamation_nonempty a Y hd hX)
 
-theorem accepts_oneStep (R : AbstractRamseySystem P)
+theorem accepts_oneStep
     {target : Set P.Obj.Point} {Y : P.Red.Point}
     {n : ℕ} {a : P.Obj.Approx n} {b : P.Obj.Approx (n + 1)}
     (hY : Accepts target Y a)

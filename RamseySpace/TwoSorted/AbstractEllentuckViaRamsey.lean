@@ -188,14 +188,6 @@ theorem abstractEllentuck_textbook_via_abstractRamsey
     (abstractEllentuck_via_abstractRamsey R
       ((S.isTychonoffClosed_iff_isClosedApproximationImage).1 hclosed))
 
-/-- Compatibility name for the source-facing basic-neighborhood formulation. -/
-theorem abstractEllentuck_onBasicNeighborhoods_via_abstractRamsey
-    {S : ApproximationSystem.{u, v}}
-    (R : AbstractRamseySpace S)
-    (hclosed : S.IsMetricallyClosed) :
-    RamseySpace.IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
-  (RamseySpace.isTopologicalRamseySpace_iff_textbook R).1
-    (abstractEllentuck_via_abstractRamsey R hclosed)
 
 end TwoSorted
 end RamseySpace

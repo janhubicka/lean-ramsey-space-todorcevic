@@ -28,7 +28,7 @@ def splice {n : ℕ} (a : Approx n) (A : Point) (d : ℕ)
       intro k
       by_cases hk1 : k + 1 < n
       · have hk : k < n := by omega
-        simp only [dif_pos hk, dif_pos hk1]
+        simp only [dite_eq_left hk, dite_eq_left hk1]
         exact a.1.strictMono (by simp)
       · by_cases hk : k < n
         · have hkn : k + 1 = n := by omega
@@ -41,11 +41,11 @@ def splice {n : ℕ} (a : Approx n) (A : Point) (d : ℕ)
           rcases hmem with ⟨j, hj⟩
           change (approx d A).1 j = a.1 ⟨k, hk⟩ at hj
           change A j.1 = a.1 ⟨k, hk⟩ at hj
-          simp only [dif_pos hk, dif_neg hk1]
+          simp only [dite_eq_left hk, dite_eq_right hk1]
           rw [hkn, Nat.sub_self, Nat.add_zero, ← hj]
           exact A.strictMono j.2
         · have hk' : ¬ k + 1 < n := by omega
-          simp only [dif_neg hk, dif_neg hk']
+          simp only [dite_eq_right hk, dite_eq_right hk']
           apply A.strictMono
           omega)
 
@@ -132,16 +132,16 @@ def protect {n : ℕ} (B A : Point) (e : ℕ) (hn : 0 < n)
       intro k
       by_cases hk1 : k + 1 < e + 1
       · have hk : k < e + 1 := by omega
-        simp only [if_pos hk, if_pos hk1]
+        simp only [ite_eq_left hk, ite_eq_left hk1]
         exact B.strictMono (by omega)
       · by_cases hk : k < e + 1
         · have hke : k = e := by omega
-          simp only [if_pos hk, if_neg hk1]
+          simp only [ite_eq_left hk, ite_eq_right hk1]
           rw [hke]
           simp only [Nat.sub_self, Nat.add_zero]
           rw [hboundary]
           exact A.strictMono (by omega)
-        · simp only [if_neg hk, if_neg hk1]
+        · simp only [ite_eq_right hk, ite_eq_right hk1]
           apply A.strictMono
           omega)
 
@@ -150,7 +150,7 @@ def protect {n : ℕ} (B A : Point) (e : ℕ) (hn : 0 < n)
     protect B A e hn hboundary k = B k := by
   change (if k < e + 1 then B k
     else A (n + (k - (e + 1)))) = B k
-  rw [if_pos hk]
+  rw [ite_eq_left hk]
 
 @[simp] theorem protect_apply_ge {n : ℕ} (B A : Point) (e : ℕ)
     (hn : 0 < n) (hboundary) {k : ℕ} (hk : e + 1 ≤ k) :
@@ -159,7 +159,7 @@ def protect {n : ℕ} (B A : Point) (e : ℕ) (hn : 0 < n)
   change (if k < e + 1 then B k
     else A (n + (k - (e + 1)))) =
       A (n + (k - (e + 1)))
-  rw [if_neg (not_lt.mpr hk)]
+  rw [ite_eq_right (not_lt.mpr hk)]
 
 theorem approx_protect {n : ℕ} (B A : Point) (e : ℕ)
     (hn : 0 < n) (hboundary : B e = A (n - 1)) :

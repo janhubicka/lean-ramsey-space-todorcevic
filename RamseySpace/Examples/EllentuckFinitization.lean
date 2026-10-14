@@ -130,8 +130,7 @@ theorem realizesOrder (X Y : Point) :
       exact hi
     rcases finite_subset_prefix Y hfin hsub with ⟨m, hm⟩
     exact ⟨m, hm⟩
-  · intro hfin
-    intro x hx
+  · intro hfin x hx
     rcases hx with ⟨i, rfl⟩
     rcases hfin (i + 1) with ⟨m, hm⟩
     have hi :

@@ -55,12 +55,5 @@ theorem abstractEllentuck_textbook
     (abstractEllentuck R
       ((S.isTychonoffClosed_iff_isClosedApproximationImage).1 hclosed))
 
-/-- Compatibility name for the literal basic-neighborhood formulation. -/
-theorem abstractEllentuck_onBasicNeighborhoods
-    {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
-    (hclosed : S.IsMetricallyClosed) :
-    IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
-  (isTopologicalRamseySpace_iff_textbook R).1
-    (abstractEllentuck R hclosed)
 
 end RamseySpace
