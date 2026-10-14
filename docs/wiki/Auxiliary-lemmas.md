@@ -34,7 +34,8 @@ The two-sorted counterparts are under `TwoSorted.Finitization`; its `le0_trans` 
 | --- | --- |
 | `ApproximationSystem.IsFusionFrom` | decreasing sequence with successively protected finite prefixes |
 | `FusionComplete.exists_limit` | a fusion sequence has a common infinite limit preserving its selected finite prefixes |
-| `Finitization.fusionComplete_of_isMetricallyClosed` | fusion from A.2 and closedness alone |
+| `fusionComplete_of_closed_of_realizesOrder` | common fusion lemma: only order recovery from finite approximations and closedness; *no* finite-cone hypothesis |
+| `Finitization.fusionComplete_of_isMetricallyClosed` | one-sorted A.2 consequence of the minimal fusion lemma |
 | `CombinatorialForcing.Accepts`, `Rejects`, `Decides` | forcing predicates used to dichotomize neighborhoods |
 | `exists_global_decider` | one refinement decides all finite approximations at relevant depths |
 | `exists_refinement_rejects_oneStep` | one-step pigeonhole turns rejection into a useful avoidance condition |

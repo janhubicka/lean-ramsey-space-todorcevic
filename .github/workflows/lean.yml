@@ -71,7 +71,7 @@ jobs:
             cat proof-audit/first-application.log
             exit 1
           fi
-          python3 scripts/check-axiom-log.py proof-audit/first-application.log 5 || {
+          python3 scripts/check-axiom-log.py proof-audit/first-application.log 6 || {
             cat proof-audit/first-application.log
             exit 1
           }

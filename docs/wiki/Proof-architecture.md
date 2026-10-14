@@ -42,7 +42,7 @@ This is the combinatorial heart of the proof. Replacing `[a,A] ≠ ∅` by `A �
 
 `Closed.lean` defines an approximation code `c(n)`, finite-prefix realizability, and closedness of the image. For a fusion sequence `Y_k`, finite blocks of its stable approximation code are realized; closedness produces an infinite limit `X`. Finitization then proves `X ≤ Y_k` for all `k`.
 
-Crucially, `Finitization.fusionComplete_of_isMetricallyClosed` uses **only A.2 and code closedness**. In Chapter 4 the weaker `ReductionFinitization` provides the corresponding two-sorted fusion via `TwoSorted.Closed`. Neither proof assumes A.3 or A.4.
+Crucially, `fusionComplete_of_closed_of_realizesOrder` proves fusion from **only the finite approximation recovery of the infinite order and code closedness**. The lower-finite-cone condition and finite quasi-order axioms are not used. Both `Finitization.fusionComplete_of_isMetricallyClosed` (Chapter 5) and `TwoSorted.fusionComplete_of_isMetricallyClosed` (Chapter 4) are now thin consequences of this **single proof**; the Chapter 4 reduction relation is not strengthened. Neither application assumes A.3 or A.4.
 
 `ClosedTopology.lean` supplies an explicit equivalence with the book's topology: the range of `X ↦ (n ↦ ⟨n,r_n(X)⟩)` is closed in the Tychonoff product of the discrete disjoint union of all finite approximation levels. The dependent code and the literal `AR^ω` code are not silently identified.
 

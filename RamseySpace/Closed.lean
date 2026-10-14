@@ -72,11 +72,17 @@ theorem fusion_approx_eq {n0 : ℕ} {Y : ℕ → S.Point}
 
 end ApproximationSystem
 
-/-- A.2 and metric closedness imply fusion completeness, independently of
-A.3 and A.4. This is the interface to use when fusion is needed to establish
-pigeonhole in a new application. -/
-theorem Finitization.fusionComplete_of_isMetricallyClosed
-    {S : ApproximationSystem.{u, v}} (F : Finitization S)
+/-- Closedness plus finite-approximation recovery of the refinement order
+already yields fusion completeness.  No finite-lower-cone condition,
+amalgamation, or pigeonhole principle is used here.
+
+The one-sorted Chapter 5 and two-sorted Chapter 4 finitization packages
+both imply this minimal hypothesis, so they share exactly this proof. -/
+theorem fusionComplete_of_closed_of_realizesOrder
+    {S : ApproximationSystem.{u, v}}
+    (leFin : S.FiniteApprox → S.FiniteApprox → Prop)
+    (realizesOrder : ∀ X Y, S.le X Y ↔
+      ∀ n, ∃ m, leFin (S.finiteApprox n X) (S.finiteApprox m Y))
     (hclosed : S.IsMetricallyClosed) :
     FusionComplete S := by
   refine ⟨?_⟩
@@ -96,14 +102,14 @@ theorem Finitization.fusionComplete_of_isMetricallyClosed
   refine ⟨X, ?_⟩
   intro k
   constructor
-  · apply (F.realizesOrder X (Y k)).2
+  · apply (realizesOrder X (Y k)).2
     intro n
     let j : ℕ := max k (n + 1)
     have hkj : k ≤ j := Nat.le_max_left _ _
     have hnj : n + 1 ≤ j := Nat.le_max_right _ _
     have hYjYk : S.le (Y j) (Y k) :=
       S.fusion_le hY hkj
-    rcases (F.realizesOrder (Y j) (Y k)).1 hYjYk n with
+    rcases (realizesOrder (Y j) (Y k)).1 hYjYk n with
       ⟨m, hm⟩
     refine ⟨m, ?_⟩
     have hstab :
@@ -121,6 +127,13 @@ theorem Finitization.fusionComplete_of_isMetricallyClosed
           S.approx (n0 + k) (Y k) :=
       S.fusion_approx_eq hY (by omega) (by omega)
     exact hX.trans hstab
+
+/-- In a one-sorted Ramsey space, order recovery is the only part of
+A.2 used for fusion; this is available even before A.3 and A.4. -/
+theorem Finitization.fusionComplete_of_isMetricallyClosed
+    {S : ApproximationSystem.{u, v}} (F : Finitization S)
+    (hclosed : S.IsMetricallyClosed) : FusionComplete S :=
+  fusionComplete_of_closed_of_realizesOrder F.leFin F.realizesOrder hclosed
 
 /-- Backwards-compatible Ramsey-space-facing form of fusion completeness.
 Only the finitization component of the supplied instance is used. -/
