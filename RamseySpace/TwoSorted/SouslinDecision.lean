@@ -22,7 +22,7 @@ noncomputable def souslinSeq (i : ℕ) : List ℕ :=
 
 @[simp] theorem souslinSeq_encode (s : List ℕ) :
     souslinSeq (Encodable.encode s) = s := by
-  simp [souslinSeq, Encodable.encodek]
+  simp [souslinSeq]
 
 theorem isRamsey_iInter
     (R : AbstractRamseySystem P)

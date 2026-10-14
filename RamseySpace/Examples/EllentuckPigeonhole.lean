@@ -80,14 +80,14 @@ noncomputable def homogeneousTail (B : Point) (d : ℕ)
       intro k
       by_cases hk1 : k + 1 < d
       · have hk : k < d := by omega
-        simp only [dif_pos hk, dif_pos hk1]
+        simp only [dite_eq_left hk, dite_eq_left hk1]
         exact B.strictMono (by omega)
       · by_cases hk : k < d
-        · simp only [dif_pos hk, dif_neg hk1]
+        · simp only [dite_eq_left hk, dite_eq_right hk1]
           apply B.strictMono
           omega
         · have hk' : ¬ k + 1 < d := by omega
-          simp only [dif_neg hk, dif_neg hk']
+          simp only [dite_eq_right hk, dite_eq_right hk']
           apply B.strictMono
           have hnth :
               Nat.nth p (k - d) < Nat.nth p (k + 1 - d) :=

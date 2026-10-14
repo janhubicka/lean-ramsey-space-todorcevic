@@ -132,7 +132,7 @@ theorem unionStepBelow_mem
     (k d : ℕ) {Y : P.Red.Point} (hY : P.Red.le Y bound) :
     unionStepBelow R bound targets hRamsey k d Y ∈
       P.levelNeighborhood d Y := by
-  simp only [unionStepBelow, dif_pos hY]
+  simp only [unionStepBelow, dite_eq_left hY]
   exact
     (Classical.choose_spec
       (exists_refinement_homogeneous_stage_below
@@ -147,7 +147,7 @@ theorem unionStepBelow_homogeneous
     (hq : q ∈ R.fin.depthApproximations Y d) :
     HomogeneousFinite (targets i)
       (unionStepBelow R bound targets hRamsey k d Y) q := by
-  simp only [unionStepBelow, dif_pos hY]
+  simp only [unionStepBelow, dite_eq_left hY]
   exact
     (Classical.choose_spec
       (exists_refinement_homogeneous_stage_below
@@ -205,7 +205,7 @@ theorem unionFusionBelow_le_start
           unionStepBelow_mem R bound targets hRamsey k (n0 + k) hY
         exact P.Red.le_trans (by simpa [unionFusionBelow] using hstep.1) ih
       · rw [unionFusionBelow]
-        simp only [unionStepBelow, dif_neg hY]
+        simp only [unionStepBelow, dite_eq_right hY]
         exact ih
 
 theorem unionFusionBelow_succ_homogeneous
@@ -416,7 +416,7 @@ theorem nullStepBelow_mem
     (hNull : ∀ i, IsRamseyNullBelow R bound (targets i))
     (k d : ℕ) {Y : P.Red.Point} (hY : P.Red.le Y bound) :
     nullStepBelow R bound targets hNull k d Y ∈ P.levelNeighborhood d Y := by
-  simp only [nullStepBelow, dif_pos hY]
+  simp only [nullStepBelow, dite_eq_left hY]
   exact
     (Classical.choose_spec
       (exists_refinement_avoids_stage_below
@@ -431,7 +431,7 @@ theorem nullStepBelow_avoids
     (hq : q ∈ R.fin.depthApproximations Y d) :
     AvoidsFinite (targets i)
       (nullStepBelow R bound targets hNull k d Y) q := by
-  simp only [nullStepBelow, dif_pos hY]
+  simp only [nullStepBelow, dite_eq_left hY]
   exact
     (Classical.choose_spec
       (exists_refinement_avoids_stage_below

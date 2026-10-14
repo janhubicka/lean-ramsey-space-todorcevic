@@ -54,7 +54,7 @@ theorem souslinResidual_subset_envelope_diff_tail
     change
       B ∈
         (P.objectNeighborhood a X ∩ Souslin.normalize A s) \
-          acceptedUnion R
+          acceptedUnion
             (Souslin.tail (Souslin.normalize A) s)ᶜ X at henv
     exact henv.1.1
   have hchildEnv :
@@ -181,7 +181,7 @@ theorem souslinEnvelopeNext_mem
     B ∈ souslinEnvelope R A a X
       (s ++ [souslinEnvelopeNext R A a X B s]) := by
   unfold souslinEnvelopeNext
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec h
 
 /-- The path obtained by repeatedly following the chosen child envelope. -/
@@ -296,7 +296,7 @@ theorem rootEnvelope_diff_operation_subset_residualUnion
         (P.objectNeighborhood a X ∩
           Souslin.normalize A
             (souslinEnvelopePath R A a X B k)) \
-          acceptedUnion R
+          acceptedUnion
             (Souslin.tail (Souslin.normalize A)
               (souslinEnvelopePath R A a X B k))ᶜ X at henv
     have hnode :

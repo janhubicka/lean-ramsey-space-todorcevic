@@ -23,7 +23,7 @@ theorem fusion_before_pigeonhole
 example {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
     (hclosed : S.IsMetricallyClosed) :
     IsTopologicalRamseySpaceOnBasicNeighborhoods (S := S) :=
-  abstractEllentuck_onBasicNeighborhoods R hclosed
+  (isTopologicalRamseySpace_iff_textbook R).1 (abstractEllentuck R hclosed)
 
 /-- The topology is pinned explicitly, independently of ambient instances. -/
 example {S : ApproximationSystem.{u, v}} (R : AbstractRamseySpace S)
@@ -44,4 +44,4 @@ end RamseySpace.FirstApplicationAudit
 #print axioms RamseySpace.abstractEllentuck
 #print axioms RamseySpace.abstractEllentuck_baire
 #print axioms RamseySpace.abstractEllentuck_meagre
-#print axioms RamseySpace.abstractEllentuck_onBasicNeighborhoods
+#print axioms RamseySpace.isTopologicalRamseySpace_iff_textbook

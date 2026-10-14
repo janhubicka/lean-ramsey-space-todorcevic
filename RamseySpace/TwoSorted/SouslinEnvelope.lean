@@ -120,7 +120,6 @@ theorem objectNeighborhood_isRamseyBelow
 
 /-- Union of the neighborhoods whose approximation is accepted for target. -/
 def acceptedUnion
-    (R : AbstractRamseySystem P)
     (target : Set P.Obj.Point) (X : P.Red.Point) : Set P.Obj.Point :=
   basicUnion X (fun _ b => Accepts target X b)
 
@@ -128,7 +127,7 @@ theorem acceptedUnion_isRamseyBelow
     (R : AbstractRamseySystem P)
     (C : RamseySpace.FusionComplete P.Red)
     (target : Set P.Obj.Point) (X : P.Red.Point) :
-    IsRamseyBelow R X (acceptedUnion R target X) :=
+    IsRamseyBelow R X (acceptedUnion target X) :=
   basicUnion_isRamseyBelow R C X (fun _ b => Accepts target X b)
 
 /-- The local envelope Phi(X_s^*) from equation (4.13), in normalized
@@ -139,7 +138,7 @@ def souslinEnvelope
     {n : ℕ} (a : P.Obj.Approx n)
     (X : P.Red.Point) (s : List ℕ) : Set P.Obj.Point :=
   (P.objectNeighborhood a X ∩ Souslin.normalize A s) \
-    acceptedUnion R (Souslin.tail (Souslin.normalize A) s)ᶜ X
+    acceptedUnion (Souslin.tail (Souslin.normalize A) s)ᶜ X
 
 /-- The normalized Souslin tail, restricted to the starting neighborhood,
 is contained in its local envelope. -/
@@ -183,7 +182,7 @@ theorem souslinEnvelope_isRamseyBelow
     exact (IsRamseyBelow.inter R hbase hnode) b Y hY hd
   have haccepted :
       IsRamseyBelow R X
-        (acceptedUnion R (Souslin.tail (Souslin.normalize A) s)ᶜ X) := by
+        (acceptedUnion (Souslin.tail (Souslin.normalize A) s)ᶜ X) := by
     intro m b Y d hY hd
     exact
       (acceptedUnion_isRamseyBelow R C
@@ -266,7 +265,7 @@ theorem baireSubset_souslinEnvelope_diff_tail_isMeagreBelow
             W ∈ souslinEnvelope R A a X s :=
           (hsub hWM).1
         have hAccepted :
-            W ∈ acceptedUnion R
+            W ∈ acceptedUnion
               (Souslin.tail (Souslin.normalize A) s)ᶜ X := by
           exact ⟨k, c, haccX, hWcX⟩
         exact hEnv.2 hAccepted
