@@ -36,6 +36,7 @@ import RamseySpace
 -- Concrete classical Ellentuck example.
 #check RamseySpace.Examples.Ellentuck.classicalEllentuck
 -- Application-independent finite-colour corollaries.
+#check RamseySpace.fusionComplete_of_closed_of_realizesOrder
 #check RamseySpace.finiteBaireColouring
 #check RamseySpace.finiteApproximationColouring
 ```

@@ -44,11 +44,11 @@ jobs:
 
       - name: Reject admitted or ad-hoc axioms in library sources
         run: |
-          if grep -RInE --include='*.lean' '(^|[^[:alnum:]_])(sorry|admit)([^[:alnum:]_]|$)|^[[:space:]]*axiom[[:space:]]' RamseySpace RamseySpace.lean; then
-            echo "FAIL: library source contains sorry/admit/axiom"
+          if grep -RInE --include='*.lean' '(^|[^[:alnum:]_])(sorry|admit)([^[:alnum:]_]|$)|^[[:space:]]*(axiom|constant)[[:space:]]' RamseySpace RamseySpace.lean; then
+            echo "FAIL: library source contains sorry/admit/axiom/constant"
             exit 1
           fi
-          echo "PASS: library sources contain no sorry/admit/axiom declarations"
+          echo "PASS: library sources contain no sorry/admit/axiom/constant declarations"
 
       - name: Build
         run: |
@@ -64,6 +64,15 @@ jobs:
           hints = sum("Hint:" in line for line in text.splitlines())
           print(f"PASS: full build ({warnings} warning lines, {hints} hints; full log in artifact)")
           PY
+
+      - name: Build all local Ramsey-space modules, including optional imports
+        run: |
+          mapfile -t modules < <(
+            find RamseySpace -type f -name '*.lean' -print |
+              sed -e 's@/@.@g' -e 's@[.]lean$@@' | sort
+          )
+          echo "Compiling ${#modules[@]} library modules"
+          lake build "${modules[@]}"
 
       - name: Audit first-application interfaces and theorem axioms
         run: |
