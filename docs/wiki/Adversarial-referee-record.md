@@ -44,7 +44,7 @@
 
 **Not redundant:** the two-sorted forcing proof cannot be deleted merely because one-sorted Abstract Ellentuck exists; it proves a genuinely different system and stronger Souslin conclusions. Similarly the classical example cannot be deleted without losing the principal end-to-end test of A.3 and A.4.
 
-**Documentation and adoption:** A new researcher should find the exact theorem types, proof differences and auxiliary lemmas in this wiki, with a source-controlled audit trail and pinned CI checks. The only existing integrations at audit time are `lean-milliken` and `lean-successors`; their tests are regression examples, not reasons to retain misleading aliases forever.
+**Documentation and adoption:** A new researcher should find the exact theorem types, proof differences and auxiliary lemmas in this wiki, with a source-controlled audit trail and pinned CI checks. The three existing integrations at audit time are `lean-milliken`, `lean-successors` and `lean-dualtree`. Their CI builds are regression examples, not reasons to retain misleading aliases forever.
 
 ## Open verification tasks and limitations
 

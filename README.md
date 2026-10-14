@@ -13,9 +13,9 @@ The repository also proves in Lean that the Abstract Ellentuck theorem is the
 diagonal specialization of the Abstract Ramsey theorem, and independently
 validates the framework on the classical Ellentuck space `[ℕ]^ω`.
 
-The general development is application-independent. Projects such as
-`lean-successors` can depend on this repository and only need to verify the
-appropriate abstract axioms for their concrete Ramsey spaces.
+The general development is application-independent. Three existing downstream integrations—`lean-successors`, `lean-milliken`,
+and `lean-dualtree`—serve as regression tests. Future projects can depend on
+this repository and prove the abstract axioms for their own Ramsey spaces.
 
 ## Main theorem entry points
 
@@ -74,5 +74,4 @@ The former application-local implementation in `lean-milliken` is retired.
 
 For mathematical proofs, a published-statement index, auxiliary lemmas and
 adversarial-audit records, see [the researcher wiki source](docs/wiki/README.md)
-(and the [GitHub Wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki)
-when initialized).
+and the live [GitHub Wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki).

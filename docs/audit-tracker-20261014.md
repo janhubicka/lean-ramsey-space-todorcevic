@@ -44,8 +44,15 @@ The workflow `.github/workflows/lean.yml` records logs and checks the number of 
 
 ## Consumer integration and release gate
 
-Update `lean-successors` and `lean-milliken` to the *same tested core revision*, update any obsolete imports, and run each project's full CI. In Milliken, delete its `FiniteColourRamseySpace.lean` after replacing imports with `RamseySpace.FiniteColouring`. Do not merge a breaking API change unless consumer smoke builds are green. Record their PRs, merge revisions and workflow links here when available.
+Three consumers require updates: [lean-successors PR #413](https://github.com/janhubicka/lean-successors/pull/413), [lean-milliken PR #153](https://github.com/janhubicka/lean-milliken/pull/153), and [lean-dualtree PR #273](https://github.com/janhubicka/lean-dualtree/pull/273). They all use the audited core revision `263e11eefa81fefc17896392fb48bf09c8ac6f3e`, verified by [GitHub Actions run 38625850153](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38625850153), and its merged PR #14 (merge commit `ead838518f36f160ed04e6427b7a51e385046a73`). In Milliken, the duplicate `FiniteColourRamseySpace.lean` is deleted and `RamseySpace.FiniteColouring` imported instead. Before merging any downstream PR, verify that repository's full CI; do not infer consumer success from core success.
 
 ## Explicit nonclaims
 
 This audit does **not** establish a new formalization of every concrete Ramsey space in the book. The core library formalizes the central *abstract* theorems and a concrete classical Ellentuck example. Its generic finite-colour theorem has no independent power to prove tree-specific A.4: those obligations belong in the downstream library. A successful Lean CI checks the elaborated theorem types and their kernel dependencies; manuscript correspondence is separately audited as above.
+
+## Wiki publication evidence
+
+The Wiki was initialized and the source pages were successfully pushed by
+[Publish Ramsey-space wiki run 38626621204](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38626621204)
+on 14 October 2026. The actual separate Wiki commit is `7e5bc43` on the
+Wiki's `master` branch. See the [live researcher wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki).
