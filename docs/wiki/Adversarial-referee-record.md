@@ -46,10 +46,10 @@
 
 **Documentation and adoption:** A new researcher should find the exact theorem types, proof differences and auxiliary lemmas in this wiki, with a source-controlled audit trail and pinned CI checks. The three existing integrations at audit time are `lean-milliken`, `lean-successors` and `lean-dualtree`. Their CI builds are regression examples, not reasons to retain misleading aliases forever.
 
-## Open verification tasks and limitations
+## Verified integration and genuine remaining limitations
 
-- The follow-up CI must confirm the *new* finite-colouring module elaborates under this library's pinned Mathlib version and that removing legacy names breaks neither downstream consumer.
-- Do not silently claim independent checks of every section or example from Todorčević's entire book.
-- A GitHub wiki page committed to `docs/wiki` is source-controlled documentation, not necessarily a live GitHub Wiki URL. The latter requires initialization of the separate `.wiki.git` repository and a successful publishing workflow. See [Publishing](Publishing.md).
+- The extracted generic finite-colouring module and removal of obsolete aliases passed the core [Lean kernel audit](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38636833578) and all **three** downstream integrations: [Milliken](https://github.com/janhubicka/lean-milliken/actions/runs/38636961931), [successors](https://github.com/janhubicka/lean-successors/actions/runs/38636888684), and [dualtree](https://github.com/janhubicka/lean-dualtree/actions/runs/38636910049). The independent successor V10 audit [also passed](https://github.com/janhubicka/lean-successors/actions/runs/38636888582).
+- The separately compiled and published [GitHub Wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki) is live; the most recent successful [sync](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38636833552) includes the shared-fusion discussion.
+- This is **not** a claim that every concrete application in the book has been formalized. In particular, a *non-diagonal* concrete A.1–A.6 instance would be a valuable next independent application test. The classical Ellentuck example and the diagonal Chapter 4 specialization already compile.
 
 The latest evidence, PRs, and regression gates are tracked in [audit tracker](../audit-tracker-20261014.md).

@@ -26,6 +26,7 @@ this repository and prove the abstract axioms for their own Ramsey spaces.
 - `RamseySpace.TwoSorted.abstractEllentuck_textbook_via_abstractRamsey`
 - `RamseySpace.TwoSorted.abstractEllentuck_via_abstractRamsey`
 - `RamseySpace.Examples.Ellentuck.classicalEllentuck`
+- `RamseySpace.fusionComplete_of_closed_of_realizesOrder` — minimal shared fusion theorem; only order recovery and code closedness, no finite-cone or pigeonhole hypotheses
 
 
 ## Published Chapter 5 interface
