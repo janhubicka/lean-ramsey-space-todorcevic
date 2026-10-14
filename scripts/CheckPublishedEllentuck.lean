@@ -88,3 +88,7 @@ end RamseySpace.PublishedEllentuckAudit
 #print axioms RamseySpace.abstractEllentuck_textbook
 #print axioms RamseySpace.TwoSorted.abstractEllentuck_textbook_via_abstractRamsey
 #print axioms RamseySpace.Examples.Ellentuck.classicalEllentuck
+
+-- Countable Ramsey and null closures are independently audited.
+#print axioms RamseySpace.CombinatorialForcing.isRamsey_iUnion
+#print axioms RamseySpace.CombinatorialForcing.isRamseyNull_iUnion

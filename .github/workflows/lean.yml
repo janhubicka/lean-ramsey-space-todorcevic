@@ -82,7 +82,7 @@ jobs:
             cat proof-audit/published-ellentuck.log
             exit 1
           fi
-          python3 scripts/check-axiom-log.py proof-audit/published-ellentuck.log 7 || {
+          python3 scripts/check-axiom-log.py proof-audit/published-ellentuck.log 9 || {
             cat proof-audit/published-ellentuck.log
             exit 1
           }
@@ -94,7 +94,7 @@ jobs:
             cat proof-audit/abstract-ramsey-axioms.log
             exit 1
           fi
-          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 10 || {
+          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 13 || {
             cat proof-audit/abstract-ramsey-axioms.log
             exit 1
           }
