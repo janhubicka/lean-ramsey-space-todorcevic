@@ -61,3 +61,8 @@ end RamseySpace.TwoSorted.PublishedAbstractRamseyAudit
 #print axioms RamseySpace.TwoSorted.abstractRamsey_iff
 #print axioms RamseySpace.TwoSorted.abstractBaire_iff_isRamsey_via_abstractRamsey
 #print axioms RamseySpace.TwoSorted.abstractEllentuck_via_abstractRamsey
+
+-- The complete Chapter 4 theorem includes Souslin closure and its full package.
+#print axioms RamseySpace.TwoSorted.CombinatorialForcing.isRamsey_souslin
+#print axioms RamseySpace.TwoSorted.abstractRamsey_souslin
+#print axioms RamseySpace.TwoSorted.abstractRamsey_full

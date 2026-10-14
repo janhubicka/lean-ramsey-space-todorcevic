@@ -82,7 +82,7 @@ jobs:
             cat proof-audit/published-ellentuck.log
             exit 1
           fi
-          python3 scripts/check-axiom-log.py proof-audit/published-ellentuck.log 7 || {
+          python3 scripts/check-axiom-log.py proof-audit/published-ellentuck.log 9 || {
             cat proof-audit/published-ellentuck.log
             exit 1
           }
@@ -94,8 +94,19 @@ jobs:
             cat proof-audit/abstract-ramsey-axioms.log
             exit 1
           fi
-          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 10 || {
+          python3 scripts/check-axiom-log.py proof-audit/abstract-ramsey-axioms.log 13 || {
             cat proof-audit/abstract-ramsey-axioms.log
+            exit 1
+          }
+
+      - name: Audit generic finite-colour library endpoints
+        run: |
+          if ! lake env lean scripts/CheckFiniteColouring.lean > proof-audit/finite-colours.log 2>&1; then
+            cat proof-audit/finite-colours.log
+            exit 1
+          fi
+          python3 scripts/check-axiom-log.py proof-audit/finite-colours.log 3 || {
+            cat proof-audit/finite-colours.log
             exit 1
           }
 

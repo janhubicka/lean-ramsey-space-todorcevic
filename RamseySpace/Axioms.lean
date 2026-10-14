@@ -14,13 +14,9 @@ is nonempty; that clause follows from A.3(1).  The theorem
 `amalgamation_refine_published` and constructor `ofPublishedAxioms`
 retain the clause explicitly, so the source-facing API is literal.
 
-Historically this library also exposed a convenient special case in which
-`A` itself belongs to `[a,B]`, under the names
-`amalgamation_refine_standard` and `ofStandardAxioms`.  That special
-case is sufficient to derive the published axiom, but it is not the literal
-formulation in Chapter 5.  The source-faithful constructor is now
-`AbstractRamseySpace.ofPublishedAxioms`; the old names are retained only
-for downstream compatibility.
+A separate consequence, `amalgamation_refine_onBasicMember`, covers the
+useful case where the intermediate reduction already lies in `[a,B]`.
+The public constructor `ofPublishedAxioms` follows the printed hypothesis.
 -/
 
 namespace RamseySpace
@@ -86,18 +82,6 @@ theorem amalgamation_refine_onBasicMember (R : AbstractRamseySpace S)
     ⟨A, S.le_refl A, hA.2⟩
   exact R.amalgamation_refine a B hd hA.1 hne
 
-/-- Legacy name for `amalgamation_refine_onBasicMember`.
-
-This is a consequence of, not the literal formulation of, the published
-A.3(2). -/
-theorem amalgamation_refine_standard (R : AbstractRamseySpace S)
-    {n : ℕ} (a : S.Approx n) (B : S.Point) {d : ℕ}
-    (hd : R.fin.HasDepth a B d) {A : S.Point}
-    (hA : A ∈ S.neighborhood a B) :
-    ∃ A', A' ∈ S.levelNeighborhood d B ∧
-      S.neighborhood a A' ⊆ S.neighborhood a A :=
-  R.amalgamation_refine_onBasicMember a B hd hA
-
 /-- Build the A.1--A.4 interface from the literal published formulations of
 A.3(1), A.3(2), and A.4.  A.1 is carried by `ApproximationSystem` and
 A.2 by `Finitization`.
@@ -133,44 +117,6 @@ def ofPublishedAxioms
     rcases amalgamation_refine a B hd hAB hne with
       ⟨A', hA'B, _, hsub⟩
     exact ⟨A', hA'B, hsub⟩
-  pigeonhole := pigeonhole
-
-/-- Compatibility constructor from the special case of A.3(2) in which the
-intermediate object itself belongs to `[a,B]`.
-
-That special case implies the published A.3(2), but is not its literal
-statement. New applications should normally use `ofPublishedAxioms`. -/
-def ofStandardAxioms
-    (fin : Finitization S)
-    (amalgamation_nonempty :
-      ∀ {n : ℕ} (a : S.Approx n) (B : S.Point) {d : ℕ},
-        fin.HasDepth a B d →
-        ∀ ⦃A : S.Point⦄, A ∈ S.levelNeighborhood d B →
-          (S.neighborhood a A).Nonempty)
-    (amalgamation_refine_standard :
-      ∀ {n : ℕ} (a : S.Approx n) (B : S.Point) {d : ℕ},
-        fin.HasDepth a B d →
-        ∀ {A : S.Point}, A ∈ S.neighborhood a B →
-          ∃ A', A' ∈ S.levelNeighborhood d B ∧
-            S.neighborhood a A' ⊆ S.neighborhood a A)
-    (pigeonhole :
-      ∀ {n : ℕ} (a : S.Approx n) (B : S.Point) {d : ℕ},
-        fin.HasDepth a B d →
-        ∀ O : Set (S.Approx (n + 1)),
-          ∃ A, A ∈ S.levelNeighborhood d B ∧
-            (S.oneStepApproximations a A ⊆ O ∨
-              Disjoint (S.oneStepApproximations a A) O)) :
-    AbstractRamseySpace S where
-  fin := fin
-  amalgamation_nonempty := amalgamation_nonempty
-  amalgamation_refine := by
-    intro n a B d hd A hAB hne
-    rcases hne with ⟨X, hXaA⟩
-    have hXaB : X ∈ S.neighborhood a B :=
-      S.neighborhood_mono hAB hXaA
-    rcases amalgamation_refine_standard a B hd hXaB with
-      ⟨A', hA'B, hsub⟩
-    exact ⟨A', hA'B, hsub.trans (S.neighborhood_mono hXaA.1)⟩
   pigeonhole := pigeonhole
 
 end AbstractRamseySpace

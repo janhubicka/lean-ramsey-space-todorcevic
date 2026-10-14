@@ -1,46 +1,15 @@
-import RamseySpace.Basic
-import RamseySpace.Finitization
-import RamseySpace.Axioms
-import RamseySpace.Ramsey
-import RamseySpace.Standard
-import RamseySpace.Fusion
-import RamseySpace.Forcing
-import RamseySpace.Decision
-import RamseySpace.Reject
-import RamseySpace.EndExtension
-import RamseySpace.Baire
-import RamseySpace.Closed
-import RamseySpace.ClosedTopology
-import RamseySpace.Sigma
-import RamseySpace.NullSigma
-import RamseySpace.Ellentuck
-import RamseySpace.TopologyBridge
 import RamseySpace.AbstractEllentuck
-import RamseySpace.Examples.EllentuckBasic
-import RamseySpace.Examples.EllentuckFinitization
-import RamseySpace.Examples.EllentuckDepth
-import RamseySpace.Examples.EllentuckAmalgamation
-import RamseySpace.Examples.EllentuckPigeonhole
-import RamseySpace.Examples.EllentuckAxioms
-import RamseySpace.Examples.EllentuckClosed
-import RamseySpace.Examples.EllentuckTheorem
-import RamseySpace.TwoSorted.Basic
-import RamseySpace.TwoSorted.Finitization
-import RamseySpace.TwoSorted.Axioms
-import RamseySpace.TwoSorted.Ramsey
-import RamseySpace.TwoSorted.Closed
-import RamseySpace.TwoSorted.Forcing
-import RamseySpace.TwoSorted.Decision
-import RamseySpace.TwoSorted.Reject
-import RamseySpace.TwoSorted.EndExtension
-import RamseySpace.TwoSorted.Baire
-import RamseySpace.TwoSorted.Sigma
-import RamseySpace.TwoSorted.NullSigma
-import RamseySpace.TwoSorted.Relative
-import RamseySpace.TwoSorted.RelativeSigma
-import RamseySpace.TwoSorted.SouslinDecision
-import RamseySpace.TwoSorted.SouslinEnvelope
-import RamseySpace.TwoSorted.SouslinClosure
-import RamseySpace.TwoSorted.AbstractRamsey
-import RamseySpace.TwoSorted.Diagonal
 import RamseySpace.TwoSorted.AbstractEllentuckViaRamsey
+import RamseySpace.TwoSorted.RelativeSigma
+import RamseySpace.Examples.EllentuckTheorem
+import RamseySpace.Souslin
+import RamseySpace.FiniteColouring
+
+/-!
+# Public Ramsey-space library
+
+The umbrella import exposes the Chapter 4 Abstract Ramsey theorem, the
+Chapter 5 Abstract Ellentuck theorem, the classical Ellentuck example,
+Souslin/relative closures, and generic finite-colouring consequences.
+For smaller dependencies, import individual modules instead.
+-/
