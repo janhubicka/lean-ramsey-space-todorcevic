@@ -56,3 +56,11 @@ The Wiki was initialized and the source pages were successfully pushed by
 [Publish Ramsey-space wiki run 38626621204](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38626621204)
 on 14 October 2026. The actual separate Wiki commit is `7e5bc43` on the
 Wiki's `master` branch. See the [live researcher wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki).
+
+## Follow-up: exhaustive source-module CI and shared fusion (PRs #17–#18)
+
+The verified [shared-fusion PR #17](https://github.com/janhubicka/lean-ramsey-space-todorcevic/pull/17) removes the duplicated Chapter 4/5 fusion proof. Its generic theorem `fusionComplete_of_closed_of_realizesOrder` assumes **only** finite approximation recovery of the infinite reduction order and closedness: it does not require finite lower cones, A.3 or A.4. A constructor-level test and an additional `#print axioms` report cover this weaker result. The merged revision is `bb29d1f3f36ff37a35857247ca9fae581fa1fa43`, with successful [main-branch Lean CI](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38636833578) and [live wiki sync](https://github.com/janhubicka/lean-ramsey-space-todorcevic/actions/runs/38636833552).
+
+The downstream Milliken audit exposed a reusable-library integration hazard: a successful default Lake target need not compile optional importable modules. [Milliken PR #153](https://github.com/janhubicka/lean-milliken/pull/153) now explicitly builds every local module and passes its complete 519-endpoint axioms audit ([workflow](https://github.com/janhubicka/lean-milliken/actions/runs/38636961931)); it was merged at `8bd32d6d607590319e5710cc0206c76ed8079b0d`.
+
+This companion core-library CI change explicitly compiles **every** `RamseySpace/**/*.lean` source, not just the modules reachable from the umbrella import, and rejects locally declared `constant` along with `axiom`, `sorry` and `admit`. Its source-only changes do not alter proof statements or the version pinned by the three clients. The remaining downstream release-gate PRs are [successors #420](https://github.com/janhubicka/lean-successors/pull/420) and [dualtree #281](https://github.com/janhubicka/lean-dualtree/pull/281).
