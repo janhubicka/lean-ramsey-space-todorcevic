@@ -1,5 +1,6 @@
 import RamseySpace.EquivTransport
 import RamseySpace.Examples.EllentuckProperA2
+import RamseySpace.Examples.SupportedEllentuck
 
 /-!
 Track E: the point-transport result remains conditional on an *equivalence*
@@ -17,3 +18,8 @@ existence of such an equivalence for the Hrushovski copy spaces.
 #print axioms RamseySpace.abstractEllentuck_reindex
 
 #print axioms RamseySpace.Examples.Ellentuck.prefix_leFin_proper
+
+#print axioms RamseySpace.Examples.SupportedEllentuck.domain_subset_iff
+#print axioms RamseySpace.Examples.SupportedEllentuck.domain_injective
+#print axioms RamseySpace.Examples.SupportedEllentuck.isTychonoffClosed
+#print axioms RamseySpace.Examples.SupportedEllentuck.supportedEllentuck
