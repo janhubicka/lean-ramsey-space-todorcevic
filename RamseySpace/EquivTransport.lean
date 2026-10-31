@@ -75,7 +75,8 @@ theorem reindex_oneStepApproximations
     refine ⟨e.symm X, ?_, ?_⟩
     · apply (S.reindex_mem_neighborhood e).mpr
       simpa using hX
-    · simpa using hXb
+    · change S.approx (n + 1) (e (e.symm X)) = b
+      simpa using hXb
 
 /-- Finite-prefix realizability is invariant under reindexing of points. -/
 theorem reindex_isClosedApproximationImage
@@ -88,7 +89,10 @@ theorem reindex_isClosedApproximationImage
     rcases hreal N with ⟨X, hX⟩
     exact ⟨e X, hX⟩
   rcases hclosed c hrealS with ⟨Y, hY⟩
-  exact ⟨e.symm Y, by simpa using hY⟩
+  refine ⟨e.symm Y, ?_⟩
+  intro n
+  change S.approx n (e (e.symm Y)) = c n
+  simpa using hY n
 
 /-- The precise published Tychonoff closedness hypothesis is preserved. -/
 theorem reindex_isTychonoffClosed
@@ -121,8 +125,10 @@ def reindex {S : ApproximationSystem.{u, v}}
     rcases F.prefix_leFin habS hbc with ⟨j, d, hd, hfin⟩
     rcases hd with ⟨hjk, Y, hYd, hYc⟩
     refine ⟨j, d, ⟨hjk, e.symm Y, ?_, ?_⟩, hfin⟩
-    · simpa using hYd
-    · simpa using hYc
+    · change S.approx j (e (e.symm Y)) = d
+      simpa using hYd
+    · change S.approx k (e (e.symm Y)) = c
+      simpa using hYc
 
 end Finitization
 
