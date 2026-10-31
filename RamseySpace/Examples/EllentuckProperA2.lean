@@ -29,6 +29,7 @@ theorem prefix_leFin_proper
     ⟨last, rfl⟩
   rcases hbc hlast with ⟨j, hj⟩
   rcases S.approx_surjective k c with ⟨Z, hZ⟩
+  change Point at Z
   let d : Approx j.1 := S.approx j.1 Z
   refine ⟨j.1, d, j.2, ?_, ?_⟩
   · exact ⟨Nat.le_of_lt j.2, Z, rfl, hZ⟩
