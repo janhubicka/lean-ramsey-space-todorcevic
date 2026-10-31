@@ -41,11 +41,10 @@ theorem prefix_leFin_proper
     have hlt : x < b.1 last := by
       rw [← ht, ← hXt, ← hXn]
       exact X.strictMono t.2
-    have hsub : x ∈ finiteRange (⟨k, c⟩ : S.FiniteApprox) := by
-      apply hbc
-      apply finiteRange_subset_of_isInitial
-        (⟨Nat.le_of_lt hnm, X, hXa, hXb⟩ : S.IsInitial a b)
-      exact ⟨t, ht⟩
+    have habS : S.IsInitial a b :=
+      ⟨Nat.le_of_lt hnm, X, hXa, hXb⟩
+    have hsub : x ∈ finiteRange (⟨k, c⟩ : S.FiniteApprox) :=
+      hbc ((finiteRange_subset_of_isInitial habS) ⟨t, ht⟩)
     rcases hsub with ⟨i, hi⟩
     have hij : i.1 < j.1 := by
       by_contra hnot
