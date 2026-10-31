@@ -58,8 +58,13 @@ theorem domain_injective
   intro X Y h
   apply OrderEmbedding.eq_of_range_eq
   ext n
-  have hn := congrArg (fun D : Set Vertex => singleton n ∈ D) h
-  simpa only [singleton_mem_domain support singleton hsingle] using hn
+  calc
+    n ∈ Set.range X ↔ singleton n ∈ domain support X :=
+      (singleton_mem_domain support singleton hsingle X n).symm
+    _ ↔ singleton n ∈ domain support Y :=
+      Iff.of_eq (congrArg (fun D : Set Vertex => singleton n ∈ D) h)
+    _ ↔ n ∈ Set.range Y :=
+      singleton_mem_domain support singleton hsingle Y n
 
 /-- Exactly the domains represented by strictly increasing infinite
 level enumerations, with no assertion about functional embeddings. -/
