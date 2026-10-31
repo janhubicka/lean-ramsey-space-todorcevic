@@ -11,9 +11,15 @@ on:
   pull_request:
     paths:
       - 'RamseySpace/EquivTransport.lean'
+      - 'RamseySpace/Examples/EllentuckProperA2.lean'
+      - 'RamseySpace/Examples/SupportedEllentuck.lean'
       - 'scripts/CheckEquivTransport.lean'
       - '.github/workflows/track-e-equiv-transport.yml'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   audit:
