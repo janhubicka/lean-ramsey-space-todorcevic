@@ -97,6 +97,45 @@ def decode (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
     Copy support ≃ Ellentuck.Point :=
   (encode support singleton hsingle).symm
 
+/-- Decoding and re-encoding recovers the *entire* vertex domain,
+not merely the set of represented levels. -/
+theorem domain_decode
+    (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
+    (hsingle : ∀ n, support (singleton n) = {n})
+    (D : Copy support) :
+    domain support (decode support singleton hsingle D) = D.1 := by
+  have h := (encode support singleton hsingle).apply_symm_apply D
+  exact congrArg Subtype.val h
+
+/-- The transferred quasi-order is exactly inclusion of complete
+support-saturated vertex domains. -/
+theorem le_iff_domain_subset
+    (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
+    (hsingle : ∀ n, support (singleton n) = {n})
+    (D E : Copy support) :
+    (Ellentuck.S.reindex (decode support singleton hsingle)).le D E ↔
+      D.1 ⊆ E.1 := by
+  change Set.range (decode support singleton hsingle D) ⊆
+    Set.range (decode support singleton hsingle E) ↔ D.1 ⊆ E.1
+  rw [← domain_decode support singleton hsingle D,
+      ← domain_decode support singleton hsingle E]
+  exact (domain_subset_iff support singleton hsingle _ _).symm
+
+/-- A copy represented by X has precisely X's classical first-n
+approximation. -/
+theorem approx_ofPoint
+    (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
+    (hsingle : ∀ n, support (singleton n) = {n})
+    (X : Ellentuck.Point) (n : ℕ) :
+    (Ellentuck.S.reindex (decode support singleton hsingle)).approx n
+      (ofPoint support X) = Ellentuck.approx n X := by
+  change Ellentuck.approx n
+    (decode support singleton hsingle (ofPoint support X)) =
+      Ellentuck.approx n X
+  have h := (encode support singleton hsingle).symm_apply_apply X
+  change decode support singleton hsingle (ofPoint support X) = X at h
+  rw [h]
+
 /-- The finite approximations are literally the first n image levels. -/
 def approximationSystem
     (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
