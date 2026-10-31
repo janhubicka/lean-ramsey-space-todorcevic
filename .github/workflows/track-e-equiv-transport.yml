@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'RamseySpace/EquivTransport.lean'
+      - 'RamseySpace/Examples/EllentuckProperA2.lean'
+      - 'RamseySpace/Examples/SupportedEllentuck.lean'
       - 'scripts/CheckEquivTransport.lean'
       - '.github/workflows/track-e-equiv-transport.yml'
   pull_request:
@@ -35,7 +37,7 @@ jobs:
           lake exe cache get
       - name: Compile and audit exact transport
         run: |
-          lake build RamseySpace.EquivTransport RamseySpace.Examples.EllentuckProperA2
+          lake build RamseySpace.EquivTransport RamseySpace.Examples.EllentuckProperA2 RamseySpace.Examples.SupportedEllentuck
           lake env lean scripts/CheckEquivTransport.lean > track-e-axioms.log
           cat track-e-axioms.log
-          python3 scripts/check-axiom-log.py track-e-axioms.log 9
+          python3 scripts/check-axiom-log.py track-e-axioms.log 13
