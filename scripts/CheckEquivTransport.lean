@@ -9,6 +9,7 @@ existence of such an equivalence for the Hrushovski copy spaces.
 
 #print axioms RamseySpace.ApproximationSystem.reindex
 #print axioms RamseySpace.ApproximationSystem.reindex_oneStepApproximations
+#print axioms RamseySpace.ApproximationSystem.reindex_isEllentuckOpen_iff
 #print axioms RamseySpace.ApproximationSystem.reindex_isClosedApproximationImage
 #print axioms RamseySpace.ApproximationSystem.reindex_isTychonoffClosed
 #print axioms RamseySpace.Finitization.reindex
