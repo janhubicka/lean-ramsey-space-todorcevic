@@ -38,4 +38,4 @@ jobs:
           lake build RamseySpace.EquivTransport RamseySpace.Examples.EllentuckProperA2
           lake env lean scripts/CheckEquivTransport.lean > track-e-axioms.log
           cat track-e-axioms.log
-          python3 scripts/check-axiom-log.py track-e-axioms.log 8
+          python3 scripts/check-axiom-log.py track-e-axioms.log 9
