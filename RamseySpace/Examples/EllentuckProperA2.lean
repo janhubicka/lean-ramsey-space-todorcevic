@@ -23,6 +23,7 @@ theorem prefix_leFin_proper
     ∃ (j : ℕ) (d : Approx j),
       j < k ∧ S.IsInitial d c ∧ leFin ⟨n, a⟩ ⟨j, d⟩ := by
   rcases hab with ⟨_, X, hXa, hXb⟩
+  change Point at X
   let last : Fin m := ⟨n, hnm⟩
   have hlast : b.1 last ∈ finiteRange (⟨m, b⟩ : S.FiniteApprox) :=
     ⟨last, rfl⟩
