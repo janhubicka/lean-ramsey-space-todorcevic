@@ -23,3 +23,7 @@ existence of such an equivalence for the Hrushovski copy spaces.
 #print axioms RamseySpace.Examples.SupportedEllentuck.domain_injective
 #print axioms RamseySpace.Examples.SupportedEllentuck.isTychonoffClosed
 #print axioms RamseySpace.Examples.SupportedEllentuck.supportedEllentuck
+
+#print axioms RamseySpace.Examples.SupportedEllentuck.domain_decode
+#print axioms RamseySpace.Examples.SupportedEllentuck.le_iff_domain_subset
+#print axioms RamseySpace.Examples.SupportedEllentuck.approx_ofPoint
