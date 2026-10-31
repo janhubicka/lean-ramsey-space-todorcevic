@@ -35,7 +35,7 @@ jobs:
           lake exe cache get
       - name: Compile and audit exact transport
         run: |
-          lake build RamseySpace.EquivTransport
+          lake build RamseySpace.EquivTransport RamseySpace.Examples.EllentuckProperA2
           lake env lean scripts/CheckEquivTransport.lean > track-e-axioms.log
           cat track-e-axioms.log
-          python3 scripts/check-axiom-log.py track-e-axioms.log 7
+          python3 scripts/check-axiom-log.py track-e-axioms.log 8
