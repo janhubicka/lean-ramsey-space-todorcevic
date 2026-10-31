@@ -62,6 +62,32 @@ def reindex (S : ApproximationSystem.{u, v})
       e X ∈ S.levelNeighborhood n (e Y) :=
   Iff.rfl
 
+/-- Exact copy-space identification also preserves the *Ellentuck open*
+sets, not only the four axioms. This is the topology comparison required
+for transport of the actual manuscript neighbourhoods. -/
+theorem reindex_isEllentuckOpen_iff
+    (S : ApproximationSystem.{u, v}) (e : α ≃ S.Point)
+    (U : Set S.Point) :
+    (S.reindex e).IsEllentuckOpen (e ⁻¹' U) ↔
+      S.IsEllentuckOpen U := by
+  constructor
+  · intro h X hX
+    have hpre : e.symm X ∈ e ⁻¹' U := by simpa using hX
+    rcases h hpre with ⟨n, a, B, hXB, hsub⟩
+    refine ⟨n, a, e B, ?_, ?_⟩
+    · simpa using (S.reindex_mem_neighborhood e).mp hXB
+    · intro Z hZ
+      have hZ' : e.symm Z ∈ (S.reindex e).neighborhood a B :=
+        (S.reindex_mem_neighborhood e).mpr (by simpa using hZ)
+      simpa using hsub hZ'
+  · intro h X hX
+    rcases h hX with ⟨n, a, B, hXB, hsub⟩
+    refine ⟨n, a, e.symm B, ?_, ?_⟩
+    · apply (S.reindex_mem_neighborhood e).mpr
+      simpa using hXB
+    · intro Y hY
+      exact hsub ((S.reindex_mem_neighborhood e).mp (by simpa using hY))
+
 theorem reindex_oneStepApproximations
     (S : ApproximationSystem.{u, v}) (e : α ≃ S.Point)
     {n : ℕ} (a : S.Approx n) (Y : α) :
