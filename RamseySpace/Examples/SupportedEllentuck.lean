@@ -91,13 +91,13 @@ theorem ofPoint_bijective
 
 /-- Exact equivalence, rather than an order-isomorphism lacking the finite
 approximation map. -/
-def encode (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
+noncomputable def encode (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
     (hsingle : ∀ n, support (singleton n) = {n}) :
     Ellentuck.Point ≃ Copy support :=
   Equiv.ofBijective (ofPoint support)
     (ofPoint_bijective support singleton hsingle)
 
-def decode (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
+noncomputable def decode (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
     (hsingle : ∀ n, support (singleton n) = {n}) :
     Copy support ≃ Ellentuck.Point :=
   (encode support singleton hsingle).symm
@@ -142,7 +142,7 @@ theorem approx_ofPoint
   rw [h]
 
 /-- The finite approximations are literally the first n image levels. -/
-def approximationSystem
+noncomputable def approximationSystem
     (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
     (hsingle : ∀ n, support (singleton n) = {n}) :
     ApproximationSystem :=
@@ -150,7 +150,7 @@ def approximationSystem
 
 /-- The published A.1–A.4 interface is transported without any additional
 Ramsey assumption about the finite closure diagrams. -/
-def ramseySpace
+noncomputable def ramseySpace
     (support : Vertex → Finset ℕ) (singleton : ℕ → Vertex)
     (hsingle : ∀ n, support (singleton n) = {n}) :
     AbstractRamseySpace (approximationSystem support singleton hsingle) :=
