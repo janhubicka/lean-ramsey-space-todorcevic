@@ -79,14 +79,18 @@ theorem reindex_isEllentuckOpen_iff
     · intro Z hZ
       have hZ' : e.symm Z ∈ (S.reindex e).neighborhood a B :=
         (S.reindex_mem_neighborhood e).mpr (by simpa using hZ)
-      simpa using hsub hZ'
+      simpa only [Set.mem_preimage, Equiv.apply_symm_apply] using (hsub hZ')
   · intro h X hX
     rcases h hX with ⟨n, a, B, hXB, hsub⟩
     refine ⟨n, a, e.symm B, ?_, ?_⟩
     · apply (S.reindex_mem_neighborhood e).mpr
       simpa using hXB
     · intro Y hY
-      exact hsub ((S.reindex_mem_neighborhood e).mp (by simpa using hY))
+      have htransport : e Y ∈ S.neighborhood a (e (e.symm B)) :=
+        (S.reindex_mem_neighborhood e).mp hY
+      have hYB : e Y ∈ S.neighborhood a B := by
+        simpa only [Equiv.apply_symm_apply] using htransport
+      exact hsub hYB
 
 theorem reindex_oneStepApproximations
     (S : ApproximationSystem.{u, v}) (e : α ≃ S.Point)
