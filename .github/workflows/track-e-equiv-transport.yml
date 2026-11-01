@@ -1,0 +1,49 @@
+name: Track E exact copy-space transport
+
+on:
+  push:
+    paths:
+      - 'RamseySpace/EquivTransport.lean'
+      - 'RamseySpace/Examples/EllentuckProperA2.lean'
+      - 'RamseySpace/Examples/SupportedEllentuck.lean'
+      - 'scripts/CheckEquivTransport.lean'
+      - '.github/workflows/track-e-equiv-transport.yml'
+  pull_request:
+    paths:
+      - 'RamseySpace/EquivTransport.lean'
+      - 'RamseySpace/Examples/EllentuckProperA2.lean'
+      - 'RamseySpace/Examples/SupportedEllentuck.lean'
+      - 'scripts/CheckEquivTransport.lean'
+      - '.github/workflows/track-e-equiv-transport.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache Lake workspace
+        uses: actions/cache@v5
+        with:
+          path: .lake
+          key: track-e-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lakefile.toml') }}-${{ github.sha }}
+          restore-keys: |
+            track-e-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lakefile.toml') }}-
+      - name: Get Mathlib cache
+        run: |
+          lake update
+          lake exe cache get
+      - name: Compile and audit exact transport
+        run: |
+          lake build RamseySpace.EquivTransport RamseySpace.Examples.EllentuckProperA2 RamseySpace.Examples.SupportedEllentuck
+          lake env lean scripts/CheckEquivTransport.lean > track-e-axioms.log
+          cat track-e-axioms.log
+          python3 scripts/check-axiom-log.py track-e-axioms.log 16
