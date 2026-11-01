@@ -1,0 +1,47 @@
+name: Track E published proper-prefix A2
+
+on:
+  push:
+    paths:
+      - 'RamseySpace/ProperPrefixTransport.lean'
+      - 'RamseySpace/Examples/SupportedEllentuckProperA2.lean'
+      - 'scripts/CheckProperPrefixTransport.lean'
+      - '.github/workflows/track-e-strict-a2.yml'
+  pull_request:
+    paths:
+      - 'RamseySpace/ProperPrefixTransport.lean'
+      - 'RamseySpace/Examples/SupportedEllentuckProperA2.lean'
+      - 'scripts/CheckProperPrefixTransport.lean'
+      - '.github/workflows/track-e-strict-a2.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache Lake workspace
+        uses: actions/cache@v5
+        with:
+          path: .lake
+          key: track-e-strict-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lakefile.toml') }}-${{ github.sha }}
+          restore-keys: |
+            track-e-strict-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lakefile.toml') }}-
+      - name: Get Mathlib cache
+        run: |
+          lake update
+          lake exe cache get
+      - name: Compile and audit proper-prefix A2
+        run: |
+          lake build RamseySpace.ProperPrefixTransport RamseySpace.Examples.SupportedEllentuckProperA2
+          lake env lean scripts/CheckProperPrefixTransport.lean > strict-a2-axioms.log
+          cat strict-a2-axioms.log
+          python3 scripts/check-axiom-log.py strict-a2-axioms.log 3
