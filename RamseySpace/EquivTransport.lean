@@ -79,7 +79,10 @@ theorem reindex_isEllentuckOpen_iff
     · intro Z hZ
       have hZ' : e.symm Z ∈ (S.reindex e).neighborhood a B :=
         (S.reindex_mem_neighborhood e).mpr (by simpa using hZ)
-      simpa only [Set.mem_preimage, Equiv.apply_symm_apply] using (hsub hZ')
+      have hZin : e.symm Z ∈ e ⁻¹' U := hsub hZ'
+      change e (e.symm Z) ∈ U at hZin
+      rw [e.apply_symm_apply] at hZin
+      exact hZin
   · intro h X hX
     rcases h hX with ⟨n, a, B, hXB, hsub⟩
     refine ⟨n, a, e.symm B, ?_, ?_⟩
