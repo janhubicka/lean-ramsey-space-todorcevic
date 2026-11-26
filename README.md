@@ -76,3 +76,7 @@ The former application-local implementation in `lean-milliken` is retired.
 For mathematical proofs, a published-statement index, auxiliary lemmas and
 adversarial-audit records, see [the researcher wiki source](docs/wiki/README.md)
 and the live [GitHub Wiki](https://github.com/janhubicka/lean-ramsey-space-todorcevic/wiki).
+
+## Licence
+
+The project-owned Lean formalisation and software scripts are licensed under [Apache-2.0](LICENSE), including the source at the BANANA dependency revision `54a9eb02f7f7bd2e942e95f7b44fc6f04f48892c`. Third-party material retains its existing notices and licence terms.
