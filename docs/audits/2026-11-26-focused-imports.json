@@ -1,0 +1,682 @@
+{
+  "date": "2026-11-26",
+  "status": "PASS_LOCAL",
+  "repository": "janhubicka/lean-ramsey-space-todorcevic",
+  "source_parent": "e5ff4776217508e752fd215760678644a908a15f",
+  "tested_source_identification": "The three import changes in this containing commit, on source_parent; all checked Lean files are identified by SHA-256 below.",
+  "lean_version": "Lean 4.35.0-rc3, commit 470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib_pin": "5bd58ac291422a21f412ae354c91e7d172255a2c",
+  "changed_source_files": [
+    "RamseySpace/Basic.lean",
+    "RamseySpace/Souslin.lean",
+    "RamseySpace/TopologyBridge.lean"
+  ],
+  "non_import_lines_identical_to_parent": true,
+  "non_import_body_sha256": {
+    "RamseySpace/Basic.lean": "0f582d0b996c5c83ea88cefbcc9ef585478ca3910c097f227399fe3dee8d3117",
+    "RamseySpace/Souslin.lean": "f848c299232b01b38e88b57b922bde0f9a663ae4898d19ebb0633b09355194a2",
+    "RamseySpace/TopologyBridge.lean": "8c929d1c11ece357f034958782c351d690d53559aa5ac891ab992398c929b963"
+  },
+  "default_build": "PASS",
+  "every_RamseySpace_source_module_build": "PASS",
+  "source_modules_under_RamseySpace": 54,
+  "named_reports": 50,
+  "unique_reported_names": 49,
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "source_risk_tokens": [],
+  "build_logs": [
+    {
+      "name": "ramsey-focused-main-default-build.log",
+      "sha256": "7673819381a9af550d64d1d681aef6ed81912d17bd1a54d803d129c6e49bc483",
+      "final_line": "Build completed successfully (3236 jobs)."
+    },
+    {
+      "name": "ramsey-focused-all-build.log",
+      "sha256": "517a29ae90c4e8136e4193ed4c0ecfa6d317c08b5562762a98be827ab07c7806",
+      "final_line": "Build completed successfully (3239 jobs)."
+    }
+  ],
+  "audit_groups": [
+    {
+      "script": "scripts/CheckAbstractRamsey.lean",
+      "report_count": 13,
+      "log_sha256": "1b8e4373c07b2df3423e6e812da78484167b78ff5fae1432b1ace1b52d5390a1",
+      "strict_named_parser": "PASS",
+      "reports": [
+        {
+          "name": "RamseySpace.TwoSorted.AbstractRamseySystem.ofPublishedAxioms",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.AbstractRamseySystem.pigeonhole_published",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.fusionComplete_of_isMetricallyClosed",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.CombinatorialForcing.exists_refinement_rejects_endExtensions",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.IsBaire.isRamsey",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.IsMeagre.isRamseyNull",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractRamsey",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractRamsey_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractBaire_iff_isRamsey_via_abstractRamsey",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractEllentuck_via_abstractRamsey",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.CombinatorialForcing.isRamsey_souslin",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractRamsey_souslin",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractRamsey_full",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "lean_command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/CheckAbstractRamsey.lean"
+      ]
+    },
+    {
+      "script": "scripts/CheckEquivTransport.lean",
+      "report_count": 16,
+      "log_sha256": "8c25ed36246438454a98b29d9447a1f729df7601ab0bf9e70619a53a37d588fd",
+      "strict_named_parser": "PASS",
+      "reports": [
+        {
+          "name": "RamseySpace.ApproximationSystem.reindex",
+          "axioms": [
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.ApproximationSystem.reindex_oneStepApproximations",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.ApproximationSystem.reindex_isEllentuckOpen_iff",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.ApproximationSystem.reindex_isClosedApproximationImage",
+          "axioms": [
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.ApproximationSystem.reindex_isTychonoffClosed",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Finitization.reindex",
+          "axioms": [
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.AbstractRamseySpace.reindex",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.abstractEllentuck_reindex",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.Ellentuck.prefix_leFin_proper",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.domain_subset_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.domain_injective",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.isTychonoffClosed",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.supportedEllentuck",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.domain_decode",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.le_iff_domain_subset",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.approx_ofPoint",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "lean_command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/CheckEquivTransport.lean"
+      ]
+    },
+    {
+      "script": "scripts/CheckFiniteColouring.lean",
+      "report_count": 3,
+      "log_sha256": "481a4aa7829d1c96d5edab81f9aa60a2beb69dc232bdcf2f53bacced86d9d3d5",
+      "strict_named_parser": "PASS",
+      "reports": [
+        {
+          "name": "RamseySpace.ApproximationSystem.isOpen_approxColourFibre",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.finiteBaireColouring",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.finiteApproximationColouring",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "lean_command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/CheckFiniteColouring.lean"
+      ]
+    },
+    {
+      "script": "scripts/CheckFirstApplication.lean",
+      "report_count": 6,
+      "log_sha256": "20905dc19907ce9897e3ae5f426e4992eebc5b8128c936a1870c82118dab9335",
+      "strict_named_parser": "PASS",
+      "reports": [
+        {
+          "name": "RamseySpace.FirstApplicationAudit.fusion_before_pigeonhole",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.abstractEllentuck",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.abstractEllentuck_baire",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.abstractEllentuck_meagre",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.isTopologicalRamseySpace_iff_textbook",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.fusionComplete_of_closed_of_realizesOrder",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "lean_command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/CheckFirstApplication.lean"
+      ]
+    },
+    {
+      "script": "scripts/CheckProperPrefixTransport.lean",
+      "report_count": 3,
+      "log_sha256": "0a662f783e9359c5a4937be259b37f75b6a11dd0186b05c4d6cc40b187247f76",
+      "strict_named_parser": "PASS",
+      "reports": [
+        {
+          "name": "RamseySpace.Finitization.reindex_hasProperPrefixA2",
+          "axioms": [
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.Ellentuck.finitization_hasProperPrefixA2",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.SupportedEllentuck.hasProperPrefixA2",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "lean_command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/CheckProperPrefixTransport.lean"
+      ]
+    },
+    {
+      "script": "scripts/CheckPublishedEllentuck.lean",
+      "report_count": 9,
+      "log_sha256": "4be872cbc3f11b78ff7243eefd909a6da6e12a4d1caaf6d105da1057a5874ff1",
+      "strict_named_parser": "PASS",
+      "reports": [
+        {
+          "name": "RamseySpace.ApproximationSystem.isTychonoffClosed_iff_isClosedApproximationImage",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.AbstractRamseySpace.amalgamation_refine_published",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.AbstractRamseySpace.ofPublishedAxioms",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.isTopologicalRamseySpace_iff_textbook",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.abstractEllentuck_textbook",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.TwoSorted.abstractEllentuck_textbook_via_abstractRamsey",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.Examples.Ellentuck.classicalEllentuck",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.CombinatorialForcing.isRamsey_iUnion",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "RamseySpace.CombinatorialForcing.isRamseyNull_iUnion",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "lean_command": [
+        "lake",
+        "env",
+        "lean",
+        "scripts/CheckPublishedEllentuck.lean"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "RamseySpace.lean": "a731cb525b551fa227809e34ed9ba85148718c2b6616fae0dee45c94a01678ec",
+    "RamseySpace/AbstractEllentuck.lean": "f6d3bf0bb096edfd287834b487b22084168783788a46e227b9a62134ddb42edf",
+    "RamseySpace/Axioms.lean": "a215b9e990a5b15c0de8737d9377d6a777c8d0e96370f97e9aa54d81d78957ff",
+    "RamseySpace/Baire.lean": "d2e04394ab3f2e794833c71e9c7cdcef95e51f164fdca72536ecf5473b019849",
+    "RamseySpace/Basic.lean": "a977107751ee9f4acddb9a7ee4ba91b69d355ec0f494ebb7170c64349dd6b93c",
+    "RamseySpace/Closed.lean": "234a4fc9470f59d04d9637a3a200740f49b4aac558996fe1cec552282d1b9e02",
+    "RamseySpace/ClosedTopology.lean": "509a10c7f5db7f00a9fc09ce245fa24588c9c505f5cdeded0a54e0001a05a165",
+    "RamseySpace/Decision.lean": "9ab1b933b4b4b912eb63eea529e33b4d52e186a47c4b5782b3d0473737c25236",
+    "RamseySpace/Ellentuck.lean": "ce3b95bfe7833564c19bedb5aa7a35a93f893e06a3e11e3b6db20b2cfe72ca5c",
+    "RamseySpace/EndExtension.lean": "ebfd89489070fdc526dec2bf4a4658ebfc996d5e0c5034c54e92edce5f03c1e5",
+    "RamseySpace/EquivTransport.lean": "492e6cc9a46a480ba3b6c2acc08f76ffc3321d37ce137f796552e5274b6e63fd",
+    "RamseySpace/Examples/EllentuckAmalgamation.lean": "df42ab0b02d36dc4e496a6691652365e235d213f5059a60c0e2a4d7b50a8f99a",
+    "RamseySpace/Examples/EllentuckAxioms.lean": "0e4ebfe6600f34dac6dd81fcea7357548e960e0bf5e0add6f4390620f20c1178",
+    "RamseySpace/Examples/EllentuckBasic.lean": "d549bb08868bd81d548cc19c888574303ab7bf77f9ef16e1f12f6758e879948c",
+    "RamseySpace/Examples/EllentuckClosed.lean": "9ee6bdba3fc707ca355f1c48249eacd983e03c94d49fa0ea357d300c5ce46cdf",
+    "RamseySpace/Examples/EllentuckDepth.lean": "b63fe5951947340de732b8d2b94083792949b790e0caf56a56175e24bb678c72",
+    "RamseySpace/Examples/EllentuckFinitization.lean": "a21be96db0486716f81e1e35834e21a9e6570d2c683ced15b41fed7652ea147a",
+    "RamseySpace/Examples/EllentuckPigeonhole.lean": "711945f9553b46d47a413a63c04df9d216f342373dec1d0a47358b08c3345ad2",
+    "RamseySpace/Examples/EllentuckProperA2.lean": "6805bc1bff4a91948220a616d356cffeb7d2b18c986306844d17bd18591168c6",
+    "RamseySpace/Examples/EllentuckTheorem.lean": "dd213e16a9cba26b1fecc284e0aa212cab68db45035f97a8224eb63b000a3d50",
+    "RamseySpace/Examples/SupportedEllentuck.lean": "3c436842f03e12c4333efc83b7fb54117650349fa9dc73653f5720e4683439f8",
+    "RamseySpace/Examples/SupportedEllentuckProperA2.lean": "72c52497c667a195d278170372f9b780ad8dad222ba5f3f8b79ec295a2054443",
+    "RamseySpace/FiniteColouring.lean": "17ae8abb80449a46ea1c1eafdead909a03f1038f297866d7aefabb4cf04cc882",
+    "RamseySpace/Finitization.lean": "971b405fc90e20c749d79a30b4a5fb0fcb99af3514926e81eab09b8f753c5231",
+    "RamseySpace/Forcing.lean": "77b2a1b1239cc851e501e99046edc46dd8c4ce839244e4d852768cc9fb4eafec",
+    "RamseySpace/Fusion.lean": "bc987bc3f6ff732e7dfc45b8c9d648dc067d351448dfb5ef59acf91d02d93a49",
+    "RamseySpace/NullSigma.lean": "7292edd65c68989c0192233179ccda0e39d09f95d8780f3fe9728b2528897d73",
+    "RamseySpace/ProperPrefixTransport.lean": "d77a0f4b730292fc013cf1e519b399b4cee097e8f8ce9003f2263ddd10b2e240",
+    "RamseySpace/Ramsey.lean": "3add7b502f1c155a9b8a7a22708b569e8e7cc594626dfebf9eef79bc1a17509f",
+    "RamseySpace/Reject.lean": "22bb4f614ff6df43d0ddd0200eb1f4f0c2f7fb0f7c164d2d0ff4e006188f8bee",
+    "RamseySpace/Sigma.lean": "e5e07ffb7cf1ee85dbcb942b736e83e46557d00c021cc61273045f4ae4663e3f",
+    "RamseySpace/Souslin.lean": "b7f4b30a253aaecf241c03908e21f10193ea1a85b7cec0df3b0c5043fa6c433e",
+    "RamseySpace/Standard.lean": "a3afa4a6c9ea0f04250f53f36162074c629fcf735a305a1a99257356eacc6dc4",
+    "RamseySpace/TopologicalRamsey.lean": "3810865656728e5eada004fa985b0ba804b2dd63441ae795e990d58397490b16",
+    "RamseySpace/TopologyBridge.lean": "87290f45d2059c868a71c3172dd473772b10419c1ded7d0bea999334becb54a2",
+    "RamseySpace/TwoSorted/AbstractEllentuckViaRamsey.lean": "15dde7955a7da50a86cb820ea292100890fe3cf2e3716ee03545c7e7a4797f44",
+    "RamseySpace/TwoSorted/AbstractRamsey.lean": "84968e96a131388a1a19f59ab136d44b978be128c73ecc1bf88f2325c6dd508c",
+    "RamseySpace/TwoSorted/Axioms.lean": "0db5d13b64d2f2a33d9b5ae5af87234048c827f5531103961321c029a22c612a",
+    "RamseySpace/TwoSorted/Baire.lean": "da58f714834026a85387d91be970b54eabb3c44aa3b30a601ad6faf3cb4446d9",
+    "RamseySpace/TwoSorted/Basic.lean": "b6d41e14e6b5ea7e74edc2805f86d9a1744a65a2f159bb80ea579204739d1905",
+    "RamseySpace/TwoSorted/Closed.lean": "fcebb8276786ab2b5d521054f70e2b37744e356e75574921fd849a1e419f1d06",
+    "RamseySpace/TwoSorted/Decision.lean": "ed008cb23e8c3a7628003dd5364a507c8c0cd99b5d235a324b93e167b8aa8a9a",
+    "RamseySpace/TwoSorted/Diagonal.lean": "1c2b4b259cbd54912e55cad0d3de53fdb0ee483e2d55316a96c314d58ec91690",
+    "RamseySpace/TwoSorted/EndExtension.lean": "000b4ead9a535625a29685f55f7fb7a5abdcc194bd9aec5828e49a8aab26a8d2",
+    "RamseySpace/TwoSorted/Finitization.lean": "a115e5f3ef10ce92f8caafca662d0731436bdbde530d12cbeae259f92ca038ff",
+    "RamseySpace/TwoSorted/Forcing.lean": "5e46621a47fe76e42ed253a4e7597ff07cc28d20aa8a3ae87c76af19670e78cb",
+    "RamseySpace/TwoSorted/NullSigma.lean": "050ec9b9d38ceef4a5ea963099986aa34b5ef33467bd7081176d447270677fb4",
+    "RamseySpace/TwoSorted/Ramsey.lean": "3262fa9197656490b14577a9f6056c8588f8c0f13d129fa55315fef321e04064",
+    "RamseySpace/TwoSorted/Reject.lean": "d74d50f5d3e0a76519cc8408f521fed4ef5389d4cbcf214cfae416ca1c984605",
+    "RamseySpace/TwoSorted/Relative.lean": "c30196c44a1d51cc86b37fb3fbf2ab686f98d63eea0fa2dc67c192356a622988",
+    "RamseySpace/TwoSorted/RelativeSigma.lean": "d73c317eb3d2cc4ab4d577346099ad883d5524c9fe552b4fa9b6539a948d40a7",
+    "RamseySpace/TwoSorted/Sigma.lean": "f75dbd8b0be6b97e46dac6605bc31d39017068803d5dc29df583d0a804463504",
+    "RamseySpace/TwoSorted/SouslinClosure.lean": "adda63c727f2dd88bc2938758ffe9704fb123c13ffcb64287cc6b51b4ef37296",
+    "RamseySpace/TwoSorted/SouslinDecision.lean": "4a7fe2aa666d7594296da3d6c80fc59da7c04d09f9f44e26247e49e5c87fcf44",
+    "RamseySpace/TwoSorted/SouslinEnvelope.lean": "8dbb452798d861dce0757ccd6022955e9738672e9b13b843bbd7b6260cf2ad9a",
+    "scripts/CheckAbstractRamsey.lean": "cbca9fc962a55ecee5c51e5bd17d5fad54323756c6d6303ed726223385caedcd",
+    "scripts/CheckEquivTransport.lean": "dcbaf30f92ea826c22d070d383f5396d396c406e1f5309ad5ec1b6e9426c314a",
+    "scripts/CheckFiniteColouring.lean": "90348b83c3f7e6097f3b8e8cc020d21606c168bf67f2afcf5acf720c2a6cca6d",
+    "scripts/CheckFirstApplication.lean": "6903523a8136892238fee60e85944f6032c03c76fdbc7d069818fffeb20a8535",
+    "scripts/CheckProperPrefixTransport.lean": "6ee12c4727b680e3986ca769f8a9c19c98798f35ee5b2e567491f58559f67fbe",
+    "scripts/CheckPublishedEllentuck.lean": "2b83c74d1b2f81b0dc2517a3ef24ad1160ed43552c1dd5ead2729e0585d4dd7c",
+    "lakefile.toml": "b90498f6adf82ac2fdae796c1cc5548a1716a4b08d86e107fe4a6a1f3e91028e",
+    "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47"
+  },
+  "commands": [
+    [
+      "lake",
+      "build"
+    ],
+    [
+      "lake",
+      "build",
+      "RamseySpace.AbstractEllentuck",
+      "RamseySpace.Axioms",
+      "RamseySpace.Baire",
+      "RamseySpace.Basic",
+      "RamseySpace.Closed",
+      "RamseySpace.ClosedTopology",
+      "RamseySpace.Decision",
+      "RamseySpace.Ellentuck",
+      "RamseySpace.EndExtension",
+      "RamseySpace.EquivTransport",
+      "RamseySpace.Examples.EllentuckAmalgamation",
+      "RamseySpace.Examples.EllentuckAxioms",
+      "RamseySpace.Examples.EllentuckBasic",
+      "RamseySpace.Examples.EllentuckClosed",
+      "RamseySpace.Examples.EllentuckDepth",
+      "RamseySpace.Examples.EllentuckFinitization",
+      "RamseySpace.Examples.EllentuckPigeonhole",
+      "RamseySpace.Examples.EllentuckProperA2",
+      "RamseySpace.Examples.EllentuckTheorem",
+      "RamseySpace.Examples.SupportedEllentuck",
+      "RamseySpace.Examples.SupportedEllentuckProperA2",
+      "RamseySpace.FiniteColouring",
+      "RamseySpace.Finitization",
+      "RamseySpace.Forcing",
+      "RamseySpace.Fusion",
+      "RamseySpace.NullSigma",
+      "RamseySpace.ProperPrefixTransport",
+      "RamseySpace.Ramsey",
+      "RamseySpace.Reject",
+      "RamseySpace.Sigma",
+      "RamseySpace.Souslin",
+      "RamseySpace.Standard",
+      "RamseySpace.TopologicalRamsey",
+      "RamseySpace.TopologyBridge",
+      "RamseySpace.TwoSorted.AbstractEllentuckViaRamsey",
+      "RamseySpace.TwoSorted.AbstractRamsey",
+      "RamseySpace.TwoSorted.Axioms",
+      "RamseySpace.TwoSorted.Baire",
+      "RamseySpace.TwoSorted.Basic",
+      "RamseySpace.TwoSorted.Closed",
+      "RamseySpace.TwoSorted.Decision",
+      "RamseySpace.TwoSorted.Diagonal",
+      "RamseySpace.TwoSorted.EndExtension",
+      "RamseySpace.TwoSorted.Finitization",
+      "RamseySpace.TwoSorted.Forcing",
+      "RamseySpace.TwoSorted.NullSigma",
+      "RamseySpace.TwoSorted.Ramsey",
+      "RamseySpace.TwoSorted.Reject",
+      "RamseySpace.TwoSorted.Relative",
+      "RamseySpace.TwoSorted.RelativeSigma",
+      "RamseySpace.TwoSorted.Sigma",
+      "RamseySpace.TwoSorted.SouslinClosure",
+      "RamseySpace.TwoSorted.SouslinDecision",
+      "RamseySpace.TwoSorted.SouslinEnvelope"
+    ],
+    [
+      "lake",
+      "env",
+      "lean",
+      "scripts/CheckAbstractRamsey.lean"
+    ],
+    [
+      "lake",
+      "env",
+      "lean",
+      "scripts/CheckEquivTransport.lean"
+    ],
+    [
+      "lake",
+      "env",
+      "lean",
+      "scripts/CheckFiniteColouring.lean"
+    ],
+    [
+      "lake",
+      "env",
+      "lean",
+      "scripts/CheckFirstApplication.lean"
+    ],
+    [
+      "lake",
+      "env",
+      "lean",
+      "scripts/CheckProperPrefixTransport.lean"
+    ],
+    [
+      "lake",
+      "env",
+      "lean",
+      "scripts/CheckPublishedEllentuck.lean"
+    ]
+  ]
+}
