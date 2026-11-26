@@ -1,5 +1,6 @@
 import RamseySpace.Ellentuck
 import RamseySpace.NullSigma
+import Mathlib.Topology.Baire.BaireMeasurable
 
 /-!
 # Bridge from the Ellentuck topology to abstract Ramsey notions
